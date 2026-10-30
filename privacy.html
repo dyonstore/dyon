@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Privacy Policy & Structural Commitments — DYON</title>
+  <meta name="description" content="DYON turns every commitment — money, service, promise or trust — from a hidden weight into a written, honoured, and released commitment. Private, offline-first, no interest, no shaming.">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="color-scheme" content="light dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DYON">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="images/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/icon-512.jpg">
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="vendor/fa/icons.css">
+  <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --teal: #0f4c5c;
+            --sand: #f4f1ea;
+            --ink: #1e1e1e;
+            --muted: #5a5a5a;
+            --rule: #d9d4c7;
+            --accent: #b85c38;
+            --green: #2d6a4f;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Georgia", "Times New Roman", serif;
+            background: var(--sand);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+        header {
+            background: var(--teal);
+            color: #fff;
+            padding: 3rem 1.5rem 2.5rem;
+            text-align: center;
+            border-bottom: 6px solid var(--accent);
+        }
+        header .kicker {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 0.75rem;
+        }
+        header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        header .subtitle {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        .meta-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--rule);
+            padding: 0.8rem 1.5rem;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.8rem;
+            color: var(--muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: center;
+            letter-spacing: 0.02em;
+        }
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+        }
+        section {
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: var(--teal);
+            border-bottom: 2px solid var(--rule);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.01em;
+        }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.6rem 0 0.6rem;
+            color: var(--ink);
+        }
+        p {
+            margin-bottom: 1rem;
+        }
+        ul, ol {
+            margin: 0.8rem 0 1.2rem 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .callout {
+            background: #fff;
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem 1.4rem;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        .callout.green {
+            border-left-color: var(--green);
+        }
+        .callout strong {
+            color: var(--teal);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.92rem;
+            background: #fff;
+        }
+        th, td {
+            padding: 0.7rem 0.9rem;
+            border: 1px solid var(--rule);
+            vertical-align: top;
+            text-align: left;
+        }
+        th {
+            background: #e8e4da;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--teal);
+        }
+        .tag {
+            display: inline-block;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            margin-right: 0.4rem;
+            vertical-align: middle;
+        }
+        .tag.local { background: #d8f3dc; color: #1b4332; }
+        .tag.none { background: #e9ecef; color: #495057; }
+        .tag.red { background: #fde2e4; color: #9d0208; }
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--muted);
+            border-top: 1px solid var(--rule);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+        }
+        a { color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
+        a:hover { color: var(--accent); }
+        .arabic {
+            font-family: "Traditional Arabic", "Amiri", serif;
+            direction: rtl;
+            unicode-bidi: embed;
+        }
+        @media (max-width: 600px) {
+            body { font-size: 15px; }
+            main { padding: 2rem 1rem 3rem; }
+            table { font-size: 0.82rem; }
+        }
+        @media print {
+            header { background: #fff; color: #000; border-bottom: 2px solid #000; }
+            .meta-bar { border-bottom: 1px solid #000; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="kicker">DYON · ديون · The Commitments Ledger</div>
+    <h1>Privacy Policy &amp; Structural Commitments</h1>
+    <p class="subtitle">
+        Every commitment you record is yours. This page explains—in plain language and in binding operational detail—what DYON does with data, what it refuses to do, and how its architecture enforces those refusals.
+    </p>
+</header>
+
+<div class="meta-bar">
+    <span><strong>Effective:</strong> 2026-10-23</span>
+    <span><strong>Version:</strong> 1.0</span>
+    <span><strong>Canonical URL:</strong> https://dyon.store/#/about</span>
+    <span><strong>Governing instrument:</strong> ML-2.3 (Maher License, v2.3)</span>
+</div>
+
+<main>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 0 — SCOPE AND IDENTITY                                -->
+    <!-- ============================================================ -->
+
+    <section id="scope">
+        <h2>0. Who we are, and what this policy covers</h2>
+
+        <p>
+            DYON (دَين) is a personal commitments ledger. It exists so that a person can turn every obligation they carry—money, objects, services, promises, favours, rights owed, and devotional duties—from a hidden weight into a written, honoured, and released record.
+        </p>
+
+        <p>
+            This policy applies to the DYON web application at <strong>dyon.store</strong> and to any associated client that connects to the same service. It is written to satisfy the disclosure requirements of the EU General Data Protection Regulation (GDPR), the California Consumer Privacy Act as amended by the CPRA, and equivalent regimes in other jurisdictions in which DYON operates.
+        </p>
+
+        <div class="callout">
+            <strong>One sentence, if you read nothing else:</strong> DYON does not sell, rent, trade, or share your commitment data with any third party for any commercial purpose—ever—and its architecture is designed so that the operator cannot read the content of your records even if compelled.
+        </div>
+
+        <p>
+            DYON is <strong>not</strong> a lender, a debt collector, a credit bureau, an interest engine, a shaming platform, a fatwa authority, or a replacement for therapy or legal counsel. Those exclusions are not marketing disclaimers; they are structural red lines that are enforced in the application's code and are enumerated in §2 below.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 1 — DATA COLLECTED                                    -->
+    <!-- ============================================================ -->
+
+    <section id="collect">
+        <h2>1. What data DYON collects—and what it deliberately does not</h2>
+
+        <p>
+            DYON operates on a <strong>local-first, zero-knowledge</strong> model. The distinction between “collected” and “processed on your device” is central to this policy, and the table below is exhaustive: if a category is not listed, DYON does not collect it.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>What is involved</th>
+                    <th>Where it lives</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Commitment records</strong></td>
+                    <td>Amounts, units, descriptions of what is owed or owed to you, due dates, counterparty names or labels you assign, witness fields, communication logs, and your stated intention (<em>niyyah</em>).</td>
+                    <td><span class="tag local">Your device (encrypted)</span></td>
+                    <td>To provide the ledger, reminders, clearing, and release functions you request.</td>
+                </tr>
+                <tr>
+                    <td><strong>Account identifier</strong></td>
+                    <td>A pseudonymous identifier and, if you choose to provide one, an email address for recovery and essential service notices.</td>
+                    <td><span class="tag local">Encrypted; minimised</span></td>
+                    <td>Authentication, account recovery, and legally required notices.</td>
+                </tr>
+                <tr>
+                    <td><strong>Device and technical data</strong></td>
+                    <td>Browser type, operating system, language preference, and approximate region derived from IP address, retained only for security and abuse prevention.</td>
+                    <td><span class="tag local">Short-lived</span></td>
+                    <td>Fraud prevention, rate limiting, and debugging.</td>
+                </tr>
+                <tr>
+                    <td><strong>Voluntary research participation</strong></td>
+                    <td>If—and only if—you opt in to the longitudinal study described in §7, de-identified survey responses and aggregate behavioural indicators.</td>
+                    <td><span class="tag local">Separate research enclave</span></td>
+                    <td>Scientific measurement of DYON's effect; never for product marketing.</td>
+                </tr>
+                <tr>
+                    <td><strong>Support correspondence</strong></td>
+                    <td>The content of messages you send to support, and your contact details.</td>
+                    <td><span class="tag local">Encrypted</span></td>
+                    <td>To resolve your request.</td>
+                </tr>
+                <tr>
+                    <td><strong>Payment metadata (if a paid tier exists)</strong></td>
+                    <td>Subscription status and transaction reference. Card numbers are processed by a PCI-DSS-compliant payment processor and never reach DYON's servers.</td>
+                    <td><span class="tag local">Processor-held</span></td>
+                    <td>Billing and entitlement.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>1.1 What DYON does not collect</h3>
+        <ul>
+            <li><strong>No advertising identifiers, tracking pixels, or cross-site cookies.</strong> DYON does not operate an advertising business and does not participate in behavioural advertising auctions.</li>
+            <li><strong>No contact-book upload, no address-book scraping, no social-graph import.</strong> A counterparty appears in your ledger only because you typed their name or invited them.</li>
+            <li><strong>No biometric data, no precise geolocation, no microphone or camera access</strong> beyond what you explicitly initiate (for example, attaching a photograph of a receipt).</li>
+            <li><strong>No credit scoring, no creditworthiness inference, and no data sharing with credit reference agencies.</strong> This is a red line (§2, RL-04).</li>
+            <li><strong>No content inspection for advertising or profiling.</strong> The operator cannot read your commitment text under the zero-knowledge architecture described in §6.</li>
+        </ul>
+
+        <h3>1.2 Lawful basis for processing (GDPR Article 6)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Processing activity</th>
+                    <th>Lawful basis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Providing the ledger, reminders, and export functions</td>
+                    <td><strong>Performance of a contract</strong> (Art. 6(1)(b))</td>
+                </tr>
+                <tr>
+                    <td>Security, fraud prevention, and abuse mitigation</td>
+                    <td><strong>Legitimate interests</strong> (Art. 6(1)(f)), balanced against your rights</td>
+                </tr>
+                <tr>
+                    <td>Essential service notices (security incidents, material changes)</td>
+                    <td><strong>Legal obligation</strong> (Art. 6(1)(c)) or <strong>legitimate interests</strong> where no statutory duty applies</td>
+                </tr>
+                <tr>
+                    <td>Optional research participation</td>
+                    <td><strong>Explicit consent</strong> (Art. 6(1)(a) and Art. 9(2)(a) where special-category data is involved), revocable at any time</td>
+                </tr>
+                <tr>
+                    <td>Optional email updates about the project</td>
+                    <td><strong>Consent</strong> (Art. 6(1)(a)), withdrawable via one click</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 2 — RED LINES                                         -->
+    <!-- ============================================================ -->
+
+    <section id="red-lines">
+        <h2>2. Structural red lines—enforced in code, not merely stated</h2>
+
+        <p>
+            DYON's “About” page already declares a set of red lines. This section restates them as binding privacy commitments. They are not aspirational; they are architectural constraints, and a breach of any of them is a breach of this policy and of the license under which DYON operates.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Red line</th>
+                    <th>Privacy consequence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag red">RL-01</span></td>
+                    <td>No riba or interest computation, ever.</td>
+                    <td>DYON will never compute, display, or store an interest accrual on your commitments.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-02</span></td>
+                    <td>No selling or sharing of user data.</td>
+                    <td>No data broker, no advertiser, no “trusted partner” receives your records. There is no consent toggle that enables this, because the capability does not exist.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-03</span></td>
+                    <td>No public shaming, no defaulter lists.</td>
+                    <td>No public profile, no searchable debtor index, no social feed of unpaid obligations.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-04</span></td>
+                    <td>No credit score shared with third parties.</td>
+                    <td>DYON does not generate a credit score and will not disclose your record to any credit reference agency, lender, or insurer.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-05</span></td>
+                    <td>No dark patterns or manufactured urgency.</td>
+                    <td>No countdown timers designed to coerce, no shame-based push notifications, no “your reputation will suffer” messaging.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-06</span></td>
+                    <td>No lending or loan brokering.</td>
+                    <td>DYON does not originate credit, does not match borrowers to lenders, and does not facilitate interest-bearing arrangements.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-07</span></td>
+                    <td>No algorithmic decisions against users.</td>
+                    <td>Hardship is self-declared. No model infers your creditworthiness, your reliability, or your “risk level” from your behaviour.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-08</span></td>
+                    <td>Minimal data for non-users.</td>
+                    <td>If someone appears as a counterparty but never creates an account, DYON retains only the minimum needed to display the record to you, and deletes it on request.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-09</span></td>
+                    <td>Right to export and delete everything.</td>
+                    <td>One-click full export in a non-proprietary format; one-click irreversible deletion. No retention after deletion, except where law requires.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-10</span></td>
+                    <td>Irreversibility guard.</td>
+                    <td>Releases, deletions, and <em>ḥawālah</em> transfers carry a 24-hour undo window. An irreversible action taken without a guard is a design defect.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-11</span></td>
+                    <td>No ethics laundering.</td>
+                    <td>Red lines are enforced in code. Publishing a policy that the software does not enforce would itself be a breach of this section.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag red">RL-12</span></td>
+                    <td>No linguistic flattening.</td>
+                    <td>Arabic is authoritative for fiqh terms. Privacy notices are not permitted to translate a religious concept into a commercial one that changes its meaning.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 3 — HOW DATA IS USED                                  -->
+    <!-- ============================================================ -->
+
+    <section id="use">
+        <h2>3. How your data is used—and what it is never used for</h2>
+
+        <p>
+            DYON uses your data for four purposes and no others:
+        </p>
+
+        <ol>
+            <li><strong>To operate the ledger.</strong> Display your commitments, compute your gross and net position, surface clearing opportunities, send the reminders you configure, and generate exports.</li>
+            <li><strong>To protect the service.</strong> Detect abuse, prevent unauthorised access, and maintain availability.</li>
+            <li><strong>To meet legal obligations.</strong> Respond to valid legal process, security incidents, and statutory notices—subject to the compelled-disclosure safeguards in §6.</li>
+            <li><strong>To measure impact, only with your separate consent.</strong> The research programme described in §7 is opt-in, de-identified, and governed by an independent scientific board.</li>
+        </ol>
+
+        <div class="callout">
+            <strong>What DYON never does with your data:</strong> it does not train advertising models on it, does not sell it, does not use it to rank you against other users, does not disclose it to a counterparty without your explicit per-message action, and does not use your hardship disclosures to market a financial product to you.
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 4 — SHARING AND DISCLOSURE                            -->
+    <!-- ============================================================ -->
+
+    <section id="sharing">
+        <h2>4. Sharing and disclosure</h2>
+
+        <h3>4.1 No commercial sharing</h3>
+        <p>
+            DYON does not sell, rent, trade, or otherwise make your data available to any third party for monetary or other valuable consideration. This is RL-02 and it is absolute. There is no “Do Not Sell” toggle because there is no sale to opt out of—the category of transaction does not exist in DYON's architecture.
+        </p>
+
+        <h3>4.2 Limited operational processors</h3>
+        <p>
+            DYON uses a small number of infrastructure providers (hosting, encrypted backup, payment processing, and transactional email). Each is bound by a data-processing agreement that prohibits secondary use, requires deletion on termination, and subjects the processor to the same compelled-disclosure safeguards described in §6. The current list of processors, their locations, and the categories of data they touch is published at <strong>dyon.store/processors</strong> and updated whenever the list changes.
+        </p>
+
+        <h3>4.3 User-initiated disclosure</h3>
+        <p>
+            The only circumstance in which a counterparty sees information about your commitment is when <em>you</em> take an explicit action: sending a message template, inviting them to co-sign a record, or generating a shareable export. DYON does not notify a counterparty automatically, does not send them a summary of “what Ahmed owes you,” and does not make your ledger visible to them by default.
+        </p>
+
+        <h3>4.4 Legal process and compelled disclosure</h3>
+        <p>
+            DYON may disclose data where required by a valid court order, subpoena, or equivalent legal process. However, the zero-knowledge architecture described in §6 means that in the ordinary case the operator holds only ciphertext and cannot produce plaintext. Where DYON receives a demand it believes is overbroad or unlawful, it will:
+        </p>
+        <ul>
+            <li>seek to narrow the demand;</li>
+            <li>publish the number and general nature of demands received in its annual transparency report; and</li>
+            <li>notify the affected user before disclosure where legally permitted and where doing so would not create a risk of harm.</li>
+        </ul>
+
+        <h3>4.5 Business transfers</h3>
+        <p>
+            If DYON is acquired, merged, or its assets are transferred, commitment records remain encrypted with keys the acquiring entity does not possess. Personal data may not be transferred to a holder whose intended use falls outside the purpose for which it was collected without fresh consent meeting the standard in §5.3 or destruction of the data.
+        </p>
+
+        <h3>4.6 No special-category sharing</h3>
+        <p>
+            DYON does not intentionally collect special-category data (health, religion, sexual orientation, political opinion). If you include such information in a free-text commitment description, it remains on your device under the same encryption as the rest of your record, and it is never extracted, aggregated, or shared.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5 — RETENTION AND DELETION                            -->
+    <!-- ============================================================ -->
+
+    <section id="retention">
+        <h2>5. Retention and deletion</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data type</th>
+                    <th>Retention</th>
+                    <th>On expiry or deletion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Commitment records (active)</td>
+                    <td>While your account is active, or until you delete the record.</td>
+                    <td>Irreversibly deleted from your device and from encrypted backup within 30 days.</td>
+                </tr>
+                <tr>
+                    <td>Account identifier and email</td>
+                    <td>While your account is active.</td>
+                    <td>Deleted on account closure; backup copies purged within 30 days.</td>
+                </tr>
+                <tr>
+                    <td>Technical and security logs</td>
+                    <td>90 days, unless needed for an ongoing investigation.</td>
+                    <td>Automatically purged.</td>
+                </tr>
+                <tr>
+                    <td>Research data (opt-in only)</td>
+                    <td>Duration of the study, then de-identified and archived under the scientific board's retention schedule.</td>
+                    <td>Individual linkage removed; only aggregate results retained.</td>
+                </tr>
+                <tr>
+                    <td>Support correspondence</td>
+                    <td>24 months from the last message in the thread.</td>
+                    <td>Deleted.</td>
+                </tr>
+                <tr>
+                    <td>Payment metadata</td>
+                    <td>As required by tax and accounting law in the relevant jurisdiction.</td>
+                    <td>Deleted or anonymised after the statutory period.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>5.1 The right to erasure is operational, not theoretical</h3>
+        <p>
+            RL-09 requires one-click full deletion. When you exercise it:
+        </p>
+        <ul>
+            <li>your commitment records are deleted from your device and from every encrypted backup within 30 days;</li>
+            <li>your account identifier is destroyed;</li>
+            <li>any research data you contributed is unlinked from your identity (aggregate results that cannot be reversed are retained, as permitted by GDPR Art. 17(3)(d)); and</li>
+            <li>you receive a deletion receipt confirming what was removed and when.</li>
+        </ul>
+        <p>
+            There is no “soft delete” that keeps your data for “analytics,” and no retention period that quietly extends beyond what is stated here.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 6 — SECURITY AND ZERO-KNOWLEDGE                       -->
+    <!-- ============================================================ -->
+
+    <section id="security">
+        <h2>6. Security, encryption, and the compelled-disclosure safeguard</h2>
+
+        <h3>6.1 Zero-knowledge architecture</h3>
+        <p>
+            Commitment records are encrypted on your device with keys derived from your credentials. The operator stores ciphertext and does not possess the decryption keys. This means that in the ordinary course of operation, the operator cannot read your records, cannot search them, and cannot produce them in readable form in response to a request—because it does not have them.
+        </p>
+
+        <h3>6.2 What this does and does not guarantee</h3>
+        <ul>
+            <li><strong>It does guarantee</strong> that a database breach exposes ciphertext, not your commitments; and that a legal demand for content is answerable only with material the operator actually holds.</li>
+            <li><strong>It does not guarantee</strong> that no metadata exists (for example, that an account exists and when it was last active), and it does not protect you if your own device or credentials are compromised.</li>
+            <li><strong>It does not make DYON immune to a lawful order directed at you personally</strong>—for example, an order requiring you to produce your own records. DYON's architecture protects against compelled disclosure by the operator; it is not a shield against a court order addressed to you.</li>
+        </ul>
+
+        <h3>6.3 Additional safeguards</h3>
+        <ul>
+            <li>Transport encryption (TLS) for all network communication.</li>
+            <li>Encryption at rest for backups, with keys held separately from the ciphertext.</li>
+            <li>Access to production systems limited to a small number of named individuals, logged, and reviewed.</li>
+            <li>Independent security review before any material change to the encryption model.</li>
+            <li>A published security.txt and a coordinated-vulnerability-disclosure policy.</li>
+        </ul>
+
+        <div class="callout green">
+            <strong>The compelled-disclosure safeguard in one sentence:</strong> because DYON does not hold the keys, a demand for the <em>content</em> of your ledger cannot be satisfied by the operator even under compulsion—the operator can only disclose what it actually possesses, which is ciphertext and limited metadata. This is a technical fact, not a promise of non-cooperation.
+        </div>
+
+        <h3>6.4 Breach notification</h3>
+        <p>
+            If a breach occurs that is likely to result in a risk to your rights and freedoms, DYON will notify affected users without undue delay and, where required, the relevant supervisory authority within 72 hours of becoming aware. Because records are encrypted, the notification will state accurately what categories of data were exposed and whether plaintext was at risk.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 7 — RESEARCH PARTICIPATION                            -->
+    <!-- ============================================================ -->
+
+    <section id="research">
+        <h2>7. Optional research participation</h2>
+
+        <p>
+            DYON runs a separate, opt-in longitudinal study to measure whether the ledger actually reduces commitment-related anxiety and improves fulfilment. Participation is <strong>not a condition of using DYON</strong>, and declining has no effect on any feature.
+        </p>
+
+        <h3>7.1 What participation involves</h3>
+        <ul>
+            <li>Short validated questionnaires (for example, GAD-2 and PHQ-2 for anxiety and mood, administered at baseline and then at intervals).</li>
+            <li>Aggregate indicators such as the number of commitments closed and the proportion closed by clearing rather than by payment.</li>
+            <li>Optional qualitative interviews, separately consented.</li>
+        </ul>
+
+        <h3>7.2 What is never collected in research</h3>
+        <ul>
+            <li>Your name, email, or account identifier in linked form.</li>
+            <li>The content of your commitment descriptions.</li>
+            <li>Counterparty identities.</li>
+            <li>Any data that could re-identify you from a small group.</li>
+        </ul>
+
+        <h3>7.3 Governance</h3>
+        <p>
+            Research is governed by an independent scientific board with a published membership, a pre-registered protocol, and a commitment to publish negative and inconclusive results alongside positive ones. The board's findings are published unedited. You may withdraw from the study at any time without affecting your use of DYON, and withdrawal triggers unlinking of your contributed data.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 8 — YOUR RIGHTS                                       -->
+    <!-- ============================================================ -->
+
+    <section id="rights">
+        <h2>8. Your rights</h2>
+
+        <h3>8.1 Rights under the GDPR (EEA, UK, and equivalents)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Right</th>
+                    <th>How DYON honours it</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Access</strong> (Art. 15)</td>
+                    <td>Full export of your records from the settings screen, in a machine-readable format, without needing to ask.</td>
+                </tr>
+                <tr>
+                    <td><strong>Rectification</strong> (Art. 16)</td>
+                    <td>Edit any record directly; no support ticket required.</td>
+                </tr>
+                <tr>
+                    <td><strong>Erasure</strong> (Art. 17)</td>
+                    <td>One-click deletion, with a deletion receipt, as described in §5.1.</td>
+                </tr>
+                <tr>
+                    <td><strong>Restriction</strong> (Art. 18)</td>
+                    <td>You can freeze processing of a record (for example, during a dispute) without deleting it.</td>
+                </tr>
+                <tr>
+                    <td><strong>Portability</strong> (Art. 20)</td>
+                    <td>Export in JSON and CSV; no proprietary lock-in.</td>
+                </tr>
+                <tr>
+                    <td><strong>Objection</strong> (Art. 21)</td>
+                    <td>Object to any processing based on legitimate interests; DYON will stop unless it can demonstrate compelling legitimate grounds.</td>
+                </tr>
+                <tr>
+                    <td><strong>Automated decision-making</strong> (Art. 22)</td>
+                    <td>No solely automated decision with legal or similarly significant effect is made about you. RL-07 is the architectural guarantee.</td>
+                </tr>
+                <tr>
+                    <td><strong>Withdraw consent</strong></td>
+                    <td>Any consent-based processing (research, email updates) can be withdrawn as easily as it was given.</td>
+                </tr>
+                <tr>
+                    <td><strong>Complaint</strong></td>
+                    <td>You may complain to your local supervisory authority. DYON will cooperate with any investigation.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>8.2 Rights under the CCPA/CPRA (California)</h3>
+        <ul>
+            <li><strong>Right to know</strong> the categories and specific pieces of personal information collected, the sources, the purposes, and the categories of third parties to whom it is disclosed. The table in §1 is the substantive answer; a formal request produces a machine-readable copy.</li>
+            <li><strong>Right to delete</strong> personal information, subject to the exceptions in §5.1.</li>
+            <li><strong>Right to correct</strong> inaccurate personal information.</li>
+            <li><strong>Right to opt out of sale or sharing</strong>—not applicable in practice, because DYON does not sell or share for cross-context behavioural advertising. The “Do Not Sell or Share My Personal Information” link is therefore published as a statement of fact, not a toggle.</li>
+            <li><strong>Right to limit use of sensitive personal information</strong>—DYON does not use sensitive personal information for purposes beyond providing the service.</li>
+            <li><strong>Right to non-discrimination</strong> for exercising any of these rights.</li>
+        </ul>
+
+        <h3>8.3 How to exercise a right</h3>
+        <p>
+            Most rights are self-service in the application. For anything that is not, write to <strong>privacy@dyon.store</strong> with the subject line “Privacy request.” DYON will acknowledge within 7 days and respond substantively within 30 days (extendable by a further 60 days for complex requests, with notice). No fee is charged for a first request.
+        </p>
+
+        <h3>8.4 Authorised agents</h3>
+        <p>
+            You may use an authorised agent to submit a request on your behalf. DYON will require proof of authorisation and may contact you directly to confirm, unless a valid power of attorney is provided.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 9 — CHILDREN                                          -->
+    <!-- ============================================================ -->
+
+    <section id="children">
+        <h2>9. Children and minors</h2>
+
+        <p>
+            DYON is not directed at persons under 18. It does not knowingly collect personal information from a minor. If DYON learns that a minor has created an account, the account and its records will be deleted without penalty to the minor.
+        </p>
+
+        <p>
+            Where a Deployment is directed at or knowingly reaches persons under 18, the default configuration must be the most protective available: no behavioural profiling, no engagement-optimised ranking, no unsolicited contact from strangers, and data retention limited to what the function requires. A protective default may not be weakened by consent obtained from the minor.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 10 — INTERNATIONAL TRANSFERS                          -->
+    <!-- ============================================================ -->
+
+    <section id="transfers">
+        <h2>10. International transfers</h2>
+
+        <p>
+            DYON is designed to minimise cross-border data movement. Commitment records are stored on your device and in encrypted backups whose location is disclosed in the processor list at <strong>dyon.store/processors</strong>. Where personal data is transferred from the EEA, the UK, or Switzerland to a country without an adequacy decision, DYON relies on Standard Contractual Clauses or an equivalent lawful transfer mechanism, supplemented by a transfer impact assessment.
+        </p>
+
+        <p>
+            Because the operator does not hold plaintext commitment records, the practical risk of a transfer is limited to metadata and ciphertext. That fact does not remove the legal obligation to provide a lawful transfer mechanism, and DYON provides one.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 11 — COOKIES AND LOCAL STORAGE                        -->
+    <!-- ============================================================ -->
+
+    <section id="cookies">
+        <h2>11. Cookies and local storage</h2>
+
+        <p>
+            DYON does not use advertising cookies, tracking pixels, or third-party analytics that profile you across sites. It uses:
+        </p>
+        <ul>
+            <li><strong>Strictly necessary storage</strong> (session authentication, security tokens, and your local ledger cache) that does not require consent;</li>
+            <li><strong>Preference storage</strong> (language, theme, and display settings) that is stored locally and is not transmitted; and</li>
+            <li><strong>No marketing or analytics cookies</strong> unless you explicitly opt in to a privacy-preserving, aggregate measurement mechanism that does not use cookies.</li>
+        </ul>
+        <p>
+            You can clear local storage through your browser at any time; doing so will remove locally cached records that have not been backed up.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 12 — CHANGES AND GOVERNANCE                           -->
+    <!-- ============================================================ -->
+
+    <section id="changes">
+        <h2>12. Changes to this policy, and how it is governed</h2>
+
+        <h3>12.1 Versioning and notice</h3>
+        <p>
+            This policy is versioned. Material changes are announced in the application at least 30 days before they take effect, and the previous version remains accessible at <strong>dyon.store/#/about/archive</strong>. A change that reduces your rights or expands data sharing will not be made without your affirmative consent where consent is the lawful basis, or without a lawful basis where it is not.
+        </p>
+
+        <h3>12.2 The license that binds this policy</h3>
+        <p>
+            DYON operates under the <strong>Maher License, Version 2.3 (ML-2.3)</strong>. The license's foundational principles—<em>Amanah</em> (faithful stewardship), <em>Ṣidq</em> (structural truthfulness), <em>ʿAdl</em> (justice and proportionality), and <em>Shafāfiyah</em> (transparency)—are not decorative. They are operative construction principles: where a clause in this policy is ambiguous, the reading that better serves those principles prevails.
+        </p>
+
+        <p>
+            ML-2.3 also imposes structural duties on any deployment of DYON, including duties of minimisation, contestability, exit, and non-theatre. A privacy policy that promised more than the software enforces would itself be a breach of the license's duty of non-theatre. This policy therefore describes what the software actually does, not what it aspires to do.
+        </p>
+
+        <div class="callout">
+            <strong>The falsifier.</strong> DYON's own “About” page commits to a falsifier: if, after six months, neither fulfilment nor self-reported commitment anxiety improves, the core thesis is wrong and DYON must be redesigned rather than marketed. This privacy policy inherits that commitment. If the architecture described here fails in practice—if data is found to be readable by the operator, or shared when this policy says it is not—that is a defect to be published and repaired, not a marketing problem to be managed.
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 13 — CONTACT                                          -->
+    <!-- ============================================================ -->
+
+    <section id="contact">
+        <h2>13. Contact</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Purpose</th>
+                    <th>Contact</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Privacy requests and rights exercises</td>
+                    <td><strong>privacy@dyon.store</strong></td>
+                </tr>
+                <tr>
+                    <td>Security disclosures</td>
+                    <td><strong>security@dyon.store</strong> (PGP key at <strong>dyon.store/.well-known/security.txt</strong>)</td>
+                </tr>
+                <tr>
+                    <td>General support</td>
+                    <td><strong>support@dyon.store</strong></td>
+                </tr>
+                <tr>
+                    <td>Legal process</td>
+                    <td><strong>legal@dyon.store</strong></td>
+                </tr>
+                <tr>
+                    <td>Data protection officer (where appointed)</td>
+                    <td><strong>dpo@dyon.store</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            Postal address for formal notices is published at <strong>dyon.store/legal/address</strong> and is updated whenever it changes. Correspondence in Arabic or English is accepted; translation is provided for other languages on request.
+        </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER NOTE                                                   -->
+    <!-- ============================================================ -->
+
+    <div class="footer-note">
+        <p>
+            <strong>Document control.</strong> This is version 1.0 of DYON's Privacy Policy &amp; Structural Commitments, effective 2026-10-23. It supersedes any earlier privacy notice published at dyon.store. It is incorporated by reference into DYON's terms of service and is consistent with the Maher License, Version 2.3 (ML-2.3).
+        </p>
+        <p>
+            <strong>Declared limits.</strong> This policy is not legal advice. It is a description of DYON's data practices and architectural commitments. Enforceability of specific provisions depends on the law of your jurisdiction. DYON is not a law firm and does not provide legal representation. If you believe your rights have been violated, you may contact a lawyer or your local supervisory authority.
+        </p>
+        <p>
+            <strong>Language.</strong> The English text is the operative version for legal interpretation. An Arabic translation is maintained at <strong>dyon.store/ar/#/about</strong> with equal editorial standing; a divergence between the two is a defect to be reported, not an ambiguity to be exploited.
+        </p>
+    </div>
+
+</main>
+
+</body>
+</html>

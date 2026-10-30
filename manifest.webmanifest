@@ -1,0 +1,25 @@
+{
+  "name": "DYON — ديون · The Commitments Ledger",
+  "short_name": "DYON",
+  "description": "Turn every ديْن — money, service, promise or trust — from a hidden weight into a written, honoured, and released commitment.",
+  "id": "/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "lang": "en",
+  "dir": "auto",
+  "categories": ["finance", "productivity", "lifestyle"],
+  "icons": [
+    { "src": "images/icon-512.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" },
+    { "src": "images/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" },
+    { "src": "images/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Quick add a commitment", "short_name": "Add", "url": "./index.html#/add" },
+    { "name": "Ledger", "short_name": "Ledger", "url": "./index.html#/ledger" },
+    { "name": "Inbox", "short_name": "Inbox", "url": "./index.html#/inbox" }
+  ]
+}

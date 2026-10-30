@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self' https://accounts.google.com https://appleid.apple.com https://login.microsoftonline.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>DYON — ديون · The Commitments Ledger</title>
+  <meta name="description" content="DYON turns every commitment — money, service, promise or trust — from a hidden weight into a written, honoured, and released commitment. Private, offline-first, no interest, no shaming.">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="color-scheme" content="light dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DYON">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="images/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/icon-512.jpg">
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="vendor/fa/icons.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body dir="ltr">
+  <a class="skip-link" href="#main-area">Skip to main content</a>
+
+  <div id="boot-screen" style="position:fixed;inset:0;display:grid;place-items:center;background:#0b1020;color:#eef1fa;z-index:500;font-family:Inter,system-ui,sans-serif">
+    <div style="text-align:center">
+      <div style="width:64px;height:64px;margin:0 auto 16px;border-radius:20px;background:linear-gradient(135deg,#6366f1,#8b5cf6,#14b8a6);display:grid;place-items:center;font-size:1.6rem;font-weight:800">د</div>
+      <div style="font-weight:700;letter-spacing:.14em">DYON · ديون</div>
+      <div style="font-size:.78rem;opacity:.65;margin-top:6px">The Commitments Ledger</div>
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <header class="app-header" id="app-header"></header>
+
+    <div class="app-body">
+      <nav class="side-rail" id="side-rail" aria-label="Primary navigation"></nav>
+      <main class="main-area" id="main-area" tabindex="-1"></main>
+    </div>
+
+    <div class="mobile-bar" id="mobile-bar"></div>
+  </div>
+
+  <noscript>
+    <p style="padding:24px;text-align:center">DYON needs JavaScript to keep your ledger in this browser.</p>
+  </noscript>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

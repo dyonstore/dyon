@@ -1,0 +1,22 @@
+{
+  "name": "dyon",
+  "version": "2.0.0",
+  "private": true,
+  "description": "DYON \u2014 the Commitments Ledger (static PWA + PHP/SQLite server for dyon.store)",
+  "scripts": {
+    "serve": "php -S 0.0.0.0:8080 -t public public/router.php",
+    "test:js": "node scripts/run-harness.mjs",
+    "test:e2e": "node scripts/e2e.mjs",
+    "test:php": "php tests/php/run.php",
+    "i18n:check": "node scripts/i18n-check.mjs",
+    "build:sw": "php scripts/build-sw.php",
+    "test": "npm run i18n:check && npm run test:php && npm run test:js && npm run test:e2e",
+    "i18n:build": "node scripts/build-fr.mjs && node scripts/build-guide-fr.mjs"
+  },
+  "devDependencies": {
+    "acorn": "^8.19.0",
+    "acorn-walk": "^8.3.5",
+    "playwright": "^1.56.0"
+  },
+  "type": "module"
+}

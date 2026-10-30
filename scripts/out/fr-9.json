@@ -1,0 +1,10 @@
+{
+ "lang.title": "Langue",
+ "lang.search": "Chercher une langue",
+ "lang.no_match": "Aucune langue ne correspond.",
+ "lang.coming": "{name} — bientôt, après relecture par des locuteurs natifs",
+ "lang.detected": "Détectée : {language} ({source, select, browser {depuis votre navigateur} url {depuis le lien} country {depuis votre région} saved {votre choix enregistré} other {par défaut}})",
+ "lang.defaults": "Utiliser aussi les chiffres et le calendrier par défaut de cette langue ?",
+ "lang.defaults_hint": "Ne change que l’affichage des chiffres et du calendrier. Modifiable ensuite dans les Réglages.",
+ "lang.button": "Langue : {language}"
+}

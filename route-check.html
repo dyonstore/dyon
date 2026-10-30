@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self' https://accounts.google.com https://appleid.apple.com https://login.microsoftonline.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DYON — route check</title>
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="vendor/fa/icons.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .frame-wrap { border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:12px }
+    iframe { width:100%; height:300px; border:0; display:block }
+  </style>
+</head>
+<body dir="ltr">
+  <main class="main-area" style="max-width:1000px;margin:0 auto;padding:24px" id="main-area">
+    <h1>DYON route check</h1>
+    <p class="card-sub">Loads every route in a frame, seeds demo data, and reports
+      console errors plus whether the main area rendered content.</p>
+    <div id="summary" class="card" style="margin-bottom:16px">Running…</div>
+    <div id="results"></div>
+  </main>
+  <script>window.DYON_AUTH_PREVIEW_ONLY = true;</script>
+  <script type="module" src="js/route-check.js"></script>
+</body>
+</html>

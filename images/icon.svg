@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="DYON">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="0.5" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0b1020"/>
+  <path d="M168 150c70-22 140 6 150 72 10 66-38 124-114 140-30 6-58 4-84-6" fill="none" stroke="url(#g)" stroke-width="40" stroke-linecap="round"/>
+  <circle cx="356" cy="152" r="22" fill="url(#g)"/>
+</svg>

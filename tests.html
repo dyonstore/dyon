@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self' https://accounts.google.com https://appleid.apple.com https://login.microsoftonline.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DYON — self tests</title>
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="vendor/fa/icons.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body dir="ltr">
+  <main class="main-area" style="max-width:900px;margin:0 auto;padding:24px" id="main-area">
+    <h1>DYON self tests</h1>
+    <p class="card-sub">Unit checks for money maths, validation rules, the status
+      lifecycle, red-line guards and the audit hash chain. Open the console for detail.</p>
+    <div id="summary" class="card" style="margin-bottom:16px"></div>
+    <div id="results"></div>
+  </main>
+  <script>window.DYON_AUTH_PREVIEW_ONLY = true;</script>
+  <script type="module" src="js/tests.js"></script>
+</body>
+</html>

@@ -1,0 +1,1230 @@
+{
+ "app.link_account": {
+  "en": "Link an account",
+  "ar": "اربط حسابًا"
+ },
+ "app.my_account": {
+  "en": "My account",
+  "ar": "حسابي"
+ },
+ "app.link_account_2": {
+  "en": "Link account",
+  "ar": "اربط حسابًا"
+ },
+ "app.use_browser_menu_add": {
+  "en": "Use your browser menu: \"Add to Home Screen\".",
+  "ar": "استخدم قائمة المتصفح: «أضف إلى الشاشة الرئيسية»."
+ },
+ "app.adds_demo_ledger_alongside": {
+  "en": "This adds a demo ledger alongside your current data. Continue?",
+  "ar": "سيضيف هذا سجلًا تجريبيًا إلى بياناتك الحالية. متابعة؟"
+ },
+ "app.that_pin_not_right": {
+  "en": "That PIN is not right.",
+  "ar": "رقم غير صحيح."
+ },
+ "app.if_have_forgotten_clearing": {
+  "en": " If you have forgotten it, clearing this site’s browser data starts fresh.",
+  "ar": " إن نسيته، يمكنك مسح بيانات المتصفح لهذا الموقع للبدء من جديد."
+ },
+ "auth.signed_out_ledger_stays": {
+  "en": "Signed out. Your ledger stays on this device.",
+  "ar": "تم تسجيل الخروج. سجلك باقٍ على هذا الجهاز."
+ },
+ "auth.continue_with": {
+  "en": "Continue with ",
+  "ar": "المتابعة عبر "
+ },
+ "auth.preview": {
+  "en": "preview",
+  "ar": "تجريبي"
+ },
+ "auth.not_set_up": {
+  "en": "not set up",
+  "ar": "غير مُعد"
+ },
+ "auth.why_now": {
+  "en": "Why now? ",
+  "ar": "لماذا الآن؟ "
+ },
+ "auth.involves_another_person_so": {
+  "en": " involves another person, so DYON needs to know who is writing.",
+  "ar": " يشمل شخصًا آخر، فيحتاج ديون أن يعرف من الكاتب."
+ },
+ "auth.private_ledger_keeps_working": {
+  "en": "Your private ledger keeps working without an account. Signing in only unlocks the features that reach other people.",
+  "ar": "سجلك الخاص يعمل دون حساب. تسجيل الدخول يفتح فقط الميزات التي تصل إلى أشخاص آخرين."
+ },
+ "auth.no_provider_configured_on": {
+  "en": "No provider is configured on this copy yet, so sign-in runs in preview: a local test identity, clearly labelled, never treated as verified.",
+  "ar": "لم يُعدّ أي مزوّد بعد في هذه النسخة، فيعمل الدخول تجريبيًا: هوية اختبار محلية موسومة بوضوح، ولا تُعامل كهوية موثّقة."
+ },
+ "auth.no_passwords_social_sign": {
+  "en": "No passwords — social sign-in only.",
+  "ar": "بلا كلمات مرور — دخول اجتماعي فقط."
+ },
+ "auth.dyon_reads_name_email": {
+  "en": "DYON reads your name and email, nothing else. No contacts, no posting.",
+  "ar": "يقرأ ديون اسمك وبريدك فقط. لا جهات اتصال ولا نشر."
+ },
+ "auth.records_are_not_uploaded": {
+  "en": "Your records are not uploaded. They stay in this browser.",
+  "ar": "لا تُرفع سجلاتك. تبقى في هذا المتصفح."
+ },
+ "auth.export_delete_never_need": {
+  "en": "Export and delete never need an account (RL-09).",
+  "ar": "التصدير والحذف لا يحتاجان حسابًا أبدًا (RL-09)."
+ },
+ "auth.not_now": {
+  "en": "Not now",
+  "ar": "ليس الآن"
+ },
+ "auth.preview_user": {
+  "en": "Preview user",
+  "ar": "مستخدم تجريبي"
+ },
+ "auth.linked_with_preview": {
+  "en": "Linked with {label} (preview).",
+  "ar": "تم الربط عبر {label} (تجريبي)."
+ },
+ "auth.sign_in_was_cancelled": {
+  "en": "Sign-in was cancelled. Nothing changed.",
+  "ar": "أُلغي تسجيل الدخول. لم يتغير شيء."
+ },
+ "auth.sign_in_could_not": {
+  "en": "Sign-in could not be confirmed. Please try again.",
+  "ar": "تعذّر تأكيد الدخول. حاول مرة أخرى."
+ },
+ "auth.account_linked": {
+  "en": "Account linked.",
+  "ar": "تم ربط الحساب."
+ },
+ "auth.sign_in_failed": {
+  "en": "Sign-in failed: ",
+  "ar": "فشل الدخول: "
+ },
+ "auth.account": {
+  "en": "Account",
+  "ar": "الحساب"
+ },
+ "auth.not_linked_everything_write": {
+  "en": "Not linked. Everything you write stays on this device. Link a social account only when you want to share with, remind or invite someone.",
+  "ar": "غير مربوط. كل ما تكتبه يبقى على هذا الجهاز. اربط حسابًا اجتماعيًا فقط حين تريد المشاركة أو التذكير أو دعوة أحد."
+ },
+ "auth.stage_1_on_device": {
+  "en": "Stage 1 · on this device",
+  "ar": "المرحلة ١ · على هذا الجهاز"
+ },
+ "auth.preview_2": {
+  "en": " · preview",
+  "ar": " · تجريبي"
+ },
+ "auth.stage_2_linked": {
+  "en": "Stage 2 · linked",
+  "ar": "المرحلة ٢ · مربوط"
+ },
+ "auth.not_verified": {
+  "en": "Not verified",
+  "ar": "غير موثّق"
+ },
+ "auth.unlocked_sharing_reminders_witnesses": {
+  "en": "Unlocked: sharing, reminders, witnesses, settlements, transfers. Your ledger is still stored only in this browser.",
+  "ar": "مفتوح: المشاركة والتذكير والشهود والصلح والحوالة. سجلك ما زال محفوظًا في هذا المتصفح فقط."
+ },
+ "auth.sign_out": {
+  "en": "Sign out",
+  "ar": "تسجيل الخروج"
+ },
+ "flows.currencies": {
+  "en": "Currencies",
+  "ar": "عملات"
+ },
+ "flows.gold_silver": {
+  "en": "Gold & silver",
+  "ar": "ذهب وفضة"
+ },
+ "flows.non_monetary": {
+  "en": "Non-monetary",
+  "ar": "وحدات غير مالية"
+ },
+ "flows.counterparty_kind": {
+  "en": "Counterparty kind",
+  "ar": "نوع الطرف"
+ },
+ "flows.known_person_their_saved": {
+  "en": "Known person — their saved kind is used.",
+  "ar": "شخص معروف — يُستخدم نوعه المحفوظ."
+ },
+ "flows.new_person_they_will": {
+  "en": "New person — they will be added to People.",
+  "ar": "شخص جديد — سيُضاف إلى «الأشخاص»."
+ },
+ "flows.pick_date": {
+  "en": "Pick a date",
+  "ar": "تاريخ محدد"
+ },
+ "flows.display_reference_only_never": {
+  "en": "A display reference only; it never changes the obligation.",
+  "ar": "مرجع للعرض فقط، لا يغيّر قيمة الدَّين."
+ },
+ "flows.more_details_optional": {
+  "en": "More details (optional)",
+  "ar": "تفاصيل إضافية (اختياري)"
+ },
+ "flows.stays_on_device_only": {
+  "en": "Stays on this device only.",
+  "ar": "يبقى على هذا الجهاز فقط."
+ },
+ "flows.will_write_message_other": {
+  "en": "You will write a message to the other person after saving.",
+  "ar": "ستكتب رسالة للطرف الآخر بعد الحفظ."
+ },
+ "flows.sharing_needs_linked_social": {
+  "en": "Sharing needs a linked social account after saving. The record itself is saved on this device now.",
+  "ar": "المشاركة تحتاج ربط حساب اجتماعي بعد الحفظ. السجل نفسه يُحفظ على جهازك الآن."
+ },
+ "flows.describe_what_was_promised": {
+  "en": "Describe what was promised.",
+  "ar": "اكتب وصفًا لما وُعِد به."
+ },
+ "flows.pick_due_date_or": {
+  "en": "Pick the due date, or choose \"No date\".",
+  "ar": "اختر تاريخ الاستحقاق، أو اختر «بلا موعد»."
+ },
+ "flows.add_at_least_one": {
+  "en": "Add at least one witness name, or pick another privacy option.",
+  "ar": "اكتب اسم شاهد واحد على الأقل، أو اختر خيارًا آخر."
+ },
+ "flows.which_currency_candidates": {
+  "en": "Which currency? Candidates: {r}",
+  "ar": "أي عملة تقصد؟ المرشحون: {r2}"
+ },
+ "flows.year_was_assumed_please": {
+  "en": "The year was assumed — please check the date.",
+  "ar": "تم افتراض السنة — راجع التاريخ."
+ },
+ "flows.recurring_promise_please_set": {
+  "en": "Recurring promise: please set a start date.",
+  "ar": "وعد متكرر: حدد تاريخ البداية."
+ },
+ "flows.who_which_way": {
+  "en": "Who, and which way?",
+  "ar": "مع مَن، وفي أي اتجاه؟"
+ },
+ "flows.what": {
+  "en": "What is it?",
+  "ar": "ما هو؟"
+ },
+ "flows.when": {
+  "en": "When?",
+  "ar": "متى؟"
+ },
+ "flows.who_sees": {
+  "en": "Who sees it?",
+  "ar": "مَن يراه؟"
+ },
+ "flows.share": {
+  "en": "Share",
+  "ar": "مشاركة"
+ },
+ "flows.link_shows_only_one": {
+  "en": "A link shows only this one commitment, never your other debts (R-D11). DYON messages nobody on your behalf (R-D10).",
+  "ar": "الرابط يعرض هذا الالتزام وحده، ولا يُظهر أي دَين آخر لك (R-D11). ولا يراسل التطبيق أحدًا نيابة عنك (R-D10)."
+ },
+ "flows.record_other_party_s": {
+  "en": "Record the other party's reply",
+  "ar": "سجّل ردّ الطرف الآخر"
+ },
+ "flows.requested_edit": {
+  "en": "Requested an edit",
+  "ar": "طلب تعديل"
+ },
+ "flows.that_record_no_longer": {
+  "en": "That record no longer exists.",
+  "ar": "السجل غير موجود."
+ },
+ "flows.not_attested_yet": {
+  "en": "not attested yet",
+  "ar": "لم يشهد بعد"
+ },
+ "flows.record_attestation": {
+  "en": "Record attestation",
+  "ar": "سجّل الشهادة"
+ },
+ "flows.add_witness": {
+  "en": "Add a witness",
+  "ar": "أضف شاهدًا"
+ },
+ "flows.mb_per_file_images": {
+  "en": "{MAX_FILE_MB} MB per file: images, PDF or audio.",
+  "ar": "الحد {MAX_FILE_MB} ميغابايت للملف: صور أو PDF أو صوت."
+ },
+ "flows.qr_code": {
+  "en": "QR code",
+  "ar": "رمز QR"
+ },
+ "flows.record_removed_from_device": {
+  "en": "This record is removed from your device; the audit trail keeps its trace.",
+  "ar": "سيُحذف هذا السجل من جهازك، ويبقى أثره في سجل التدقيق."
+ },
+ "flows.shared_record_tombstone_created": {
+  "en": "Shared record: a tombstone is created and the counterparty copy is untouched (R-M02).",
+  "ar": "سجل مشارَك: تُنشأ نسخة شاهدة (tombstone) ولا تُمحى نسخة الطرف الآخر."
+ },
+ "flows.passed": {
+  "en": "passed",
+  "ar": "مضى الموعد"
+ },
+ "flows.terms_only": {
+  "en": "Terms only",
+  "ar": "الشروط فقط"
+ },
+ "flows.full_witness": {
+  "en": "Full witness",
+  "ar": "شهادة كاملة"
+ },
+ "flows.witness_name": {
+  "en": "Witness name",
+  "ar": "اسم الشاهد"
+ },
+ "flows.scope": {
+  "en": "Scope",
+  "ar": "النطاق"
+ },
+ "flows.witness_read_only_can": {
+  "en": "A witness is read-only and can never edit.",
+  "ar": "الشاهد يقرأ فقط ولا يملك التعديل."
+ },
+ "flows.text": {
+  "en": "To ",
+  "ar": "إلى "
+ },
+ "flows.every_edit_written_into": {
+  "en": "Every edit is written into the append-only history with a diff. No silent edits (Sidq).",
+  "ar": "كل تعديل يُسجَّل في السجل التاريخي مع الفروق. لا تعديل صامت (Sidq)."
+ },
+ "flows.bank_transfer_cash": {
+  "en": "Bank transfer, cash…",
+  "ar": "تحويل بنكي، نقدًا…"
+ },
+ "flows.all_remaining": {
+  "en": "All remaining",
+  "ar": "كل المتبقي"
+ },
+ "flows.half": {
+  "en": "Half",
+  "ar": "النصف"
+ },
+ "flows.i_closed_commitment_today": {
+  "en": "🕊️ I closed a commitment today with DYON — no names, no amounts.",
+  "ar": "🕊️ أغلقت التزامًا اليوم عبر تطبيق ديون — بلا أسماء وبلا مبالغ."
+ },
+ "flows.decline_kindly": {
+  "en": "Decline kindly",
+  "ar": "اعتذر بلطف"
+ },
+ "flows.please_confirm_understand_becomes": {
+  "en": "Please confirm you understand this becomes final after 24 hours.",
+  "ar": "أكِّد أنك تفهم أن الإبراء يصبح نهائيًا بعد ٢٤ ساعة."
+ },
+ "flows.are_about_release_from": {
+  "en": "You are about to release {cp} from this debt.",
+  "ar": "أنت على وشك إبراء ذمة {cp} من هذا الدَّين."
+ },
+ "flows.i_understand_becomes_final": {
+  "en": "I understand this becomes final after 24 hours.",
+  "ar": "أفهم أن الإبراء يصبح نهائيًا بعد ٢٤ ساعة."
+ },
+ "flows.creditor_consents": {
+  "en": "Creditor consents",
+  "ar": "الدائن موافق"
+ },
+ "flows.original_debtor_consents": {
+  "en": "Original debtor consents",
+  "ar": "المدين الأصلي موافق"
+ },
+ "flows.new_debtor_consents": {
+  "en": "New debtor consents",
+  "ar": "المدين الجديد موافق"
+ },
+ "flows.one_record_two_views": {
+  "en": "One record, two views. The recorded amount is {unit_code} dated {incurred_on}. One party sees it differently. The aim is understanding, not winning.",
+  "ar": "سجلٌ واحد، وجهتا نظر. المبلغ المسجَّل {unit_code} بتاريخ {incurred_on}. يرى أحد الطرفين الأمر على نحو مختلف. الهدف هو التفاهم لا الغلبة."
+ },
+ "flows.dispute_recorded_never_escalated": {
+  "en": "A dispute is recorded, never escalated. Tone switches to Neutral automatically.",
+  "ar": "النزاع يُسجَّل ولا يُصعَّد. النبرة تتحول تلقائيًا إلى المحايدة."
+ },
+ "flows.resolved_as_recorded": {
+  "en": "Resolved as recorded",
+  "ar": "حُلّ كما هو مسجل"
+ },
+ "flows.add_claim": {
+  "en": "Add a claim",
+  "ar": "أضف توضيحًا"
+ },
+ "flows.unit_change_happens_only": {
+  "en": "A unit change happens only via an explicit settlement, with the agreed rate recorded (§6.3).",
+  "ar": "تغيير العملة لا يتم إلا بصلح صريح يسجَّل سعره (§6.3)."
+ },
+ "flows.record_agreed_rate_when": {
+  "en": "Record the agreed rate when the unit changes.",
+  "ar": "سجّل السعر المتفق عليه عند تغيير العملة."
+ },
+ "flows.settlement_needs_both_parties": {
+  "en": "A settlement needs both parties.",
+  "ar": "الصلح يحتاج موافقة الطرفين."
+ },
+ "flows.proposal_recorded_awaiting_agreement": {
+  "en": "Proposal recorded. Awaiting agreement.",
+  "ar": "أُرسل المقترح. ينتظر الموافقة."
+ },
+ "flows.both_agreed": {
+  "en": "Both agreed",
+  "ar": "وافق الطرفان"
+ },
+ "flows.standard": {
+  "en": "Standard",
+  "ar": "قياسي"
+ },
+ "flows.hardship_declared_so_template": {
+  "en": "Hardship is declared, so the template switched to a respite framing (R-D26).",
+  "ar": "الطرف أعلن عُسرة، فتحوّلت النبرة إلى الإنظار تلقائيًا (R-D26)."
+ },
+ "flows.template": {
+  "en": "Template",
+  "ar": "القالب"
+ },
+ "flows.remind_me_on": {
+  "en": "Remind me on",
+  "ar": "ذكّرني في"
+ },
+ "flows.brother_neighbour_colleague": {
+  "en": "brother, neighbour, colleague…",
+  "ar": "أخ، جار، زميل…"
+ },
+ "flows.contact_hint_optional": {
+  "en": "contact hint (optional)",
+  "ar": "تلميح تواصل (اختياري)"
+ },
+ "flows.that_name_already_exists": {
+  "en": "That name already exists. Use a distinct name, or open the existing person.",
+  "ar": "هذا الاسم موجود. اختر اسمًا مميزًا أو افتح السجل القائم."
+ },
+ "flows.contact_hint": {
+  "en": "Contact hint",
+  "ar": "تلميح التواصل"
+ },
+ "flows.kind": {
+  "en": "Kind",
+  "ar": "النوع"
+ },
+ "flows.non_users_are_stored": {
+  "en": "Non-users are stored as minimal records (RL-08).",
+  "ar": "بيانات الأشخاص غير المستخدمين تبقى في حدها الأدنى (RL-08)."
+ },
+ "flows.delete_person_s_data": {
+  "en": "Delete this person’s data",
+  "ar": "حذف بيانات هذا الشخص"
+ },
+ "flows.personal_details_are_erased": {
+  "en": "Personal details are erased; your record remains with an alias (R-D12).",
+  "ar": "تُمحى البيانات الشخصية ويبقى سجلك مع كنية بديلة (R-D12)."
+ },
+ "flows.erase_non_user_data": {
+  "en": "Erase non-user data",
+  "ar": "حذف بيانات غير المستخدم"
+ },
+ "guide.all_chapters": {
+  "en": "All chapters",
+  "ar": "كل الفصول"
+ },
+ "guide.guide_progress": {
+  "en": "Guide progress",
+  "ar": "تقدم الدليل"
+ },
+ "guide.tip": {
+  "en": "Tip",
+  "ar": "نصيحة"
+ },
+ "guide.why": {
+  "en": "Why",
+  "ar": "لماذا"
+ },
+ "guide.chapter_navigation": {
+  "en": "Chapter navigation",
+  "ar": "تنقل الفصول"
+ },
+ "guide.start": {
+  "en": "Start",
+  "ar": "البداية"
+ },
+ "guide.first_chapter": {
+  "en": "This is the first chapter",
+  "ar": "هذا أول فصل"
+ },
+ "guide.guide_complete": {
+  "en": "Guide complete",
+  "ar": "انتهى الدليل"
+ },
+ "guide.start_using_dyon": {
+  "en": "Start using DYON",
+  "ar": "ابدأ الاستخدام"
+ },
+ "guide.take_in_app_tour": {
+  "en": "Take the in-app tour",
+  "ar": "جولة داخل التطبيق"
+ },
+ "guide.chapter_index": {
+  "en": "Chapter index",
+  "ar": "فهرس الفصول"
+ },
+ "guide.glossary": {
+  "en": "Glossary",
+  "ar": "المسرد"
+ },
+ "guide.next": {
+  "en": "Next",
+  "ar": "التالي"
+ },
+ "guide.previous": {
+  "en": "Previous",
+  "ar": "السابق"
+ },
+ "guide.beginner_s_guide": {
+  "en": "Beginner’s guide",
+  "ar": "دليل المبتدئين"
+ },
+ "guide.short_chapters_explaining_every": {
+  "en": "{count} short chapters explaining every screen, every button and every term, plus an A–Z glossary of every word. Read in order, or jump to what you need.",
+  "ar": "{count2} فصلًا قصيرًا تشرح كل شاشة وكل زر وكل مصطلح، ومسرد أبجدي لكل كلمة. اقرأها بالترتيب، أو اقفز إلى ما تحتاجه."
+ },
+ "guide.start_from_chapter_1": {
+  "en": "Start from chapter 1",
+  "ar": "ابدأ من الفصل الأول"
+ },
+ "guide.in_app_tour": {
+  "en": "In-app tour",
+  "ar": "جولة داخل التطبيق"
+ },
+ "guide.z_glossary": {
+  "en": "A–Z glossary",
+  "ar": "المسرد الأبجدي"
+ },
+ "guide.reading_progress": {
+  "en": "Your reading progress",
+  "ar": "تقدّمك في القراءة"
+ },
+ "guide.guide_educational_religious_content": {
+  "en": "This guide is educational. Religious content is sourced and is not a fatwa, and nothing here is legal advice.",
+  "ar": "هذا الدليل تعليمي. المحتوى الديني فيه مذكور المصدر وليس فتوى، ولا شيء هنا استشارة قانونية."
+ },
+ "guide.search_word": {
+  "en": "Search a word…",
+  "ar": "ابحث عن كلمة…"
+ },
+ "guide.search_glossary": {
+  "en": "Search the glossary",
+  "ar": "بحث في المسرد"
+ },
+ "guide.chapter": {
+  "en": "Chapter: ",
+  "ar": "الفصل: "
+ },
+ "guide.no_match_try_shorter": {
+  "en": "No match. Try a shorter word.",
+  "ar": "لا نتائج. جرّب كلمة أقصر."
+ },
+ "guide.every_term_button_status": {
+  "en": "Every term, button and status in DYON, with its purpose and a link to the chapter that explains it.",
+  "ar": "كل مصطلح وكل زر وكل حالة في ديون، مع غرضه، ورابط إلى الفصل الذي يشرحه."
+ },
+ "guide.help": {
+  "en": "Help",
+  "ar": "المساعدة"
+ },
+ "guide.tour_screen": {
+  "en": "Tour this screen",
+  "ar": "جولة هذه الشاشة"
+ },
+ "guide.short_steps_with_next": {
+  "en": "Short steps with Next and Previous",
+  "ar": "خطوات قصيرة مع التالي والسابق"
+ },
+ "guide.chapter_that_explains_screen": {
+  "en": "The chapter that explains this screen",
+  "ar": "الفصل الذي يشرح هذه الشاشة"
+ },
+ "guide.every_word_its_purpose": {
+  "en": "Every word and its purpose",
+  "ar": "كل كلمة وغرضها"
+ },
+ "guide.full_beginner_guide": {
+  "en": "Full beginner guide",
+  "ar": "دليل المبتدئين كاملًا"
+ },
+ "guide.chapters": {
+  "en": " chapters",
+  "ar": " فصلًا"
+ },
+ "guide.overview_tour": {
+  "en": "Overview tour",
+  "ar": "جولة النظرة العامة"
+ },
+ "guide.main_tour": {
+  "en": "The main tour",
+  "ar": "الجولة الأساسية"
+ },
+ "guide.shortcut_press_on_keyboard": {
+  "en": "Shortcut: press ? on a keyboard.",
+  "ar": "اختصار: اضغط ؟ في لوحة المفاتيح."
+ },
+ "qr.qr_code": {
+  "en": "QR code: ",
+  "ar": "رمز QR: "
+ },
+ "qr.qr_image_saved": {
+  "en": "QR image saved.",
+  "ar": "حُفظت صورة الرمز."
+ },
+ "qr.save_image": {
+  "en": "Save image",
+  "ar": "حفظ الصورة"
+ },
+ "qr.copy_link": {
+  "en": "Copy link",
+  "ar": "نسخ الرابط"
+ },
+ "qr.show_as_qr_code": {
+  "en": "Show as QR code",
+  "ar": "اعرضه كرمز QR"
+ },
+ "qr.proposed_date": {
+  "en": "Proposed date: ",
+  "ar": "التاريخ المقترح: "
+ },
+ "qr.let_other_person_scan": {
+  "en": "Let the other person scan this with their phone camera. It opens this one request in DYON — nothing else from your ledger.",
+  "ar": "دع الطرف الآخر يمسحه بكاميرا هاتفه. يفتح هذا الطلب وحده في ديون، ولا شيء آخر من سجلك."
+ },
+ "qr.details_travel_inside_code": {
+  "en": "The details travel inside the code itself; nothing is uploaded. DYON never sends it for you (R-D10).",
+  "ar": "التفاصيل داخل الرمز نفسه، ولا يُرفع شيء. ولا يرسله ديون نيابة عنك (R-D10)."
+ },
+ "qr.code_could_not_be": {
+  "en": "This code could not be read",
+  "ar": "تعذّرت قراءة هذا الرمز"
+ },
+ "qr.may_be_incomplete_or": {
+  "en": "It may be incomplete or from another app. Ask the sender to show it again.",
+  "ar": "قد يكون ناقصًا أو من تطبيق آخر. اطلب من المرسل عرضه مجددًا."
+ },
+ "qr.open_dyon": {
+  "en": "Open DYON",
+  "ar": "افتح ديون"
+ },
+ "qr.from": {
+  "en": "From",
+  "ar": "من"
+ },
+ "qr.someone": {
+  "en": "Someone",
+  "ar": "شخص ما"
+ },
+ "qr.unverified": {
+  "en": " (unverified)",
+  "ar": " (غير موثّق)"
+ },
+ "qr.for": {
+  "en": "For you",
+  "ar": "بالنسبة لك"
+ },
+ "qr.proposed_date_2": {
+  "en": "Proposed date",
+  "ar": "التاريخ المقترح"
+ },
+ "qr.note": {
+  "en": "Note",
+  "ar": "ملاحظة"
+ },
+ "qr.scanned_from_dyon_request": {
+  "en": "Scanned from a DYON request code.",
+  "ar": "مُسح من رمز طلب في ديون."
+ },
+ "qr.add_my_ledger": {
+  "en": "Add to my ledger",
+  "ar": "أضفه إلى سجلي"
+ },
+ "qr.nothing_was_saved_yet": {
+  "en": "Nothing was saved yet. Adding it opens the normal form so you can check every field first. Replying is always done by you.",
+  "ar": "لم يُحفظ شيء بعد. الإضافة تفتح النموذج المعتاد لتراجع كل حقل أولًا. والرد يكون منك دائمًا."
+ },
+ "validate.field_needed": {
+  "en": "This field is needed.",
+  "ar": "هذا الحقل مطلوب."
+ },
+ "validate.add_other_party_s": {
+  "en": "Add the other party’s name, or an alias if you prefer privacy.",
+  "ar": "اكتب اسم الطرف الآخر، أو كنية إن أردت الخصوصية."
+ },
+ "validate.enter_amount_greater_than": {
+  "en": "Enter an amount greater than zero.",
+  "ar": "اكتب مبلغًا أكبر من صفر."
+ },
+ "validate.use_digits_only_e": {
+  "en": "Use digits only, e.g. 500 or 500.50.",
+  "ar": "استخدم أرقامًا فقط، مثل 500 أو 500٫50."
+ },
+ "validate.that_amount_unusually_large": {
+  "en": "That amount is unusually large. Please check it.",
+  "ar": "المبلغ كبير بشكل غير معتاد. راجعه من فضلك."
+ },
+ "validate.allows_at_most_decimal": {
+  "en": "{u} allows at most {n} decimal place(s).",
+  "ar": "{u} يقبل {n} خانة عشرية كحد أقصى."
+ },
+ "validate.that_date_isn_t": {
+  "en": "That date isn’t valid.",
+  "ar": "تاريخ غير صحيح."
+ },
+ "validate.date_incurred_cannot_be": {
+  "en": "The date incurred cannot be in the future.",
+  "ar": "تاريخ النشوء لا يكون في المستقبل."
+ },
+ "validate.due_date_before_date": {
+  "en": "The due date is before the date incurred. Please check both.",
+  "ar": "الاستحقاق قبل تاريخ النشوء. راجع التاريخين."
+ },
+ "validate.that_date_has_passed": {
+  "en": "That date has passed. Choose a future date.",
+  "ar": "هذا التاريخ مضى. اختر تاريخًا قادمًا."
+ },
+ "validate.use_between_2_60": {
+  "en": "Use between 2 and 60 installments.",
+  "ar": "عدد الأقساط بين ٢ و٦٠."
+ },
+ "validate.installments_need_amount_first": {
+  "en": "Installments need an amount first.",
+  "ar": "الأقساط تحتاج مبلغًا أولًا."
+ },
+ "validate.installments_need_first_due": {
+  "en": "Installments need a first due date.",
+  "ar": "الأقساط تحتاج تاريخ أول قسط."
+ },
+ "validate.more_than_remaining_record": {
+  "en": "More than the remaining {txt}. Record that or less.",
+  "ar": "أكبر من المتبقي ({txt}). سجّل المتبقي أو أقل."
+ },
+ "validate.use_at_least_4": {
+  "en": "Use at least 4 digits.",
+  "ar": "الرقم السري ٤ أرقام على الأقل."
+ },
+ "validate.digits_only": {
+  "en": "Digits only.",
+  "ar": "أرقام فقط."
+ },
+ "validate.two_pins_don_t": {
+  "en": "The two PINs don’t match.",
+  "ar": "الرقمان غير متطابقين."
+ },
+ "validate.characters_maximum": {
+  "en": "{n} characters maximum.",
+  "ar": "الحد {n} حرفًا."
+ },
+ "validate.please_choose_option": {
+  "en": "Please choose an option.",
+  "ar": "اختر خيارًا."
+ },
+ "validate.transfer_needs_all_three": {
+  "en": "A transfer needs all three parties’ consent.",
+  "ar": "الحوالة تحتاج رضا الأطراف الثلاثة."
+ },
+ "validate.enter_at_least_one": {
+  "en": "Enter at least one monthly capacity.",
+  "ar": "اكتب قدرة شهرية واحدة على الأقل."
+ },
+ "validate.field_need_attention": {
+  "en": "{n} field{n2} need{n3} your attention:",
+  "ar": "{n} حقل يحتاج انتباهك:"
+ },
+ "validate.file_larger_than_mb": {
+  "en": "The file is larger than {mb} MB.",
+  "ar": "حجم الملف أكبر من {mb} ميغابايت."
+ },
+ "validate.that_file_type_isn": {
+  "en": "That file type isn’t supported.",
+  "ar": "نوع الملف غير مدعوم."
+ },
+ "views.show": {
+  "en": "Show",
+  "ar": "إظهار"
+ },
+ "views.hide": {
+  "en": "Hide",
+  "ar": "إخفاء"
+ },
+ "views.what_s_coming_who": {
+  "en": "What’s coming · Who it’s with",
+  "ar": "القادم والأشخاص"
+ },
+ "views.promises_services_trusts_plans": {
+  "en": "Promises · Services · Trusts · Plans",
+  "ar": "وعود وخدمات وأمانات وخطط"
+ },
+ "views.progress_wellbeing": {
+  "en": "Progress & wellbeing",
+  "ar": "التقدم والعافية"
+ },
+ "views.smallest_closest_closing": {
+  "en": "Smallest and closest to closing",
+  "ar": "الأصغر والأقرب للإغلاق"
+ },
+ "views.without_due_date": {
+  "en": "without a due date",
+  "ar": "بلا موعد"
+ },
+ "views.not_acknowledged": {
+  "en": "not acknowledged",
+  "ar": "غير مُقَرّ به"
+ },
+ "views.without_description": {
+  "en": "without a description",
+  "ar": "بلا وصف"
+ },
+ "views.approximate": {
+  "en": "approximate",
+  "ar": "تقريبي"
+ },
+ "views.stale": {
+  "en": "stale",
+  "ar": "راكد"
+ },
+ "views.without_evidence": {
+  "en": "without evidence",
+  "ar": "بلا دليل"
+ },
+ "views.records_are_complete_well": {
+  "en": "Your records are complete. Well done.",
+  "ar": "سجلاتك مكتملة. أحسنت."
+ },
+ "views.awaiting_confirmation": {
+  "en": "Awaiting confirmation",
+  "ar": "بانتظار تأكيد"
+ },
+ "views.every_closure_will_appear": {
+  "en": "Every closure will appear here. It deserves to be seen.",
+  "ar": "كل إغلاق سيظهر هنا، ويستحق أن يُرى."
+ },
+ "views.write_at_least_one": {
+  "en": "Write at least one line.",
+  "ar": "اكتب سطرًا واحدًا على الأقل."
+ },
+ "views.dismiss": {
+  "en": "Dismiss",
+  "ar": "تجاهل"
+ },
+ "views.no_tips_today_everything": {
+  "en": "No tips today. Everything is clear.",
+  "ar": "لا إضاءات اليوم. كل شيء واضح."
+ },
+ "views.counterparties_are_people_never": {
+  "en": "Counterparties are people, never \"accounts receivable\". The numbers serve the relationship.",
+  "ar": "الأطراف أشخاص لا «حسابات مدينة». الأرقام تخدم العلاقة لا العكس."
+ },
+ "views2.promise_commitment_scholars_differ": {
+  "en": "A promise is a commitment. Scholars differ on whether it binds legally; many hold it binding morally. Here it becomes visible instead of lapsing silently.",
+  "ar": "الوعد التزام. يختلف الفقهاء في إلزامه قضاءً، ويرى كثيرون أنه مُلزم ديانةً. هنا تجعله مرئيًا بدل أن يسقط صامتًا."
+ },
+ "views2.recurring_promises": {
+  "en": "Recurring promises",
+  "ar": "وعود متكررة"
+ },
+ "views2.give_worker_his_wage": {
+  "en": "\"Give the worker his wage before his sweat dries.\" Time and labour are real commitments, recorded in their own unit.",
+  "ar": "«أعطوا الأجير أجره قبل أن يجفّ عرقه». الوقت والعمل ديون حقيقية، وتُسجَّل بوحدتها."
+ },
+ "views2.god_commands_render_trusts": {
+  "en": "\"God commands you to render trusts to their owners\" (4:58). A trust is returned, in its condition and on time.",
+  "ar": "﴿إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا﴾ — الأمانة تُردّ بحالتها وفي وقتها."
+ },
+ "views2.suggested_order_only_no": {
+  "en": "A suggested order only. No increase, no interest, no pressure.",
+  "ar": "ترتيب مقترح فقط. لا زيادة ولا فائدة ولا ضغط."
+ },
+ "views2.previous_month": {
+  "en": "Previous month",
+  "ar": "الشهر السابق"
+ },
+ "views2.next_month": {
+  "en": "Next month",
+  "ar": "الشهر التالي"
+ },
+ "views2.due_dates_are_local": {
+  "en": "Due dates are local dates; they never shift across time zones (§6.5).",
+  "ar": "تواريخ الاستحقاق تواريخ محلية، لا تتغير بتغير المنطقة الزمنية (§6.5)."
+ },
+ "views2.reminders_go_only_debtor": {
+  "en": "Reminders go only to the debtor — never to family, employer or anyone else (R-D22).",
+  "ar": "لا يُرسل التطبيق تذكيرات إلى أحد غير الطرف نفسه، ولا إلى الأهل أو العمل أبدًا (R-D22)."
+ },
+ "views2.all_private_device_session": {
+  "en": "All private to this device. Session length and notification open-rate are deliberately NOT measured.",
+  "ar": "كلها خاصة بجهازك ولا تغادره. طول الجلسة ومعدل فتح الإشعارات ليست مؤشرات هنا عمدًا."
+ },
+ "views2.record_integrity_hash_chain": {
+  "en": "Record integrity (hash chain)",
+  "ar": "سلامة السجل (سلسلة التجزئة)"
+ },
+ "views2.every_change_written_append": {
+  "en": "Every change is written to an append-only log; each event carries the hash of the one before it.",
+  "ar": "كل تغيير يُقيَّد في سجل لا يُحذف منه شيء، وكل حدث يحمل بصمة الحدث الذي قبله."
+ },
+ "views2.verify_now": {
+  "en": "Verify now",
+  "ar": "تحقق الآن"
+ },
+ "views2.chain_intact_events": {
+  "en": "Chain intact · {count} events",
+  "ar": "السلسلة سليمة · {count} حدثًا"
+ },
+ "views2.chain_broken": {
+  "en": "Chain broken: ",
+  "ar": "انكسار في السلسلة: "
+ },
+ "views2.yes": {
+  "en": "yes",
+  "ar": "نعم"
+ },
+ "views2.status": {
+  "en": "Status",
+  "ar": "الحالة"
+ },
+ "views2.date": {
+  "en": "Date: ",
+  "ar": "التاريخ: "
+ },
+ "views2.e_g_6_days": {
+  "en": "e.g. 6 days of Ramadan to make up",
+  "ar": "مثلًا: قضاء ٦ أيام من رمضان"
+ },
+ "views2.other": {
+  "en": "Other",
+  "ar": "أخرى"
+ },
+ "views2.description": {
+  "en": "Description",
+  "ar": "الوصف"
+ },
+ "views2.count": {
+  "en": "Count",
+  "ar": "العدد"
+ },
+ "views2.use_whole_number_between": {
+  "en": "Use a whole number between 1 and 9999.",
+  "ar": "العدد عدد صحيح بين ١ و٩٩٩٩."
+ },
+ "views2.for_own_reflection": {
+  "en": "For your own reflection",
+  "ar": "للتأمل الذاتي"
+ },
+ "views2.hypocrisy_delay_texts_are": {
+  "en": "Hypocrisy and delay texts are never shown in a message to another person — only here, when you choose them.",
+  "ar": "نصوص النفاق والمماطلة لا تُعرض أبدًا في رسالة إلى شخص آخر، بل هنا فقط حين تختارها بنفسك."
+ },
+ "views2.sources_shown_in_app": {
+  "en": "Sources shown in this app",
+  "ar": "المصادر المعروضة"
+ },
+ "views2.declared_limit_madhhabs_differ": {
+  "en": "Declared limit: madhhabs differ on whether a promise binds, on currency and gold questions, and on spiritual-debt calculations. DYON presents differences; it does not adjudicate them.",
+  "ar": "حدّ معلن: المذاهب تختلف في إلزام الوعد وفي مسائل العملة والذهب والحقوق الروحية. نعرض الاختلاف ولا نحكم فيه."
+ },
+ "views2.calm_mode_lowers_arousal": {
+  "en": "Calm Mode lowers arousal before asking anything of you: totals are hidden and one kind step remains.",
+  "ar": "وضع السكينة يخفض الإثارة قبل أن يطلب منك فعلًا: تُخفى الإجماليات، وتبقى خطوة واحدة لطيفة."
+ },
+ "views2.last_checked": {
+  "en": "Last checked: ",
+  "ar": "آخر تحقق: "
+ },
+ "views2.monday": {
+  "en": "Monday",
+  "ar": "الإثنين"
+ },
+ "views2.sunday": {
+  "en": "Sunday",
+  "ar": "الأحد"
+ },
+ "views2.saturday": {
+  "en": "Saturday",
+  "ar": "السبت"
+ },
+ "views2.choose_different_start_end": {
+  "en": "Choose a different start and end time.",
+  "ar": "اختر وقتي بداية ونهاية مختلفين."
+ },
+ "views2.text": {
+  "en": "To",
+  "ar": "إلى"
+ },
+ "views2.name_stays_on_device": {
+  "en": "Your name (stays on this device)",
+  "ar": "اسمك (يبقى على جهازك)"
+ },
+ "views2.name": {
+  "en": "Your name",
+  "ar": "اسمك"
+ },
+ "views2.that_file_not_valid": {
+  "en": "That file is not valid JSON.",
+  "ar": "الملف ليس JSON صالحًا."
+ },
+ "views2.that_not_dyon_backup": {
+  "en": "That is not a DYON backup file.",
+  "ar": "هذا ليس ملف نسخة من ديون."
+ },
+ "views2.language_display": {
+  "en": "Language & display",
+  "ar": "اللغة والعرض"
+ },
+ "views2.currencies_units": {
+  "en": "Currencies & units",
+  "ar": "العملات والوحدات"
+ },
+ "views2.debt_stays_in_unit": {
+  "en": "A debt stays in the unit it was created in. The FX table is indicative and display-only ({source}, {as_of}).",
+  "ar": "الدَّين يبقى بوحدته التي نشأ بها. جدول التحويل إرشادي للعرض فقط ({source}، {as_of})."
+ },
+ "views2.text_2": {
+  "en": "→",
+  "ar": "←"
+ },
+ "views2.self_reminders": {
+  "en": "Self-reminders",
+  "ar": "تذكيرات ذاتية"
+ },
+ "views2.no_marketing_ever_no": {
+  "en": "No marketing, ever. No notifications to any third party, ever.",
+  "ar": "لا تسويق ولا رسائل ترويجية، ولا إشعارات لأي طرف ثالث أبدًا."
+ },
+ "views2.allow_device_notifications": {
+  "en": "Allow device notifications",
+  "ar": "اسمح بإشعارات الجهاز"
+ },
+ "views2.privacy_modes": {
+  "en": "Privacy & modes",
+  "ar": "الخصوصية والأوضاع"
+ },
+ "views2.pin_local_convenience_not": {
+  "en": "⚠️ The PIN is a local convenience, not real security: the data lives in this browser and anyone with the device can read it. A static app cannot truly protect a private area.",
+  "ar": "⚠️ قفل الرقم السري راحة محلية فقط وليس حماية حقيقية: البيانات مخزنة في متصفحك ويمكن لأي شخص يملك الجهاز قراءتها. تطبيق ثابت لا يستطيع حماية منطقة خاصة حقًّا."
+ },
+ "views2.exports_exclude_spiritual_ledger": {
+  "en": "Exports exclude the spiritual ledger unless opted in per record (R-V03). Binary attachments stay on the device.",
+  "ar": "لا يشمل التصدير السجل الروحي إلا ما اخترت تصديره بندًا بندًا (R-V03). المرفقات الثنائية تبقى على الجهاز."
+ },
+ "views2.install": {
+  "en": "Install",
+  "ar": "التثبيت"
+ },
+ "views2.install_dyon_as_app": {
+  "en": "Install DYON as an app on your device so it works offline.",
+  "ar": "ثبّت ديون كتطبيق على جهازك ليعمل دون اتصال."
+ },
+ "views2.type_delete_exactly_confirm": {
+  "en": "Type DELETE exactly to confirm.",
+  "ar": "اكتب DELETE بالضبط للتأكيد."
+ },
+ "views2.tip_export_backup_first": {
+  "en": "Tip: export a backup first if you are unsure.",
+  "ar": "نصيحة: صدِّر نسخة احتياطية أولًا إن كنت غير متأكد."
+ },
+ "views2.new_pin": {
+  "en": "New PIN",
+  "ar": "رقم سري جديد"
+ },
+ "views2.confirm_pin": {
+  "en": "Confirm PIN",
+  "ar": "أكّد الرقم"
+ },
+ "views2.confirm_pin_2": {
+  "en": "Confirm PIN",
+  "ar": "تأكيد الرقم"
+ },
+ "views2.no_riba_or_interest": {
+  "en": "No riba or interest computation, ever.",
+  "ar": "لا ربا ولا فائدة، أبدًا."
+ },
+ "views2.no_selling_or_sharing": {
+  "en": "No selling or sharing of user data.",
+  "ar": "لا بيع ولا مشاركة لبياناتك."
+ },
+ "views2.no_public_shaming_no": {
+  "en": "No public shaming, no defaulter lists.",
+  "ar": "لا تشهير ولا قوائم متعثرين."
+ },
+ "views2.no_credit_score_shared": {
+  "en": "No credit score shared with third parties.",
+  "ar": "لا تقييم ائتماني يُشارك مع أحد."
+ },
+ "views2.no_dark_patterns_or": {
+  "en": "No dark patterns or manufactured urgency.",
+  "ar": "لا أنماط مظلمة ولا إلحاح مصطنع."
+ },
+ "views2.no_lending_or_loan": {
+  "en": "No lending or loan brokering.",
+  "ar": "لا إقراض ولا وساطة قروض."
+ },
+ "views2.no_algorithmic_decisions_against": {
+  "en": "No algorithmic decisions against users; hardship is self-declared.",
+  "ar": "لا قرارات خوارزمية ضدك؛ العُسرة يعلنها صاحبها."
+ },
+ "views2.minimal_data_for_non": {
+  "en": "Minimal data for non-users, deleted on request.",
+  "ar": "بيانات غير المستخدمين في حدها الأدنى وتُحذف عند الطلب."
+ },
+ "views2.right_export_delete_everything": {
+  "en": "Right to export and delete everything.",
+  "ar": "حق التصدير والحذف الكامل."
+ },
+ "views2.irreversibility_guard_24h_undo": {
+  "en": "Irreversibility guard: 24h undo on release, deletion and ḥawālah.",
+  "ar": "حارس اللارجعة: الإبراء والحذف والحوالة بمهلة ٢٤ ساعة."
+ },
+ "views2.no_ethics_laundering_red": {
+  "en": "No ethics laundering: red lines enforced in code.",
+  "ar": "لا تبييض أخلاقي: الخطوط الحمراء مفروضة بالكود."
+ },
+ "views2.no_linguistic_flattening_arabic": {
+  "en": "No linguistic flattening: Arabic is authoritative for fiqh terms.",
+  "ar": "لا تسطيح لغوي: العربية مرجع لمصطلحات الفقه."
+ },
+ "views2.not_lender": {
+  "en": "Not a lender",
+  "ar": "ليس مُقرضًا"
+ },
+ "views2.not_debt_collector": {
+  "en": "Not a debt collector",
+  "ar": "ليس محصّل ديون"
+ },
+ "views2.not_credit_bureau": {
+  "en": "Not a credit bureau",
+  "ar": "ليس مكتب ائتمان"
+ },
+ "views2.not_interest_engine": {
+  "en": "Not an interest engine",
+  "ar": "ليس محرك فوائد"
+ },
+ "views2.not_shaming_platform": {
+  "en": "Not a shaming platform",
+  "ar": "ليس منصة تشهير"
+ },
+ "views2.not_fatwa_authority": {
+  "en": "Not a fatwa authority",
+  "ar": "ليس جهة إفتاء"
+ },
+ "views2.not_replacement_for_therapy": {
+  "en": "Not a replacement for therapy or legal counsel",
+  "ar": "ليس بديلًا عن العلاج أو المحاماة"
+ },
+ "views2.what_dyon_not": {
+  "en": "What DYON is NOT",
+  "ar": "ما ليس عليه هذا التطبيق"
+ },
+ "views2.red_lines": {
+  "en": "Red lines",
+  "ar": "الخطوط الحمراء"
+ },
+ "views2.declared_limits": {
+  "en": "Declared limits",
+  "ar": "الحدود المعلنة"
+ },
+ "views2.not_legal_advice_enforceability": {
+  "en": "Not legal advice; enforceability depends on your jurisdiction.",
+  "ar": "ليست استشارة قانونية؛ قوة السجل تتبع قانون بلدك."
+ },
+ "views2.not_fatwa_islamic_content": {
+  "en": "Not a fatwa; Islamic content is educational and sourced.",
+  "ar": "ليست فتوى؛ المحتوى الإسلامي تعليمي ومصدره مذكور."
+ },
+ "views2.not_therapy_severe_distress": {
+  "en": "Not therapy; severe distress needs a professional.",
+  "ar": "ليست علاجًا نفسيًا؛ الضيق الشديد يحتاج مختصًا."
+ },
+ "views2.evidence_mostly_correlational_interventions": {
+  "en": "Evidence is mostly correlational; interventions are hypotheses to be measured.",
+  "ar": "الأدلة البحثية ارتباطية غالبًا، والتدخلات فرضيات تُقاس."
+ },
+ "views2.cultural_coverage_partial": {
+  "en": "Cultural coverage is partial.",
+  "ar": "التغطية الثقافية جزئية."
+ },
+ "views2.dyon_cannot_make_anyone": {
+  "en": "DYON cannot make anyone pay, nor verify an off-app payment.",
+  "ar": "لا يستطيع التطبيق إجبار أحد على الدفع ولا التحقق من دفعة خارجه."
+ },
+ "views2.project_falsifier": {
+  "en": "The project falsifier",
+  "ar": "الفرضية القابلة للتكذيب"
+ },
+ "views2.if_after_six_months": {
+  "en": "If, after six months, neither fulfilment nor self-reported debt anxiety improves, the core thesis is wrong and DYON must be redesigned rather than marketed. If fulfilment rises while anxiety or relationships worsen, that is a failure, not a success.",
+  "ar": "إن لم يتحسن معدل الوفاء ولا شعور المستخدمين تجاه ديونهم بعد ستة أشهر، فالفرضية الأساسية خاطئة ويجب إعادة التصميم لا التسويق. وإن ارتفع الوفاء بينما ساء القلق أو العلاقات، فهذا فشل لا نجاح."
+ },
+ "views2.guide": {
+  "en": "Guide",
+  "ar": "الدليل"
+ },
+ "views2.source_version": {
+  "en": "Source & version",
+  "ar": "المصدر والنسخة"
+ },
+ "views2.open_full_source_truth": {
+  "en": "Open the full source-of-truth document",
+  "ar": "افتح وثيقة المصدر الكاملة"
+ },
+ "views2.what_e_g_300": {
+  "en": "What? e.g. 300 or \"the drill\"",
+  "ar": "ماذا؟ مثلًا ٣٠٠ أو «المثقاب»"
+ },
+ "views2.add_rough_amount_or": {
+  "en": "Add a rough amount or a short description.",
+  "ar": "اكتب مبلغًا تقريبيًا أو وصفًا قصيرًا."
+ },
+ "views2.new": {
+  "en": "New to this?",
+  "ar": "جديد على هذا؟"
+ },
+ "views2.guide_explains_every_screen": {
+  "en": "The guide explains every screen and every word in plain language. Open it now and come back here any time.",
+  "ar": "الدليل يشرح كل شاشة وكل كلمة بلغة بسيطة. يمكنك فتحه الآن ثم العودة هنا."
+ },
+ "views2.another_line": {
+  "en": "Another line",
+  "ar": "سطر آخر"
+ },
+ "views2.what_next": {
+  "en": "What next?",
+  "ar": "ماذا بعد؟"
+ },
+ "views2.quick_tour_overview": {
+  "en": "A quick tour of the Overview",
+  "ar": "جولة سريعة في النظرة العامة"
+ },
+ "views2.beginner_guide": {
+  "en": "The beginner guide",
+  "ar": "دليل المبتدئين"
+ },
+ "views2.every_screen_every_word": {
+  "en": "Every screen and every word",
+  "ar": "كل شاشة وكل كلمة"
+ },
+ "views2.account_only_later": {
+  "en": "An account — only later",
+  "ar": "الحساب لاحقًا فقط"
+ },
+ "views2.only_needed_share_or": {
+  "en": "Only needed to share or remind someone",
+  "ar": "لا تحتاجه إلا للمشاركة أو التذكير"
+ }
+}
