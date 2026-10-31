@@ -34,6 +34,17 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
   bottom bar, route change, missing targets, RTL tour, overflow at 360/768/1280 in
   light and dark. `scripts/run-harness.mjs` runs the in-browser harnesses headless.
   The flow check hung before because preview sign-in redirected to Google; fixed.
+- **Boot loader vs PIN gate.** The first-paint loader (`#boot-screen`, z-index 500)
+  was only removed *after* `pinGate()`. When a PIN was set, the loader covered the
+  PIN overlay (z-index 400), the prompt could never be typed, `pinGate()` never
+  resolved and a reload was stuck on the loader forever. The loader is now hidden by
+  an idempotent `hideBootScreen()` **before** the PIN gate (and still on success and
+  on startup error). Unit test asserts the removal precedes `await pinGate()`.
+- **`mobile-web-app-capable` meta.** Added the standard
+  `<meta name="mobile-web-app-capable" content="yes">` next to the Apple-prefixed one
+  in `index.html` and `privacy.html`, silencing the console deprecation warning
+  "`apple-mobile-web-app-capable` is deprecated. Please include
+  `mobile-web-app-capable`". Unit test asserts the standard tag is present.
 
 ### 2 · Languages: en, ar, fr (+ ready for es, tr, de, id, ur)
 - `js/i18n.js` rewritten: `LOCALES = { en, ar, fr }` (+ `PLANNED_LOCALES` es/tr/de/id/ur, listed but

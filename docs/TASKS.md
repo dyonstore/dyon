@@ -410,7 +410,8 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
-| 2026-10-30 | _this commit_ | T-2.1b SW caches locales + import-graph test + offline e2e; T-1.10b French tour e2e; T-2.5b language-aside e2e; overflow matrix in en/ar/fr (harness 100/123/31, e2e 17/17) |
+| 2026-10-31 | _this commit_ | Bugfix: boot loader hidden before PIN gate (reload-with-PIN stuck on loader); added standard `mobile-web-app-capable` meta (deprecation warning) + 2 unit tests (harness 102/123/31) |
+| 2026-10-30 | _prev_ | T-2.1b SW caches locales + import-graph test + offline e2e; T-1.10b French tour e2e; T-2.5b language-aside e2e; overflow matrix in en/ar/fr (harness 100/123/31, e2e 17/17) |
 | 2026-10-30 | `ac42f56` | docs: TASKS.md hand-off board created |
 | 2026-10-30 | `c51d0b2` | §2 i18n: locale files, ICU, French UI+guide, i18n-check, detection, language aside; amount prefill + audit race fixes |
 | 2026-10-30 | `e8964de` | WIP §2 French UI + guide, typography |

@@ -1,0 +1,22 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# PHP / Composer (per TASKS.md: /vendor is self-hosted fonts/icons, so PHP deps go to vendor-php)
+vendor-php/
+.tools/
+composer.lock
+
+# Server data (SQLite files, avatars, mail spool, backups) — never committed
+/data/
+/config/config.local.php
+/config/config.php
+
+# Playwright
+/test-results/
+/playwright-report/
+
+# OS / editor
+.DS_Store
+*.swp
+*.log

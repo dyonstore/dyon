@@ -428,6 +428,12 @@ async function registerSW() {
 }
 
 /* ---------------- boot ---------------- */
+/* Remove the first-paint loader. Idempotent so it can be called at several
+   points (before the PIN gate, after a successful boot, and in the catch). */
+function hideBootScreen() {
+  document.getElementById('boot-screen')?.remove();
+}
+
 /* First-run language (v2.0 §2.4): saved choice → ?lang= → browser languages
    → country default → en. Once the user has chosen (locale_chosen), never
    auto-switch again. */
@@ -451,6 +457,14 @@ async function boot() {
       calendar_primary: 'islamic-umalqura', calendar_secondary: 'gregory', theme: 'dark' });
   }
   await applyLocale();    // loads locale files, builds chrome + first render
+
+  /* Hide the boot loader BEFORE the PIN gate. The loader sits at z-index 500;
+     the PIN overlay at 400. If we leave the loader up during pinGate() it
+     covers the prompt, the user can never type the PIN, pinGate() never
+     resolves and the page is stuck on the loader after a reload. Removing it
+     here also covers every other path that awaits something after the first
+     render (e.g. the onboarding-defaults suggestion). */
+  hideBootScreen();
   await pinGate();
 
   /* Views that manage their own live state (the onboarding brain-dump keeps
@@ -483,14 +497,14 @@ async function boot() {
   window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); app.deferredPrompt = e; });
   if ('serviceWorker' in navigator) registerSW();
 
-  document.getElementById('boot-screen')?.remove();
+  hideBootScreen();   // idempotent — already hidden before the PIN gate
 }
 
 boot().catch(err => {
   console.error(err);
   const main = document.getElementById('main-area');
   if (main) main.textContent = 'Startup error: ' + err.message;
-  document.getElementById('boot-screen')?.remove();
+  hideBootScreen();
 });
 
 window.DYON = { store: S, ctx };
