@@ -472,6 +472,21 @@ await checkAsync('index.html ships a Content-Security-Policy', async () => {
   const html = await (await fetch('index.html')).text();
   return /Content-Security-Policy[^>]*default-src 'self'/.test(html) ? true : 'no CSP';
 });
+await checkAsync('boot loader is hidden before the PIN gate (reload with a PIN never stays on the loader)', async () => {
+  const src = await (await fetch('js/app.js')).text();
+  const hide = src.indexOf('hideBootScreen();');
+  const gate = src.indexOf('await pinGate();');
+  // The loader must be removed before pinGate() is awaited, otherwise the
+  // z-index:500 boot screen covers the z-index:400 PIN overlay and the promise
+  // never resolves. Also require the idempotent helper to exist.
+  return hide !== -1 && gate !== -1 && hide < gate && /function hideBootScreen\(\)/.test(src)
+    ? true : `hide=${hide} gate=${gate}`;
+});
+await checkAsync('index.html uses the standard mobile-web-app-capable meta (no deprecation warning)', async () => {
+  const html = await (await fetch('index.html')).text();
+  return /<meta\s+name="mobile-web-app-capable"\s+content="yes">/.test(html)
+    ? true : 'missing <meta name="mobile-web-app-capable">';
+});
 await checkAsync('service worker VERSION is a content hash and it never skips waiting on its own', async () => {
   const sw = await (await fetch('sw.js')).text();
   const v = /const VERSION = 'dyon-([0-9a-f]{12})'/.test(sw);
