@@ -6,5 +6,22 @@
  "lang.detected": "Détectée : {language} ({source, select, browser {depuis votre navigateur} url {depuis le lien} country {depuis votre région} saved {votre choix enregistré} other {par défaut}})",
  "lang.defaults": "Utiliser aussi les chiffres et le calendrier par défaut de cette langue ?",
  "lang.defaults_hint": "Ne change que l’affichage des chiffres et du calendrier. Modifiable ensuite dans les Réglages.",
- "lang.button": "Langue : {language}"
+ "lang.button": "Langue : {language}",
+ "region.title": "Région",
+ "region.subtitle": "Votre pays définit des réglages par défaut raisonnables pour la monnaie, les chiffres, le calendrier et le premier jour de la semaine. Le modifier reste toujours une suggestion.",
+ "region.country_label": "Pays",
+ "region.suggest": "Vous semblez être en {country} — utiliser les réglages de {country} ?",
+ "region.yes": "Oui, utiliser ces réglages",
+ "region.choose": "Choisir un pays",
+ "region.reapply": "Réappliquer les réglages de {country} ? Cela met à jour la monnaie, les chiffres, le calendrier et le début de semaine. Vos données ne sont pas modifiées.",
+ "region.reapply_do": "Réappliquer les réglages",
+ "region.keep": "Garder mes réglages",
+ "region.applied": "Réglages régionaux appliqués",
+ "region.search_ph": "Rechercher un pays",
+ "region.none": "Aucun pays défini",
+ "region.detected_from": "Détecté depuis {source}",
+ "region.src_server": "le réseau",
+ "region.src_timezone": "votre fuseau horaire",
+ "region.src_language": "votre langue",
+ "region.islamic_hint": "Beaucoup de gens en {country} utilisent un calendrier islamique (hégirien) et le mode islamique. DYON ne l'active jamais à votre place — activez-le dans les réglages si vous le souhaitez."
 }

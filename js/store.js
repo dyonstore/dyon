@@ -67,6 +67,8 @@ export const DEFAULT_SETTINGS = {
   last_unit: 'USD',
   guide_read: [],              // chapter ids read (v2.0 §1.9: IndexedDB, not localStorage)
   tour_done: false,
+  country: '',                 // user's region (§3); '' until chosen/suggested
+  country_detected: null,      // { country, source } — detection result, suggestion only
   created_at: Date.now()
 };
 

@@ -9,6 +9,7 @@ import * as F from './flows.js';
 import * as db from './db.js';
 import * as VAL from './validate.js';
 import * as AUTH from './auth.js';
+import * as CT from './country.js';
 import { el, frag, icon, card, emptyState, progressBar, meterRing, sparkline, amountEl,
          statusBadge, directionBadge, avatar, dueLabel, commitmentRow, chipGroup, disclaimer,
          ayahBlock, toast, sheet, closeSheet, confirmSheet, field, input, textarea, select,
@@ -800,6 +801,8 @@ export function renderSettings(ctx) {
       settingRow(t('set.theme'), themeSel)
     ]),
 
+    renderRegionCard(ctx),
+
     el('section', { class: 'card' }, [
       el('h3', { text: t('views2.currencies_units') }),
       settingRow(t('set.base_currency'), curSel),
@@ -1031,6 +1034,124 @@ export function renderAbout() {
   ]);
 }
 
+/* ====================== REGION / COUNTRY (§3) ====================== */
+/* Localized country name via Intl.DisplayNames — never concatenated (R-G01). */
+let _regionNames = null;
+function countryName(cc) {
+  if (!cc) return '';
+  try {
+    if (!_regionNames || _regionNames._locale !== getLocale()) {
+      _regionNames = new Intl.DisplayNames([LOCALES[getLocale()]?.intl || getLocale()], { type: 'region' });
+      _regionNames._locale = getLocale();
+    }
+    return _regionNames.of(cc.toUpperCase()) || cc;
+  } catch { return cc; }
+}
+function detectionSourceLabel(source) {
+  const key = { server: 'region.src_server', timezone: 'region.src_timezone', language: 'region.src_language' }[source];
+  return key ? t(key) : '';
+}
+
+/* A searchable country picker sheet. onPick(cc) is called with the ISO code. */
+async function openCountryPicker(onPick) {
+  const all = await CT.loadCountries();
+  const codes = Object.keys(all).sort((a, b) => countryName(a).localeCompare(countryName(b), getLocale()));
+  const list = el('ul', { class: 'listy' });
+  const search = input({ type: 'search', placeholder: t('region.search_ph'), 'aria-label': t('region.search_ph') });
+  const paint = (q = '') => {
+    const needle = q.trim().toLowerCase();
+    list.replaceChildren();
+    for (const cc of codes) {
+      const name = countryName(cc);
+      if (needle && !name.toLowerCase().includes(needle) && !cc.toLowerCase().includes(needle)) continue;
+      list.appendChild(el('li', {}, [
+        el('button', { class: 'item-row', type: 'button', onclick: () => { closeSheet(); onPick(cc); } }, [
+          el('span', { class: 'item-main' }, [el('b', { text: name }), el('small', { text: cc })]),
+          icon(getDir() === 'rtl' ? 'fa-chevron-left' : 'fa-chevron-right')
+        ])
+      ]));
+    }
+    if (!list.children.length) list.appendChild(emptyState('fa-earth-africa', t('region.none'), ''));
+  };
+  search.addEventListener('input', () => paint(search.value));
+  paint();
+  sheet({ title: t('region.choose'), body: el('div', { class: 'stack' }, [search, list]) });
+}
+
+/* Onboarding step-0 card: suggest the detected country's defaults (never forced). */
+function onboardingRegionCard(ctx, rerender) {
+  const s = S.state.settings;
+  const det = s.country_detected;
+  const cc = (det && det.country) || s.country;
+  if (!cc) return null;                 // nothing detected → no card (stays calm)
+  const name = countryName(cc);
+  const applyDefaults = async (code) => {
+    await CT.applyCountry(code, { apply: true, store: S });
+    ctx.applyLocale();
+    toast(t('region.applied'), 'good');
+    rerender();
+  };
+  return el('section', { class: 'card', id: 'onb-region', 'data-tour': 'onb-region' }, [
+    el('h3', {}, [icon('fa-earth-africa'), el('span', { text: ' ' + t('region.title') })]),
+    el('p', { text: t('region.suggest', { country: name }) }),
+    s.country === cc && s.country_applied
+      ? el('p', { class: 'notice', text: t('region.applied') })
+      : el('div', { class: 'row tight' }, [
+          el('button', { class: 'btn btn-sm btn-primary', type: 'button', text: t('region.yes'),
+            onclick: () => applyDefaults(cc) }),
+          el('button', { class: 'btn btn-sm', type: 'button', text: t('region.choose'),
+            onclick: () => openCountryPicker(applyDefaults) })
+        ]),
+    det && det.source && det.source !== 'none'
+      ? el('p', { class: 'muted small', text: t('region.detected_from', { source: detectionSourceLabel(det.source) }) })
+      : null
+  ]);
+}
+
+/* Settings → Region card. Changing the country offers (never forces) re-applying
+   that country's defaults. */
+function renderRegionCard(ctx) {
+  const s = S.state.settings;
+  const cc = s.country || (s.country_detected && s.country_detected.country) || '';
+  const value = el('b', { text: cc ? countryName(cc) : t('region.none') });
+  const def = cc ? null : null;
+
+  const onChange = async (code) => {
+    // Always record the country; offer (never force) to re-apply its defaults.
+    await CT.applyCountry(code, { apply: false, store: S });
+    const name = countryName(code);
+    confirmSheet({
+      title: t('region.title'),
+      message: t('region.reapply', { country: name }),
+      confirmLabel: t('region.reapply_do'),
+      onConfirm: async () => {
+        await CT.applyCountry(code, { apply: true, store: S });
+        await S.saveSettings({ country_applied: true });
+        ctx.applyLocale();
+        toast(t('region.applied'), 'good');
+        location.hash = '#/settings';
+      }
+    });
+  };
+
+  const card = el('section', { class: 'card', id: 'region-card' }, [
+    el('h2', {}, [icon('fa-earth-africa'), el('span', { text: ' ' + t('region.title') })]),
+    el('p', { class: 'card-sub', text: t('region.subtitle') }),
+    el('div', { class: 'row between', style: { alignItems: 'center' } }, [
+      el('div', {}, [el('div', { class: 'muted small', text: t('region.country_label') }), value]),
+      el('button', { class: 'btn btn-sm', type: 'button', text: t('region.choose'),
+        onclick: () => openCountryPicker(onChange) })
+    ])
+  ]);
+  // Islamic-calendar hint for countries where it is common — suggestion only.
+  CT.countryDefaults(cc).then(d => {
+    if (d && d.suggest_islamic_mode && !s.islamic_mode) {
+      card.appendChild(el('p', { class: 'notice', text: t('region.islamic_hint', { country: countryName(cc) }) }));
+    }
+  }).catch(() => {});
+  return card;
+}
+
 /* ====================== ONBOARDING (S-19 brain dump) ====================== */
 /* The step survives re-renders (language switch, saves), so adding an entry
    never throws the person back to the first screen. */
@@ -1131,6 +1252,7 @@ export function renderOnboarding(ctx) {
           el('p', { class: 'notice', text: t('onboarding.privacy_promise') }),
           el('p', { class: 'notice', text: t('limit.no_riba') })
         ]),
+        onboardingRegionCard(ctx, render),
         el('section', { class: 'card', 'data-tour': 'onb-guide' }, [
           el('h3', {}, [icon('fa-graduation-cap'), el('span', { text: ' ' + (t('views2.new')) })]),
           el('p', { class: 'card-sub', text: t('views2.guide_explains_every_screen') }),

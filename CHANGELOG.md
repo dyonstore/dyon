@@ -81,3 +81,36 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
   language switching, and the overflow matrix now runs in en, ar and fr.
 - **Hand-off board:** `docs/TASKS.md` lists every v2.0 task with its status and a
   self-contained prompt for other agents.
+
+### 3 · Country detection and country-based defaults
+- `scripts/build-countries.py` generates `data/countries.json` (canonical; seeds the
+  SQLite `country_defaults` table in §4), `assets/countries.json` (client copy, in the
+  service-worker CORE) and `js/tz-country.js` (IANA timezone → ISO-3166 map from the
+  system tz database, 418 zones). 25 seed countries (TN DZ MA LY EG SA AE QA KW JO LB
+  FR BE CH CA DE IT GB US TR ID MY PK SN NG) with locales, currency + ISO 4217 minor
+  units, digits, primary/secondary calendar, week start, date & number format,
+  `suggest_islamic_mode` (suggestion only), a zakat note, a legal-disclaimer variant
+  and **HTTP-200-checked** emergency/debt-advice resource links (checked 2026-10-29;
+  links that returned 403/timeout to the checker were left out rather than guessed).
+- Currencies **LYD** (3 minor units) and **XOF** (0) added to `CURRENCIES` in
+  `js/units.js` (R-G03).
+- `js/country.js`: `detectCountry()` in order — (a) same-origin `GET /api/geo.php`
+  → `{country}` (skipped silently on 404/offline; never third-party), (b)
+  `Intl.DateTimeFormat().resolvedOptions().timeZone` → `TZ_COUNTRY`, (c) region subtag
+  of `navigator.language` (`fr-TN` → TN). `applyCountry(cc, {apply})` records the
+  country and, **only when the user said yes**, re-applies currency/digits/calendar/
+  week start — and the locale **only if the user hasn't chosen one** (`locale_chosen`).
+  It **never** turns on Islamic mode (suggestion text only, §3.2). The detected
+  country's locales feed `firstRunLocale()` as the §2.4 country step.
+- Onboarding (step 0) shows a calm suggestion card "It looks like you're in {country}
+  — use {country} defaults?" with **[Yes]** / **[Choose]** (a searchable picker using
+  `Intl.DisplayNames` for country names — never concatenated).
+- Settings → new **Region** card (`#region-card`): country picker; changing it offers
+  (never forces) "Re-apply {country} defaults?" with "Keep my settings"; an
+  Islamic-calendar hint appears for countries where it's common, as a suggestion only.
+- Tests: 11 unit checks (TZ map, region subtag, detection order with mocked
+  fetch/timezone/language, `applyCountry` never sets `islamic_mode`, never overrides a
+  chosen locale, `apply:false` records only the country, all 25 seeds present with
+  correct minor units) and 3 e2e scenarios (onboarding suggests TN via Playwright
+  `timezoneId: 'Africa/Tunis'`; Yes applies TND without Islamic mode; Settings→Region
+  offers but "Keep my settings" changes nothing). No request leaves the origin.

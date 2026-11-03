@@ -259,6 +259,66 @@ for (const w of [360, 768, 1280]) {
   }
 }
 
+/* 7. §3 country detection — onboarding suggestion appears for the detected country */
+await scenario('onboarding suggests Tunisian defaults (timezone Africa/Tunis)',
+  { ...PHONE, timezoneId: 'Africa/Tunis', locale: 'en-US' }, async (page) => {
+  await page.goto(BASE + 'index.html#/');
+  await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+  // Force a fresh first run so detection records a suggestion.
+  await page.evaluate(async () => {
+    const S = window.DYON.store;
+    await S.saveSettings({ onboarded: false, country: '', country_applied: false });
+    await S.saveProgress({ country_detected: null });
+  });
+  await page.reload();
+  await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+  await page.evaluate(() => { location.hash = '#/onboarding'; });
+  await page.waitForSelector('#onb-region', { timeout: 5000 });
+  const det = await page.evaluate(() => window.DYON.store.state.settings.country_detected);
+  assert(det && det.country === 'TN', 'did not detect TN from timezone: ' + JSON.stringify(det));
+  const txt = await page.textContent('#onb-region');
+  assert(/Tunisia/.test(txt), 'suggestion card does not name Tunisia: ' + txt.slice(0, 80));
+});
+
+/* 8. §3 — accepting the suggestion applies TND without turning on Islamic mode */
+await scenario('accepting the country suggestion applies TND (not Islamic mode)',
+  { ...PHONE, timezoneId: 'Africa/Tunis', locale: 'en-US' }, async (page) => {
+  await page.goto(BASE + 'index.html#/');
+  await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+  await page.evaluate(async () => {
+    const S = window.DYON.store;
+    await S.saveSettings({ onboarded: false, country: '', country_applied: false, base_currency: 'USD', islamic_mode: false, locale_chosen: false });
+    await S.saveProgress({ country_detected: { country: 'TN', source: 'timezone' } });
+  });
+  await page.evaluate(() => { location.hash = '#/onboarding'; });
+  await page.waitForSelector('#onb-region .btn-primary', { timeout: 5000 });
+  await page.click('#onb-region .btn-primary');     // "Yes, use these defaults"
+  await page.waitForFunction(() => window.DYON.store.state.settings.base_currency === 'TND', null, { timeout: 5000 });
+  const s = await page.evaluate(() => window.DYON.store.state.settings);
+  assert(s.base_currency === 'TND', 'currency not TND: ' + s.base_currency);
+  assert(s.islamic_mode === false, 'islamic_mode was auto-enabled');
+});
+
+/* 9. §3 — Settings → Region offers re-apply but does not force it */
+await scenario('Settings → Region offers defaults, "Keep my settings" changes nothing',
+  { viewport: { width: 1280, height: 800 } }, async (page) => {
+  await boot(page);
+  await page.evaluate(async () => { await window.DYON.store.saveSettings({ base_currency: 'USD', country: '' }); });
+  await page.evaluate(() => { location.hash = '#/settings'; });
+  await page.waitForSelector('#region-card', { timeout: 5000 });
+  await page.click('#region-card .btn');            // open country picker
+  await page.waitForSelector('.sheet input[type="search"]', { timeout: 5000 });
+  await page.fill('.sheet input[type="search"]', 'France');
+  await page.click('.sheet .item-row');             // pick France → confirm sheet
+  await page.waitForSelector('.sheet', { timeout: 5000 });
+  // Cancel (= "Keep my settings") must leave the currency untouched.
+  await page.click('.sheet .btn:not(.btn-primary)');
+  await page.waitForTimeout(150);
+  const s = await page.evaluate(() => window.DYON.store.state.settings);
+  assert(s.country === 'FR', 'country not recorded: ' + s.country);
+  assert(s.base_currency === 'USD', 'currency was force-changed to ' + s.base_currency);
+});
+
 await browser.close();
 const failed = results.filter(r => !r.ok);
 for (const r of results) console.log(`${r.ok ? '✓' : '✗'} ${r.name}${r.detail ? ' — ' + r.detail : ''}`);
