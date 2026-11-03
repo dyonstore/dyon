@@ -767,5 +767,22 @@
  "lang.detected": "المكتشفة: {language} ({source, select, browser {من متصفحك} url {من الرابط} country {من منطقتك} saved {اختيارك المحفوظ} other {افتراضيًا}})",
  "lang.defaults": "هل تستخدم أيضًا الأرقام والتقويم الافتراضيين لهذه اللغة؟",
  "lang.defaults_hint": "يغيّر عرض الأرقام والتقويم فقط، ويمكنك تعديلهما لاحقًا من الإعدادات.",
- "lang.button": "اللغة: {language}"
+ "lang.button": "اللغة: {language}",
+ "region.title": "المنطقة",
+ "region.subtitle": "تحدّد دولتك إعدادات افتراضية معقولة للعملة والأرقام والتقويم وأول أيام الأسبوع. تغييرها اقتراح فقط لا أكثر.",
+ "region.country_label": "الدولة",
+ "region.suggest": "يبدو أنك في {country} — هل تريد استخدام إعدادات {country}؟",
+ "region.yes": "نعم، استخدم هذه الإعدادات",
+ "region.choose": "اختيار دولة",
+ "region.reapply": "إعادة تطبيق إعدادات {country}؟ سيحدّث هذا العملة والأرقام والتقويم وبداية الأسبوع. لن تتغيّر بياناتك.",
+ "region.reapply_do": "إعادة تطبيق الإعدادات",
+ "region.keep": "الإبقاء على إعداداتي",
+ "region.applied": "تم تطبيق الإعدادات الإقليمية",
+ "region.search_ph": "البحث عن الدول",
+ "region.none": "لم تُحدَّد دولة",
+ "region.detected_from": "اكتُشفت من {source}",
+ "region.src_server": "الشبكة",
+ "region.src_timezone": "منطقتك الزمنية",
+ "region.src_language": "لغتك",
+ "region.islamic_hint": "يستخدم كثيرون في {country} التقويم الهجري والوضع الإسلامي. لا يفعّل ديون ذلك نيابةً عنك أبدًا — فعّله من الإعدادات إن أردت."
 }

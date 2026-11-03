@@ -1,0 +1,19 @@
+{
+  "region.title": { "en": "Region", "ar": "المنطقة", "fr": "Région" },
+  "region.subtitle": { "en": "Your country sets sensible defaults for currency, digits, calendar and the first day of the week. Changing it is only ever a suggestion.", "ar": "تحدّد دولتك إعدادات افتراضية معقولة للعملة والأرقام والتقويم وأول أيام الأسبوع. تغييرها اقتراح فقط لا أكثر.", "fr": "Votre pays définit des réglages par défaut raisonnables pour la monnaie, les chiffres, le calendrier et le premier jour de la semaine. Le modifier reste toujours une suggestion." },
+  "region.country_label": { "en": "Country", "ar": "الدولة", "fr": "Pays" },
+  "region.suggest": { "en": "It looks like you're in {country} — use {country} defaults?", "ar": "يبدو أنك في {country} — هل تريد استخدام إعدادات {country}؟", "fr": "Vous semblez être en {country} — utiliser les réglages de {country} ?" },
+  "region.yes": { "en": "Yes, use these defaults", "ar": "نعم، استخدم هذه الإعدادات", "fr": "Oui, utiliser ces réglages" },
+  "region.choose": { "en": "Choose a country", "ar": "اختيار دولة", "fr": "Choisir un pays" },
+  "region.reapply": { "en": "Re-apply {country} defaults? This updates currency, digits, calendar and week start. Your data is not changed.", "ar": "إعادة تطبيق إعدادات {country}؟ سيحدّث هذا العملة والأرقام والتقويم وبداية الأسبوع. لن تتغيّر بياناتك.", "fr": "Réappliquer les réglages de {country} ? Cela met à jour la monnaie, les chiffres, le calendrier et le début de semaine. Vos données ne sont pas modifiées." },
+  "region.reapply_do": { "en": "Re-apply defaults", "ar": "إعادة تطبيق الإعدادات", "fr": "Réappliquer les réglages" },
+  "region.keep": { "en": "Keep my settings", "ar": "الإبقاء على إعداداتي", "fr": "Garder mes réglages" },
+  "region.applied": { "en": "Regional defaults applied", "ar": "تم تطبيق الإعدادات الإقليمية", "fr": "Réglages régionaux appliqués" },
+  "region.search_ph": { "en": "Search countries", "ar": "البحث عن الدول", "fr": "Rechercher un pays" },
+  "region.none": { "en": "No country set", "ar": "لم تُحدَّد دولة", "fr": "Aucun pays défini" },
+  "region.detected_from": { "en": "Detected from {source}", "ar": "اكتُشفت من {source}", "fr": "Détecté depuis {source}" },
+  "region.src_server": { "en": "the network", "ar": "الشبكة", "fr": "le réseau" },
+  "region.src_timezone": { "en": "your time zone", "ar": "منطقتك الزمنية", "fr": "votre fuseau horaire" },
+  "region.src_language": { "en": "your language", "ar": "لغتك", "fr": "votre langue" },
+  "region.islamic_hint": { "en": "Many people in {country} keep an Islamic (Hijri) calendar and Islamic mode. DYON never turns this on for you — switch it on in Settings if you'd like.", "ar": "يستخدم كثيرون في {country} التقويم الهجري والوضع الإسلامي. لا يفعّل ديون ذلك نيابةً عنك أبدًا — فعّله من الإعدادات إن أردت.", "fr": "Beaucoup de gens en {country} utilisent un calendrier islamique (hégirien) et le mode islamique. DYON ne l'active jamais à votre place — activez-le dans les réglages si vous le souhaitez." }
+}

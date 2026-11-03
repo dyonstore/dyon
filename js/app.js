@@ -13,6 +13,7 @@ import { el, icon, clear, toast, registerShortcut, closeSheet, sheet, input, con
 import * as VAL from './validate.js';
 import { openLanguageAside } from './lang-aside.js';
 import { detectLocale } from './i18n.js';
+import * as CT from './country.js';
 
 const app = {
   root: null,
@@ -444,9 +445,26 @@ export async function firstRunLocale(countryLocales = []) {
   if (r.locale !== s.locale || !s.locale_detected) await S.saveProgress({ locale: r.locale, locale_detected: r });
 }
 
+/* First-run country (§3). Detect once (server hint → timezone → language region),
+   record it as a suggestion without applying any opinionated defaults, and feed
+   the country's preferred locales into the §2.4 language chain. Never auto-applies
+   currency/digits/calendar and never turns on Islamic mode — onboarding asks. */
+async function firstRunCountry() {
+  const s = S.state.settings;
+  if (s.country_detected) {
+    // already detected on a previous run; still feed its locales to the chain
+    return CT.countryLocales(s.country_detected.country);
+  }
+  let det = { country: null, source: 'none' };
+  try { det = await CT.detectCountry(); } catch {}
+  await S.saveProgress({ country_detected: det });
+  return det.country ? CT.countryLocales(det.country) : [];
+}
+
 async function boot() {
   await S.load();
-  await firstRunLocale();
+  const countryLocales = await firstRunCountry();   // §3: detect once, suggestion only
+  await firstRunLocale(countryLocales);
   await AUTH.handleRedirect();   // must run before the hash router sees #id_token=…
   if (window.DYON_AUTOSEED && !S.visibleCommitments().length) {
     await seedDemo();

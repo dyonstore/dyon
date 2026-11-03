@@ -113,9 +113,18 @@ RTL); typing "fran" filters to Français; Tab cycles inside; Esc closes and focu
 **T-2.6 · ⬜ hreflang-ready PHP pages** — done as part of §7/§8 (server pages render
 `<html lang dir>` from the same locale files via `app/I18n.php`).
 
-### §3 · Country detection and defaults — 🟡 in progress (nothing committed yet)
+### §3 · Country detection and defaults — ✅ done
 
-**Prompt (complete, self-contained):**
+Done: `scripts/build-countries.py` → `data/countries.json` + `assets/countries.json`
+(25 seeds, HTTP-200-checked resource links) + `js/tz-country.js` (418 IANA zones);
+LYD/XOF added to `CURRENCIES`; `js/country.js` (`detectCountry` server→tz→language,
+`countryDefaults`, `applyCountry` — never sets `islamic_mode`, never overrides a chosen
+locale); onboarding step-0 suggestion card + searchable `Intl.DisplayNames` picker;
+Settings → `#region-card` (offers, never forces); 17 new i18n keys (`region.*`);
+`assets/countries.json`, `js/country.js`, `js/tz-country.js` in SW CORE. Tests: 11 unit
++ 3 e2e. Harness 113/123/31, e2e 20/20, i18n 786×3, SW hash current.
+
+**Prompt (complete, self-contained — kept for reference):**
 
 1. Create `scripts/build-countries.py` that writes **`data/countries.json`** (canonical; seeds SQLite
    `country_defaults` in §4) and **`assets/countries.json`** (client copy, add to SW CORE), plus
@@ -410,7 +419,9 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
-| 2026-10-31 | _this commit_ | Bugfix: boot loader hidden before PIN gate (reload-with-PIN stuck on loader); added standard `mobile-web-app-capable` meta (deprecation warning) + 2 unit tests (harness 102/123/31) |
+| 2026-10-31 | _this commit_ | §3 country detection + defaults: `build-countries.py`, `countries.json` (25), `tz-country.js` (418), `country.js`, LYD/XOF, onboarding suggestion + `#region-card`, 17 `region.*` keys; 11 unit + 3 e2e (harness 113/123/31, e2e 20/20, i18n 786×3) |
+| 2026-10-31 | `b54295d` | docs: AGENTS.md fast-start operating manual |
+| 2026-10-31 | `7e032b8` | Bugfix: boot loader hidden before PIN gate (reload-with-PIN stuck on loader); added standard `mobile-web-app-capable` meta (deprecation warning) + 2 unit tests (harness 102/123/31) |
 | 2026-10-30 | _prev_ | T-2.1b SW caches locales + import-graph test + offline e2e; T-1.10b French tour e2e; T-2.5b language-aside e2e; overflow matrix in en/ar/fr (harness 100/123/31, e2e 17/17) |
 | 2026-10-30 | `ac42f56` | docs: TASKS.md hand-off board created |
 | 2026-10-30 | `c51d0b2` | §2 i18n: locale files, ICU, French UI+guide, i18n-check, detection, language aside; amount prefill + audit race fixes |

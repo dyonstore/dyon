@@ -22,6 +22,8 @@ export const CURRENCIES = {
   MAD: { d: 2, en: 'Moroccan Dirham', ar: 'درهم مغربي', sym: 'د.م' },
   DZD: { d: 2, en: 'Algerian Dinar', ar: 'دينار جزائري', sym: 'د.ج' },
   TND: { d: 3, en: 'Tunisian Dinar', ar: 'دينار تونسي', sym: 'د.ت' },
+  LYD: { d: 3, en: 'Libyan Dinar', ar: 'دينار ليبي', sym: 'ل.د' },
+  XOF: { d: 0, en: 'West African CFA Franc', ar: 'فرنك غرب أفريقي', sym: 'CFA' },
   TRY: { d: 2, en: 'Turkish Lira', ar: 'ليرة تركية', sym: '₺' },
   PKR: { d: 2, en: 'Pakistani Rupee', ar: 'روبية باكستانية', sym: '₨' },
   INR: { d: 2, en: 'Indian Rupee', ar: 'روبية هندية', sym: '₹' },

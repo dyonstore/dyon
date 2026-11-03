@@ -767,5 +767,22 @@
  "lang.detected": "Detected: {language} ({source, select, browser {from your browser} url {from the link} country {from your region} saved {your saved choice} other {default}})",
  "lang.defaults": "Also use this language's digits/calendar defaults?",
  "lang.defaults_hint": "Only changes digits and calendar display. You can change them later in Settings.",
- "lang.button": "Language: {language}"
+ "lang.button": "Language: {language}",
+ "region.title": "Region",
+ "region.subtitle": "Your country sets sensible defaults for currency, digits, calendar and the first day of the week. Changing it is only ever a suggestion.",
+ "region.country_label": "Country",
+ "region.suggest": "It looks like you're in {country} — use {country} defaults?",
+ "region.yes": "Yes, use these defaults",
+ "region.choose": "Choose a country",
+ "region.reapply": "Re-apply {country} defaults? This updates currency, digits, calendar and week start. Your data is not changed.",
+ "region.reapply_do": "Re-apply defaults",
+ "region.keep": "Keep my settings",
+ "region.applied": "Regional defaults applied",
+ "region.search_ph": "Search countries",
+ "region.none": "No country set",
+ "region.detected_from": "Detected from {source}",
+ "region.src_server": "the network",
+ "region.src_timezone": "your time zone",
+ "region.src_language": "your language",
+ "region.islamic_hint": "Many people in {country} keep an Islamic (Hijri) calendar and Islamic mode. DYON never turns this on for you — switch it on in Settings if you'd like."
 }

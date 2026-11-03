@@ -15,6 +15,8 @@ import { GUIDE, TOURS, SCREEN_HELP } from './guide-content.js';
 import { glossaryEntries, planSteps, tourDone, readChapters } from './guide.js';
 import { AUTH_CONFIG } from './auth-config.js';
 import { ensureLocale as __ensure, LOCALES } from './i18n.js';
+import * as CT from './country.js';
+import { TZ_COUNTRY } from './tz-country.js';
 await __ensure('ar'); await __ensure('fr');
 
 
@@ -508,6 +510,81 @@ await checkAsync('service worker CORE lists every module imported by app.js and 
   }
   const missing = [...seen, ...Object.keys(LOCALES).map(c => `locales/${c}.json`)].filter(f => !core.has(f));
   return missing.length ? 'missing: ' + missing.join(', ') : true;
+});
+
+/* ---------- §3 country detection and defaults ---------- */
+check('TZ_COUNTRY maps key zones to the right country', () => {
+  return eq(TZ_COUNTRY['Africa/Tunis'], 'TN', 'Tunis') === true &&
+         eq(TZ_COUNTRY['Europe/Paris'], 'FR', 'Paris') === true &&
+         eq(TZ_COUNTRY['Asia/Riyadh'], 'SA', 'Riyadh') === true
+    ? true : `Tunis=${TZ_COUNTRY['Africa/Tunis']} Paris=${TZ_COUNTRY['Europe/Paris']}`;
+});
+check('regionOfTag reads the ISO-3166 region subtag only', () => {
+  return CT.regionOfTag('fr-TN') === 'TN' && CT.regionOfTag('en-US') === 'US' &&
+         CT.regionOfTag('ar') === null && CT.regionOfTag('es-419') === null
+    ? true : `fr-TN=${CT.regionOfTag('fr-TN')} es-419=${CT.regionOfTag('es-419')}`;
+});
+check('countryFromTimezone falls back to null for unknown zones', () => {
+  return CT.countryFromTimezone('Mars/Olympus') === null && CT.countryFromTimezone('Africa/Tunis') === 'TN'
+    ? true : 'bad fallback';
+});
+await checkAsync('detectCountry order: server hint wins over timezone and language', async () => {
+  const r = await CT.detectCountry({
+    fetchImpl: async () => ({ ok: true, json: async () => ({ country: 'eg' }) }),
+    timeZone: 'Africa/Tunis', languages: ['fr-TN']
+  });
+  return r.country === 'EG' && r.source === 'server' ? true : JSON.stringify(r);
+});
+await checkAsync('detectCountry falls through to timezone when server 404s', async () => {
+  const r = await CT.detectCountry({
+    fetchImpl: async () => ({ ok: false, status: 404, json: async () => ({}) }),
+    timeZone: 'Africa/Tunis', languages: ['en-US']
+  });
+  return r.country === 'TN' && r.source === 'timezone' ? true : JSON.stringify(r);
+});
+await checkAsync('detectCountry falls through to language region when tz is unknown', async () => {
+  const r = await CT.detectCountry({
+    fetchImpl: async () => { throw new Error('offline'); },
+    timeZone: 'Mars/Olympus', languages: ['fr-TN', 'en']
+  });
+  return r.country === 'TN' && r.source === 'language' ? true : JSON.stringify(r);
+});
+await checkAsync('countryDefaults(TN): TND, 3 minor units, suggests Islamic calendar', async () => {
+  const d = await CT.countryDefaults('TN');
+  return d && d.currency === 'TND' && d.minor_units === 3 && d.suggest_islamic_mode === true &&
+         d.calendar_secondary === 'islamic-umalqura' ? true : JSON.stringify(d);
+});
+await checkAsync('applyCountry never turns on islamic_mode (suggestion only, §3.2)', async () => {
+  const before = { ...S.state.settings };
+  await S.saveSettings({ islamic_mode: false, locale_chosen: false });
+  await CT.applyCountry('SA', { apply: true, store: S });   // SA suggests Islamic mode
+  const ok = S.state.settings.islamic_mode === false && S.state.settings.base_currency === 'SAR';
+  await S.saveSettings(before);
+  return ok ? true : 'islamic_mode was auto-enabled';
+});
+await checkAsync('applyCountry never overrides a locale the user already chose (§2.4)', async () => {
+  const before = { ...S.state.settings };
+  await S.saveSettings({ locale: 'en', locale_chosen: true });
+  await CT.applyCountry('FR', { apply: true, store: S });   // FR default locale is fr
+  const kept = S.state.settings.locale === 'en';
+  await S.saveSettings(before);
+  return kept ? true : 'chosen locale was overridden to ' + S.state.settings.locale;
+});
+await checkAsync('applyCountry apply:false records the country but no opinionated defaults', async () => {
+  const before = { ...S.state.settings };
+  await S.saveSettings({ base_currency: 'USD', country: '' });
+  await CT.applyCountry('TN', { apply: false, store: S });
+  const ok = S.state.settings.country === 'TN' && S.state.settings.base_currency === 'USD';
+  await S.saveSettings(before);
+  return ok ? true : 'defaults applied when they should not be';
+});
+await checkAsync('all 25 seed countries are present with ISO 4217 minor units', async () => {
+  const seeds = ['TN','DZ','MA','LY','EG','SA','AE','QA','KW','JO','LB','FR','BE','CH','CA','DE','IT','GB','US','TR','ID','MY','PK','SN','NG'];
+  const all = await CT.loadCountries();
+  const missing = seeds.filter(c => !all[c]);
+  if (missing.length) return 'missing: ' + missing.join(',');
+  return all.LY.minor_units === 3 && all.SN.minor_units === 0 ? true
+    : `LY=${all.LY.minor_units} SN=${all.SN.minor_units}`;
 });
 
 /* ---------- report ---------- */
