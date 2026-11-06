@@ -1114,7 +1114,6 @@ function renderRegionCard(ctx) {
   const s = S.state.settings;
   const cc = s.country || (s.country_detected && s.country_detected.country) || '';
   const value = el('b', { text: cc ? countryName(cc) : t('region.none') });
-  const def = cc ? null : null;
 
   const onChange = async (code) => {
     // Always record the country; offer (never force) to re-apply its defaults.

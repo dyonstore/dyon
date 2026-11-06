@@ -5,6 +5,12 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
 
 ## [2.0.0] — unreleased
 
+### 4 · Server (in progress)
+- **Layout (4.1).** Web root is `public/`; `app/` (PSR-4 `Dyon\\`, `bootstrap.php`, `Config`), `config/`,
+  `data/`, `cron/`, `migrations/`, `templates/`, `tests/php/`. `public/router.php` (dev) and
+  `public/.htaccess` (Apache) deny private paths; harness pages live in `public/dev/` and 404 in production.
+  `npm run check` runs every gate.
+
 ### 1 · Bug fixes
 - **Tour vs onboarding (1.1).** `startTour()` refuses the Overview tour while
   `settings.onboarded` is false and shows "Finish setup first, then take the tour";

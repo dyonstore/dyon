@@ -183,7 +183,8 @@ These agent tools do heavy work cheaply — prefer them over manual grinding:
 
 ## 8. Current status (keep in sync with TASKS.md §C / §E)
 
-- ✅ §1 bugs (incl. loader/PIN + `mobile-web-app-capable` meta)
-- ✅ §2 i18n (en/ar/fr, 769 keys, language aside)
-- ▶ §3 country detection — **next**
-- ⬜ §4 server · §5 account aside · §6 sync · §6.5 storage · §7 email · §8 blog · §10 admin
+- ✅ §1 bugs · ✅ §2 i18n (786 keys) · ✅ §3 country · ✅ §4.1 layout (web root `public/`)
+- ▶ §4.2 core classes — **next**; then §4.3–4.5, §5 account aside, §6 sync, §6.5 storage, §7 email, §8 blog, §10 admin
+- One command for all gates: `npm run check` (server must be up: `setsid -f php -S 127.0.0.1:8080 -t public public/router.php`).
+- PHP tests: `php tests/php/run.php [filter]` — `tests/php/lib.php` has `test/eq/ok/throws/tmpdir/dev_server/http`.
+- Pitfall: never `pkill` + restart in one shell command; harness pages live in `public/dev/` (404 in prod).

@@ -176,9 +176,9 @@ Settings → `#region-card` (offers, never forces); 17 new i18n keys (`region.*`
 Acceptance: all harnesses + e2e + i18n-check green; no network request leaves the origin.
 
 
-### §4 · PHP + SQLite server, auth, security — ⬜ to do
+### §4 · PHP + SQLite server, auth, security — 🟡 in progress (T-4.1 ✅)
 
-**T-4.1 · ⬜ Layout and router.** *Prompt:* Restructure so the **web root is `/public`**: move
+**T-4.1 · ✅ Layout and router (done).** *Prompt:* Restructure so the **web root is `/public`**: move
 `index.html`, `privacy.html`, `sw.js`, `manifest*`, `css/`, `js/`, `locales/`, `vendor/` (fonts/icons),
 `assets/`, `images/`, icons into `public/` (`git mv`, keep history). Test harness pages
 (`tests.html`, `route-check.html`, `flow-check.html`, `preview-*.html`) move to `public/dev/` and are
@@ -419,6 +419,7 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
+| 2026-11-06 | _T-4.1_ | §4.1 web root = `public/`; `router.php` deny rules (404 for /app /config /data /migrations /templates /cron /tests /vendor-php, dotfiles, *.sqlite, traversal, missing /dev|/api); `app/bootstrap.php` + `Config`; `tests/php` runner (27 tests); `npm run check`; SW test cache-busted (harness 113/123/31, e2e 20/20, i18n 786×3, php 27) |
 | 2026-10-31 | _this commit_ | §3 country detection + defaults: `build-countries.py`, `countries.json` (25), `tz-country.js` (418), `country.js`, LYD/XOF, onboarding suggestion + `#region-card`, 17 `region.*` keys; 11 unit + 3 e2e (harness 113/123/31, e2e 20/20, i18n 786×3) |
 | 2026-10-31 | `b54295d` | docs: AGENTS.md fast-start operating manual |
 | 2026-10-31 | `7e032b8` | Bugfix: boot loader hidden before PIN gate (reload-with-PIN stuck on loader); added standard `mobile-web-app-capable` meta (deprecation warning) + 2 unit tests (harness 102/123/31) |

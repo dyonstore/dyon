@@ -3,7 +3,8 @@
 import { chromium } from 'playwright';
 
 const BASE = process.argv[2] || process.env.DYON_BASE || 'http://127.0.0.1:8080/';
-const PAGES = ['tests.html', 'route-check.html', 'flow-check.html', 'i18n-tests.html'];
+/* Harness pages moved to public/dev/ in §4.1 (denied in production). */
+const PAGES = ['dev/tests.html', 'dev/route-check.html', 'dev/flow-check.html', 'dev/i18n-tests.html'];
 
 const browser = await chromium.launch();
 let failed = 0;

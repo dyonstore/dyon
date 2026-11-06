@@ -466,16 +466,19 @@ await checkAsync('legacy localStorage progress migrates into IndexedDB once', as
   const ok = readChapters().includes('money') && localStorage.getItem('dyon.guide.read') === null;
   return ok ? true : 'not migrated';
 });
+/* Harness pages live in /dev/ (§4.1) but the shell assets are at the web root,
+   so fetch from root-relative URLs, not page-relative ones. */
+const ROOT = '/';
 await checkAsync('no third-party hosts in the app shell (fonts and icons self-hosted)', async () => {
-  const html = await (await fetch('index.html')).text();
+  const html = await (await fetch(ROOT + 'index.html')).text();
   return /googleapis|gstatic|jsdelivr|cdnjs|unpkg/.test(html) ? 'third-party URL in index.html' : true;
 });
 await checkAsync('index.html ships a Content-Security-Policy', async () => {
-  const html = await (await fetch('index.html')).text();
+  const html = await (await fetch(ROOT + 'index.html')).text();
   return /Content-Security-Policy[^>]*default-src 'self'/.test(html) ? true : 'no CSP';
 });
 await checkAsync('boot loader is hidden before the PIN gate (reload with a PIN never stays on the loader)', async () => {
-  const src = await (await fetch('js/app.js')).text();
+  const src = await (await fetch(ROOT + 'js/app.js')).text();
   const hide = src.indexOf('hideBootScreen();');
   const gate = src.indexOf('await pinGate();');
   // The loader must be removed before pinGate() is awaited, otherwise the
@@ -485,24 +488,24 @@ await checkAsync('boot loader is hidden before the PIN gate (reload with a PIN n
     ? true : `hide=${hide} gate=${gate}`;
 });
 await checkAsync('index.html uses the standard mobile-web-app-capable meta (no deprecation warning)', async () => {
-  const html = await (await fetch('index.html')).text();
+  const html = await (await fetch(ROOT + 'index.html')).text();
   return /<meta\s+name="mobile-web-app-capable"\s+content="yes">/.test(html)
     ? true : 'missing <meta name="mobile-web-app-capable">';
 });
 await checkAsync('service worker VERSION is a content hash and it never skips waiting on its own', async () => {
-  const sw = await (await fetch('sw.js')).text();
+  const sw = await (await fetch(ROOT + 'sw.js')).text();
   const v = /const VERSION = 'dyon-([0-9a-f]{12})'/.test(sw);
   const install = sw.slice(sw.indexOf("addEventListener('install'"), sw.indexOf("addEventListener('message'"));
   return v && !/skipWaiting/.test(install) ? true : 'version=' + v;
 });
 
 await checkAsync('service worker CORE lists every module imported by app.js and every locale file', async () => {
-  const sw = await (await fetch('sw.js')).text();
+  const sw = await (await fetch(ROOT + 'sw.js?nocache=' + Date.now(), { cache: 'no-store' })).text();
   const core = new Set([...sw.match(/const CORE = \[([\s\S]*?)\];/)[1].matchAll(/'\.\/([^']*)'/g)].map(m => m[1]));
   const seen = new Set(); const queue = ['js/app.js'];
   while (queue.length) {
     const f = queue.shift(); if (seen.has(f)) continue; seen.add(f);
-    const src = await (await fetch(f)).text();
+    const src = await (await fetch(ROOT + f)).text();
     for (const m of src.matchAll(/(?:^|\n)\s*(?:import|export)\s[^'"]*?from\s*['"](\.[^'"]+)['"]|import\(\s*['"](\.[^'"]+)['"]\s*\)/g)) {
       const rel = m[1] || m[2];
       queue.push(new URL(rel, location.origin + '/' + f).pathname.slice(1));
