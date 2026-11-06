@@ -16,6 +16,7 @@ import { glossaryEntries, planSteps, tourDone, readChapters } from './guide.js';
 import { AUTH_CONFIG } from './auth-config.js';
 import { ensureLocale as __ensure, LOCALES } from './i18n.js';
 import * as CT from './country.js';
+import * as ACCT from './account.js';
 import { TZ_COUNTRY } from './tz-country.js';
 await __ensure('ar'); await __ensure('fr');
 
@@ -591,6 +592,87 @@ await checkAsync('all 25 seed countries are present with ISO 4217 minor units', 
 });
 
 /* ---------- report ---------- */
+/* ---------- §5 account state ---------- */
+const jsonRes = (o, ok = true, status = 200) => ({ ok, status, json: async () => o });
+check('initialOf: first letter of name, else email, else "?"; handles Arabic and emoji', () => {
+  return ACCT.initialOf('sam lee') === 'S' && ACCT.initialOf('', 'zed@x.org') === 'Z' && ACCT.initialOf('', '') === '?'
+    && ACCT.initialOf('أحمد') === 'أ' && ACCT.initialOf('  élodie') === 'É' && [...ACCT.initialOf('😀 x')].length === 1
+    ? true : [ACCT.initialOf('sam'), ACCT.initialOf('أحمد'), ACCT.initialOf('  élodie')].join('|');
+});
+check('syncStatus: offline > off (no engine) > pending > synced; never an error state', () => {
+  const eng = (n) => ({ pending: () => n });
+  const all = [ACCT.syncStatus({ online: false, engine: eng(0) }), ACCT.syncStatus({ online: true, engine: null }),
+               ACCT.syncStatus({ online: true, engine: eng(3) }), ACCT.syncStatus({ online: true, engine: eng(0) })];
+  return all.join(',') === 'offline,off,pending,synced' && !all.some(x => /error|fail|red/.test(x)) ? true : all.join(',');
+});
+await checkAsync('refresh(): signed-out answer keeps providers and the csrf token, mirrors nothing locally', async () => {
+  ACCT._reset();
+  const me = await ACCT.refresh({ fetchImpl: async () => jsonRes({ signed_in: false, providers: ['google', 5, 'apple'], csrf: 'c'.repeat(32) }) });
+  return me.signed_in === false && ACCT.serverProviders().join() === 'google,apple' && ACCT.csrfToken() === 'c'.repeat(32) && !AUTH.isSignedIn()
+    ? true : JSON.stringify(me);
+});
+await checkAsync('refresh(): signed-in answer is normalised, mirrored to settings.account (sub "server") and cached', async () => {
+  ACCT._reset();
+  await ACCT.refresh({ fetchImpl: async () => jsonRes({ signed_in: true, name: 'Sam', email: 's@x.org', avatar: '/api/avatar.php', created: 1700000000, provider: 'google', csrf: 'k'.repeat(32), sub_hash: 'LEAK' }) });
+  const id = ACCT.identity(AUTH.session());
+  const a = S.state.settings.account;
+  const ok = id.source === 'server' && id.name === 'Sam' && id.avatar === '/api/avatar.php' && a.sub === 'server' && AUTH.isSignedIn()
+    && S.state.settings.account_server.name === 'Sam' && !JSON.stringify(S.state.settings).includes('LEAK');
+  await ACCT.refresh({ fetchImpl: async () => jsonRes({ signed_in: false }) });   // back to signed out → mirror removed
+  return ok && !S.state.settings.account && !AUTH.isSignedIn() ? true : JSON.stringify({ id, a, after: S.state.settings.account });
+});
+await checkAsync('refresh(): an external avatar URL is never trusted (only same-origin paths)', async () => {
+  ACCT._reset();
+  await ACCT.refresh({ fetchImpl: async () => jsonRes({ signed_in: true, name: 'A', avatar: 'https://lh3.googleusercontent.com/x', created: 1 }) });
+  const id = ACCT.identity(null); await ACCT.refresh({ fetchImpl: async () => jsonRes({ signed_in: false }) });
+  return id.avatar === null ? true : 'accepted ' + id.avatar;
+});
+await checkAsync('refresh(): server down / 500 / static host → stays signed out, no throw, ledger untouched', async () => {
+  ACCT._reset(); const before = S.state.commitments.length;
+  const a = await ACCT.refresh({ fetchImpl: async () => { throw new TypeError('offline'); } });
+  const b = await ACCT.refresh({ fetchImpl: async () => jsonRes({}, false, 500) });
+  return a === null && b === null && S.state.commitments.length === before ? true : 'state changed';
+});
+await checkAsync('refresh(): when offline after a prior sign-in, the cached identity is shown (marked cached)', async () => {
+  ACCT._reset();
+  await S.saveProgress({ account_server: { name: 'Cached Sam', email: 'c@x.org', avatar: '/api/avatar.php', created: 5, provider: 'google' } });
+  await ACCT.refresh({ fetchImpl: async () => { throw new TypeError('offline'); } });
+  const id = ACCT.identity(null); await S.saveProgress({ account_server: null }); ACCT._reset();
+  return id && id.name === 'Cached Sam' && id.cached === true ? true : JSON.stringify(id);
+});
+await checkAsync('signOut(): POSTs with the CSRF header + same-origin credentials, then reports signed out', async () => {
+  ACCT._reset(); const calls = [];
+  const f = async (url, o = {}) => {
+    calls.push({ url, method: o.method || 'GET', csrf: (o.headers || {})['X-CSRF-Token'], cred: o.credentials });
+    if (url.includes('logout')) return jsonRes({ ok: true });
+    return jsonRes(calls.some(c => c.url.includes('logout')) ? { signed_in: false, csrf: 'n'.repeat(32) } : { signed_in: true, name: 'S', csrf: 'k'.repeat(32), created: 1 });
+  };
+  await ACCT.refresh({ fetchImpl: f });
+  const ok = await ACCT.signOut({ fetchImpl: f });
+  const post = calls.find(c => c.url.includes('logout'));
+  return ok && post.method === 'POST' && post.csrf === 'k'.repeat(32) && post.cred === 'same-origin' && !ACCT.current().signed_in && ACCT.csrfToken() === 'n'.repeat(32)
+    ? true : JSON.stringify({ ok, post });
+});
+await checkAsync('signOut(): a failed request leaves the user signed in and returns false', async () => {
+  ACCT._reset();
+  const f = async (url) => url.includes('logout') ? jsonRes({}, false, 403) : jsonRes({ signed_in: true, name: 'S', csrf: 'k'.repeat(32), created: 1 });
+  await ACCT.refresh({ fetchImpl: f });
+  const ok = await ACCT.signOut({ fetchImpl: f }); const still = ACCT.current().signed_in;
+  await ACCT.refresh({ fetchImpl: async () => jsonRes({ signed_in: false }) });
+  return ok === false && still === true ? true : JSON.stringify({ ok, still });
+});
+check('identity(): a local preview link is still shown, flagged as preview', () => {
+  ACCT._reset();
+  const id = ACCT.identity({ sub: 'preview-google', provider: 'google', name: 'P', preview: true, linked_at: 1700000000000 });
+  return id.source === 'local' && id.preview === true && id.created === 1700000000 && ACCT.identity(null) === null ? true : JSON.stringify(id);
+});
+await checkAsync('RL-09: the account panel code never gates export behind sign-in', async () => {
+  const src = await (await fetch(ROOT + 'js/account-aside.js')).text();
+  const out = src.slice(src.indexOf('function signedOutBody'), src.indexOf('function statsBlock'));
+  return /acct-export/.test(out) && !/requireAuth|isSignedIn/.test(out) ? true : 'export is gated or missing in the signed-out panel';
+});
+
+
 const passed = results.filter(r => r.ok).length;
 const failed = results.length - passed;
 
@@ -626,5 +708,6 @@ for (const r of results) {
   list.appendChild(li);
 }
 document.getElementById('results').appendChild(list);
+
 console.log(`DYON self tests: ${passed}/${results.length} passed`);
 results.filter(r => !r.ok).forEach(r => console.error('FAIL:', r.name, r.detail || ''));

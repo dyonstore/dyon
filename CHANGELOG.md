@@ -5,6 +5,13 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
 
 ## [2.0.0] — unreleased
 
+### 5 · Account aside
+- **Account panel (5.1).** Header avatar button `#acct-btn` and shortcut **U** open an aside (reuses `aside.js`). Signed out: explains Stage 1,
+  sign-in buttons only for configured providers, and **Export my data** (RL-09, never gated). Signed in: same-origin 32/56 px picture with an
+  initial-on-gradient fallback, name, email, member-since, local stats (hidden in Calm mode), a sync dot (green/amber/grey, never red),
+  Sync settings · Devices · Export · Sign out (POST + CSRF). `/api/avatar.php` proxies the provider picture once (https only, public IPs
+  pinned, 1 MB / 4000 px caps, re-encoded 96×96 WebP, cached, `private, max-age=86400`). Inbox count badges are announced with an ICU label.
+
 ### 4 · Server (in progress)
 - **Layout (4.1).** Web root is `public/`; `app/` (PSR-4 `Dyon\\`, `bootstrap.php`, `Config`), `config/`,
   `data/`, `cron/`, `migrations/`, `templates/`, `tests/php/`. `public/router.php` (dev) and

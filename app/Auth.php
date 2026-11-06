@@ -112,8 +112,9 @@ final class Auth
         $db = Db::system(); $h = Crypto::subHash($provider, $sub); $now = time();
         $avatar = is_string($avatar) && str_starts_with($avatar, 'https://') && strlen($avatar) < 600 ? $avatar : null;
         return $db->tx(function (Db $db) use ($provider, $h, $email, $name, $avatar, $now) {
-            $u = $db->one('SELECT id, deleted_at FROM users WHERE provider = ? AND sub_hash = ?', [$provider, $h]);
+            $u = $db->one('SELECT id, deleted_at, avatar_url FROM users WHERE provider = ? AND sub_hash = ?', [$provider, $h]);
             if ($u) {
+                if ($avatar !== null && $avatar !== $u['avatar_url']) Avatar::invalidate((int)$u['id']);   // picture changed: refetch once
                 $db->exec('UPDATE users SET email = COALESCE(?, email), name = COALESCE(?, name), avatar_url = COALESCE(?, avatar_url),
                            last_seen_at = ?, deleted_at = NULL WHERE id = ?', [$email, $name, $avatar, $now, $u['id']]);
                 return [(int)$u['id'], false];

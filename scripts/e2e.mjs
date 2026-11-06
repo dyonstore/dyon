@@ -319,6 +319,143 @@ await scenario('Settings → Region offers defaults, "Keep my settings" changes 
   assert(s.base_currency === 'USD', 'currency was force-changed to ' + s.base_currency);
 });
 
+
+/* 10. §5 account aside */
+const ME_IN = { signed_in: true, name: 'Sam Lee', email: 'sam@example.org', avatar: '/api/avatar.php', created: 1700000000, provider: 'google', providers: ['google'], csrf: 'k'.repeat(32) };
+const ME_OUT = { signed_in: false, providers: [], csrf: 'n'.repeat(32) };
+const mockMe = (page, body, hits) => page.route('**/api/auth/me.php', r => { if (hits) hits.n++; r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) }); });
+const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+const aside = (page) => page.evaluate(() => {
+  const p = document.getElementById('aside-acct'); if (!p) return null; const r = p.getBoundingClientRect();
+  return { role: p.getAttribute('role'), modal: p.getAttribute('aria-modal'), left: r.left, right: r.right, W: innerWidth, dir: document.documentElement.dir,
+           exp: document.getElementById('acct-btn').getAttribute('aria-expanded'), over: document.documentElement.scrollWidth - innerWidth, panelOver: p.scrollWidth - p.clientWidth };
+});
+
+for (const [label, opts] of [['375×812', PHONE], ['1280×800', { viewport: { width: 1280, height: 800 } }]]) {
+  for (const loc of ['en', 'ar', 'fr']) {
+    await scenario(`account aside signed out ${loc} (${label})`, opts, async (page) => {
+      await mockMe(page, ME_OUT);
+      await boot(page, { locale: loc });
+      const hash0 = await page.evaluate(() => location.hash), hist0 = await page.evaluate(() => history.length);
+      const a0 = await page.evaluate(() => { const b = document.getElementById('acct-btn'); return { c: b.getAttribute('aria-controls'), hp: b.getAttribute('aria-haspopup'), lbl: b.getAttribute('aria-label') }; });
+      assert(a0.c === 'aside-acct' && a0.hp === 'dialog' && a0.lbl && a0.lbl.length > 3, 'acct-btn aria wiring: ' + JSON.stringify(a0));
+      await page.evaluate(() => document.activeElement && document.activeElement.blur());
+      await page.keyboard.press('u');
+      await page.waitForSelector('#aside-acct');
+      await page.waitForTimeout(320);
+      const a = await aside(page);
+      assert(a.role === 'dialog' && a.modal === 'true' && a.exp === 'true', 'not a modal dialog / not aria-expanded: ' + JSON.stringify(a));
+      if (a.dir === 'rtl') assert(a.left <= 1, `RTL aside not at the left edge (${a.left})`); else assert(a.right >= a.W - 1, `LTR aside not at the right edge (${a.right}/${a.W})`);
+      assert(a.over <= 1 && a.panelOver <= 1, `horizontal overflow page=${a.over} panel=${a.panelOver}`);
+      const txt = await page.textContent('#aside-acct');
+      assert(await page.$('#aside-acct #acct-export'), 'Export my data missing when signed out (RL-09)');
+      assert(!/\{[a-z_]+\}/i.test(txt), 'unrendered placeholder in panel: ' + txt.slice(0, 80));
+      for (let i = 0; i < 25; i++) await page.keyboard.press('Tab');
+      assert(await page.evaluate(() => document.getElementById('aside-acct').contains(document.activeElement)), 'focus escaped the aside');
+      await page.keyboard.press('Escape');
+      await page.waitForFunction(() => !document.getElementById('aside-acct'));
+      assert(await page.evaluate(() => document.activeElement && document.activeElement.id) === 'acct-btn', 'focus not returned to #acct-btn');
+      assert(await page.evaluate(() => document.getElementById('acct-btn').getAttribute('aria-expanded')) === 'false', 'aria-expanded not reset');
+      const after = await page.evaluate(() => ({ h: location.hash, n: history.length }));
+      assert(after.h === hash0 && after.n === hist0, 'aside changed the route or history');
+      await page.keyboard.press('u'); await page.waitForSelector('#aside-acct'); await page.keyboard.press('u'); // U while open does not stack
+      await page.waitForTimeout(100);
+      assert((await page.$$('#aside-acct')).length <= 1, 'asides stacked');
+    });
+  }
+}
+
+await scenario('export works with no account and no server (RL-09)', { viewport: { width: 1280, height: 800 }, acceptDownloads: true }, async (page) => {
+  await page.route('**/api/**', r => r.abort());                 // static host: the whole API is unreachable
+  await boot(page);
+  await page.click('#acct-btn'); await page.waitForSelector('#aside-acct #acct-export');
+  const [dl] = await Promise.all([page.waitForEvent('download', { timeout: 5000 }), page.click('#aside-acct #acct-export')]);
+  assert(/^dyon-backup-\d{4}-\d{2}-\d{2}\.json$/.test(dl.suggestedFilename()), 'bad filename ' + dl.suggestedFilename());
+  assert(await page.evaluate(() => !!window.DYON.store.state.settings.onboarded), 'state broken');
+});
+
+for (const [label, opts] of [['375×812', PHONE], ['1280×800', { viewport: { width: 1280, height: 800 } }]]) {
+  await scenario(`account aside signed in: photo, name, stats, sync dot, sign out (${label})`, opts, async (page) => {
+    const hits = { n: 0 }; let signedOut = false, post = null, avatarHits = 0;
+    await page.route('**/api/auth/me.php', r => { hits.n++; r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(signedOut ? ME_OUT : ME_IN) }); });
+    await page.route('**/api/avatar.php', r => { avatarHits++; r.fulfill({ status: 200, contentType: 'image/png', body: PNG, headers: { 'Cache-Control': 'private, max-age=86400' } }); });
+    await page.route('**/api/auth/logout.php', r => { post = { method: r.request().method(), csrf: r.request().headers()['x-csrf-token'] }; signedOut = true; r.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' }); });
+    await boot(page);
+    await page.waitForSelector('#acct-btn img.acct-photo', { timeout: 5000 });
+    const btn = await page.evaluate(() => { const b = document.getElementById('acct-btn'); const i = b.querySelector('img'); const d = b.querySelector('.sync-dot');
+      return { w: i.getBoundingClientRect().width, src: i.getAttribute('src'), dot: d && d.dataset.sync, lbl: b.getAttribute('aria-label') }; });
+    assert(btn.src === '/api/avatar.php' && Math.round(btn.w) === 32, 'photo is not the 32px same-origin proxy: ' + JSON.stringify(btn));
+    assert(btn.dot === 'off' || btn.dot === 'synced' || btn.dot === 'pending', 'unexpected sync state ' + btn.dot);
+    assert(/Sam Lee/.test(btn.lbl), 'aria-label lacks the name: ' + btn.lbl);
+    await page.keyboard.press('u'); await page.waitForSelector('#aside-acct #acct-name');
+    const body = await page.evaluate(() => ({ name: document.getElementById('acct-name').textContent, email: document.getElementById('acct-email').textContent,
+      since: document.getElementById('acct-since')?.textContent, stats: !!document.getElementById('acct-stats'), people: document.querySelectorAll('#acct-stats b')[0]?.textContent,
+      sync: document.getElementById('acct-sync').dataset.sync, hero: !!document.querySelector('#aside-acct .acct-hero img.acct-photo') }));
+    assert(body.name === 'Sam Lee' && body.email === 'sam@example.org' && /2023/.test(body.since || ''), 'identity wrong: ' + JSON.stringify(body));
+    assert(body.stats && Number(body.people) > 0, 'local stats missing/zero: ' + JSON.stringify(body));
+    assert(await page.$('#aside-acct a[href="#/settings?s=sync"]') && await page.$('#aside-acct a[href="#/settings?s=devices"]') && await page.$('#aside-acct #acct-export') && await page.$('#aside-acct #acct-signout'), 'links missing');
+    assert(avatarHits >= 1 && avatarHits <= 3, 'avatar fetched ' + avatarHits + ' times');
+    const ext = await page.evaluate(() => [...document.querySelectorAll('img')].map(i => i.src).filter(u => new URL(u, location.href).origin !== location.origin));
+    assert(!ext.length, 'external image: ' + ext.join());
+    const colour = await page.evaluate(() => { const d = document.querySelector('#acct-sync .sync-dot'); return getComputedStyle(d).backgroundColor; });
+    const [r, g, b] = colour.match(/\d+/g).map(Number); assert(!(r > 180 && g < 90 && b < 90), 'sync dot is red: ' + colour);
+    // Calm mode hides the counts
+    await page.keyboard.press('Escape'); await page.waitForFunction(() => !document.getElementById('aside-acct'));
+    await page.evaluate(async () => { await window.DYON.store.saveSettings({ calm_mode: true }); });
+    await page.keyboard.press('u'); await page.waitForSelector('#aside-acct #acct-name');
+    assert(!(await page.$('#aside-acct #acct-stats')) && await page.$('#aside-acct #acct-stats-hidden'), 'stats not hidden in calm mode');
+    await page.click('#acct-signout');
+    await page.waitForFunction(() => !document.getElementById('aside-acct'), null, { timeout: 5000 });
+    assert(post && post.method === 'POST' && post.csrf === 'k'.repeat(32), 'logout not a POST with the CSRF token: ' + JSON.stringify(post));
+    await page.waitForFunction(() => !document.querySelector('#acct-btn img.acct-photo'), null, { timeout: 5000 });
+    assert(await page.evaluate(() => window.DYON.store.visibleCommitments().length) > 0, 'sign out touched the ledger');
+    assert(!(await page.evaluate(() => window.DYON.store.state.settings.account)), 'local account mirror not removed');
+  });
+}
+
+await scenario('avatar falls back to the initial when /api/avatar.php is 404', { viewport: { width: 1280, height: 800 } }, async (page) => {
+  await mockMe(page, ME_IN);
+  await page.route('**/api/avatar.php', r => r.fulfill({ status: 404, contentType: 'application/json', body: '{"error":{"code":"no_avatar"}}' }));
+  await boot(page);
+  await page.waitForSelector('#acct-btn .acct-fallback', { timeout: 5000 });
+  assert(await page.textContent('#acct-btn .acct-fallback') === 'S', 'fallback initial wrong');
+  assert(!(await page.$('#acct-btn img')), 'broken image left in the header');
+  await page.keyboard.press('u'); await page.waitForSelector('#aside-acct .acct-hero .acct-fallback', { timeout: 5000 });
+  assert(await page.textContent('#aside-acct .acct-hero .acct-fallback') === 'S', 'aside fallback initial wrong');
+});
+
+await scenario('signed-in aside in Arabic: RTL anchoring, Arabic initial, no overflow at 360px', { viewport: { width: 360, height: 740 }, hasTouch: true }, async (page) => {
+  await mockMe(page, { ...ME_IN, name: 'أحمد علي', avatar: null });
+  await boot(page, { locale: 'ar' });
+  await page.waitForSelector('#acct-btn .acct-fallback');
+  assert(await page.textContent('#acct-btn .acct-fallback') === 'أ', 'Arabic initial wrong');
+  await page.click('#acct-btn'); await page.waitForSelector('#aside-acct #acct-name'); await page.waitForTimeout(320);
+  const a = await aside(page);
+  assert(a.dir === 'rtl' && a.left <= 1, 'not anchored to the start (left) side in RTL: ' + JSON.stringify(a));
+  assert(a.over <= 1 && a.panelOver <= 1, 'overflow at 360px: ' + JSON.stringify(a));
+});
+
+await scenario('an OAuth error from the server is shown calmly once and the URL is tidied', { viewport: { width: 1280, height: 800 } }, async (page) => {
+  await mockMe(page, ME_OUT);
+  await page.goto(BASE + 'index.html?auth_error=state_expired#/');
+  await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+  await page.evaluate(async () => { await window.DYON.store.saveSettings({ onboarded: true }); window.DYON.ctx.applyLocale(); });
+  await page.waitForSelector('.toast', { timeout: 5000 });
+  assert(!/state_expired/.test(await page.textContent('.toast')), 'raw error code shown to the user');
+  assert(!/auth_error/.test(await page.evaluate(() => location.search)), 'auth_error left in the URL');
+});
+
+await scenario('count badges: inbox badge announces its meaning; nothing is red', { viewport: { width: 1280, height: 800 } }, async (page) => {
+  await mockMe(page, ME_OUT);
+  await boot(page);
+  const info = await page.evaluate(() => { const b = document.querySelector('.rail-badge'); if (!b) return null;
+    return { lbl: b.getAttribute('aria-label'), role: b.getAttribute('role'), bg: getComputedStyle(b).backgroundColor }; });
+  if (info) {
+    assert(info.role === 'img' && /\d/.test(info.lbl), 'badge not announced: ' + JSON.stringify(info));
+    const [r, g, b] = info.bg.match(/\d+/g).map(Number); assert(!(r > 180 && g < 90 && b < 90), 'badge is red: ' + info.bg);
+  }
+});
+
 await browser.close();
 const failed = results.filter(r => !r.ok);
 for (const r of results) console.log(`${r.ok ? '✓' : '✗'} ${r.name}${r.detail ? ' — ' + r.detail : ''}`);

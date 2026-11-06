@@ -8,6 +8,8 @@ import * as V2 from './views2.js';
 import { seedDemo } from './seed.js';
 import { renderGuide, startTour, endTour, tourDone, tourActive, repaintTour, openHelp } from './guide.js';
 import * as AUTH from './auth.js';
+import * as ACCT from './account.js';
+import { accountButton as makeAccountButton, paintAccountButton, openAccountAside } from './account-aside.js';
 import * as QR from './qr.js';
 import { el, icon, clear, toast, registerShortcut, closeSheet, sheet, input, confirmSheet } from './ui.js';
 import * as VAL from './validate.js';
@@ -138,7 +140,7 @@ function buildChrome() {
         style: { position: 'relative' },
         onclick: () => { location.hash = '#/inbox'; }
       }, [icon('fa-bell'), queueCount ? el('span', { class: 'dot' }) : null]),
-      accountButton(),
+      makeAccountButton((opener) => openAccountAside(opener)),
       el('button', {
         class: 'btn btn-primary hide-mobile', id: 'quick-add-btn', type: 'button', 'data-tour': 'add',
         onclick: () => F.openQuickAdd()
@@ -156,7 +158,7 @@ function buildChrome() {
       }, [
         icon(i.icon, 'ri'),
         el('span', { text: t(i.i18n) }),
-        i.badge && queueCount ? el('span', { class: 'rail-badge', text: formatNumber(queueCount) }) : null
+        i.badge && queueCount ? el('span', { class: 'rail-badge', text: formatNumber(queueCount), role: 'img', 'aria-label': t('nav.badge_open', { count: queueCount }) }) : null
       ]));
     }
     rail.appendChild(grp);
@@ -175,18 +177,9 @@ function buildChrome() {
   applyTheme();
   markActive();
 }
-function accountButton() {
-  const a = AUTH.session();
-  return el('button', {
-    class: 'icon-btn' + (a ? ' on' : ''), id: 'account-btn', type: 'button',
-    'aria-label': a ? (a.name || 'Account') : (t('app.link_account')),
-    title: a ? (a.name || '') : (t('app.link_account')),
-    onclick: () => { if (a) location.hash = '#/settings?s=account'; else AUTH.openSignIn(); }
-  }, [a ? el('span', { class: 'acct-initial', text: (a.name || '?').trim().slice(0, 1).toUpperCase() }) : icon('fa-user')]);
-}
 function mbItem(route, iconName, label, badge) {
   return el('a', { class: 'mb-item', href: '#/' + route, 'data-route': route }, [
-    icon(iconName), el('span', { text: label }), badge ? el('span', { class: 'mb-dot' }) : null
+    icon(iconName), el('span', { text: label }), badge ? el('span', { class: 'mb-dot', role: 'img', 'aria-label': t('nav.badge_open', { count: badge }) }) : null
   ]);
 }
 function markActive() {
@@ -216,7 +209,7 @@ function openMore() {
       [icon('fa-location-crosshairs'), el('span', { text: t('guide.tour') })]),
     el('button', { class: 'chip', type: 'button', onclick: () => {
       closeSheet(true);
-      if (AUTH.isSignedIn()) go('#/settings?s=account'); else setTimeout(() => AUTH.openSignIn(), 60);
+      setTimeout(() => openAccountAside(document.getElementById('acct-btn')), 60);
     } }, [icon('fa-user-shield'), el('span', { text: AUTH.isSignedIn() ? (t('app.my_account')) : (t('app.link_account_2')) })])
   ]);
   const groups = NAV.map(g => {
@@ -461,6 +454,16 @@ async function firstRunCountry() {
   return det.country ? CT.countryLocales(det.country) : [];
 }
 
+/* /?auth_error=code#/… comes back from the server's OAuth callback. Say so calmly, once, and tidy the URL. */
+function surfaceAuthError() {
+  const q = new URLSearchParams(location.search);
+  if (!q.has('auth_error')) return;
+  q.delete('auth_error');
+  const qs = q.toString();
+  history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+  setTimeout(() => toast(t('acct.error.generic'), 'warn'), 400);
+}
+
 async function boot() {
   await S.load();
   const countryLocales = await firstRunCountry();   // §3: detect once, suggestion only
@@ -498,11 +501,20 @@ async function boot() {
   registerShortcut('n', () => F.openQuickAdd());
   registerShortcut('c', () => V.toggleCalm());
   registerShortcut('l', () => { const b = document.getElementById('lang-toggle'); if (b) openLanguageAside(b, { applyLocale }); });
+  registerShortcut('u', () => { const b = document.getElementById('acct-btn'); if (b) openAccountAside(b); });
   registerShortcut('?', () => { location.hash = '#/guide'; });
   registerShortcut('/', () => {
     if (!location.hash.startsWith('#/ledger')) location.hash = '#/ledger';
     setTimeout(() => document.getElementById('search-input')?.focus(), 150);
   });
+
+  /* Server account (§5): ask who is signed in; repaint the header button in place when the answer, the connection or
+     the sync state changes. Silent on static hosting / offline — the ledger never depends on it. */
+  const repaintAcct = () => { const b = document.getElementById('acct-btn'); if (b) paintAccountButton(b); };
+  ACCT.subscribe(repaintAcct);
+  window.addEventListener('online', repaintAcct);
+  window.addEventListener('offline', repaintAcct);
+  ACCT.refresh().then(() => { surfaceAuthError(); repaintAcct(); });
 
   /* Release undo-window reminders (RL-10) */
   const pending = S.activeUndoWindows();
@@ -525,4 +537,4 @@ boot().catch(err => {
   hideBootScreen();
 });
 
-window.DYON = { store: S, ctx };
+window.DYON = { store: S, ctx, account: ACCT };
