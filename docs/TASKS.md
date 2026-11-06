@@ -176,7 +176,7 @@ Settings → `#region-card` (offers, never forces); 17 new i18n keys (`region.*`
 Acceptance: all harnesses + e2e + i18n-check green; no network request leaves the origin.
 
 
-### §4 · PHP + SQLite server, auth, security — 🟡 in progress (T-4.1 ✅)
+### §4 · PHP + SQLite server, auth, security — ✅ done
 
 **T-4.1 · ✅ Layout and router (done).** *Prompt:* Restructure so the **web root is `/public`**: move
 `index.html`, `privacy.html`, `sw.js`, `manifest*`, `css/`, `js/`, `locales/`, `vendor/` (fonts/icons),
@@ -191,7 +191,7 @@ git-ignored, `0700`), `/config` (`config.php` reads env / `config.local.php`, gi
 `php -S 0.0.0.0:8080 -t public public/router.php`). Acceptance: all existing harnesses + e2e pass when
 served by `php -S`; `GET /app/…`, `/data/…`, `/config/…`, `/.git/…`, `/vendor-php/…` are 404.
 
-**T-4.2 · ⬜ Core classes.** *Prompt:* In `/app` implement, each with a PHP test in `tests/php/`
+**T-4.2 · ✅ Core classes.** *Prompt:* In `/app` implement, each with a PHP test in `tests/php/`
 (plain PHP runner `tests/php/run.php`, no PHPUnit dependency; `npm run test:php`):
 - `Db` — PDO SQLite singleton per file; on open: `PRAGMA journal_mode=WAL; foreign_keys=ON;
   busy_timeout=5000; synchronous=NORMAL`; `migrate()` applies `/migrations/NNN_*.sql` in order using
@@ -217,7 +217,7 @@ served by `php -S`; `GET /app/…`, `/data/…`, `/config/…`, `/.git/…`, `/v
   null — **never** logs or stores the IP).
 - `Http` helpers: JSON responses with `Cache-Control: no-store`, error shape `{error:{code,message}}`.
 
-**T-4.3 · ⬜ Schema.** *Prompt:* `migrations/001_init.sql` for `data/system.sqlite` with tables
+**T-4.3 · ✅ Schema.** *Prompt:* `migrations/001_init.sql` for `data/system.sqlite` with tables
 `users(id, provider, sub, email, name, avatar_url, locale, country, created_at, last_seen_at,
 deleted_at)`, `sessions(id, user_id, token_hmac UNIQUE, created_at, expires_at, ua_hash)`,
 `devices(id, user_id, label, created_at, last_seen_at, revoked_at)`, `sync_meta(user_id PK,
@@ -233,7 +233,7 @@ online_url)`, `tags`, `post_tags`, `media(id, path, mime, w, h, alt_i18n JSON, s
 meta JSON, at)`, `rate_limits`. Indexes on all FKs and lookup columns. Test: migrate twice is a
 no-op; FK cascade on user delete; `user_version` = 1.
 
-**T-4.4 · ⬜ Hardening.** *Prompt:* `public/.htaccess` and `deploy/nginx.conf.example`: deny
+**T-4.4 · ✅ Hardening.** *Prompt:* `public/.htaccess` and `deploy/nginx.conf.example`: deny
 dotfiles, `*.sqlite*`, `*.php` outside `/api`, `/admin`, `router.php`, `index.php`; rewrite
 `/blog|/news|/events|/storage|/unsubscribe|/{ar,fr}/…` to their PHP front controllers. Send headers
 from PHP **and** server config: `Content-Security-Policy` (`default-src 'self'; img-src 'self' data:
@@ -243,7 +243,7 @@ blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action '
 `Permissions-Policy: camera=(self), geolocation=(), microphone=()`. Test with curl in
 `tests/php/headers.sh`.
 
-**T-4.5 · ⬜ `/api/geo.php` + `/api/ping.php`.** `geo.php` returns only `{"country":"TN"}` or
+**T-4.5 · ✅ `/api/geo.php` + `/api/ping.php`.** `geo.php` returns only `{"country":"TN"}` or
 `{"country":null}`, `Cache-Control: private, max-age=3600`. `ping.php` returns `{ok:true, t}` (HEAD
 allowed) for the §6 heartbeat. **Then wire §3's `detectCountry()` (a) step to it.**
 
@@ -419,6 +419,7 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
+| 2026-11-06 | _T-4.2–4.5_ | §4 server: `Db` (WAL/FK/user_version migrations), `Crypto` (sodium HMAC, signed cookies), `Session`, `Csrf` (double-submit + Origin/Sec-Fetch-Site), `RateLimit`, `Geo`, `I18n` (ICU port), `Http`, `Auth` (code+PKCE, JWKS cache, RS256, Apple form_post + ES256 secret); `001_init.sql` (18 tables); `/api/{ping,geo}` + `/api/auth/{start,callback,me,logout}`; nginx example, CSP in PHP/Apache/Nginx (php 85, harness 113/123/31, e2e 20/20, i18n 786×3) |
 | 2026-11-06 | _T-4.1_ | §4.1 web root = `public/`; `router.php` deny rules (404 for /app /config /data /migrations /templates /cron /tests /vendor-php, dotfiles, *.sqlite, traversal, missing /dev|/api); `app/bootstrap.php` + `Config`; `tests/php` runner (27 tests); `npm run check`; SW test cache-busted (harness 113/123/31, e2e 20/20, i18n 786×3, php 27) |
 | 2026-10-31 | _this commit_ | §3 country detection + defaults: `build-countries.py`, `countries.json` (25), `tz-country.js` (418), `country.js`, LYD/XOF, onboarding suggestion + `#region-card`, 17 `region.*` keys; 11 unit + 3 e2e (harness 113/123/31, e2e 20/20, i18n 786×3) |
 | 2026-10-31 | `b54295d` | docs: AGENTS.md fast-start operating manual |

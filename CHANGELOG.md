@@ -10,6 +10,11 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
   `data/`, `cron/`, `migrations/`, `templates/`, `tests/php/`. `public/router.php` (dev) and
   `public/.htaccess` (Apache) deny private paths; harness pages live in `public/dev/` and 404 in production.
   `npm run check` runs every gate.
+- **Core classes + schema (4.2–4.3).** `Db`, `Crypto`, `Session` (`__Host-dyon_sess`, hmac-only storage, 30-day sliding, rotated on login),
+  `Csrf`, `RateLimit`, `Geo`, `I18n`, `Http`, `Auth` (OIDC code + PKCE; ID-token RS256 against cached JWKS; iss/aud/exp/nonce;
+  Apple `form_post`). `migrations/001_init.sql`. Only `sha256(provider:sub)` is stored; unverified emails are discarded.
+- **Hardening + endpoints (4.4–4.5).** CSP + security headers from PHP, Apache and Nginx (`deploy/nginx.conf.example`);
+  `/api/geo.php` (`{country}` only), `/api/ping.php` (HEAD ok), `/api/auth/*`.
 
 ### 1 · Bug fixes
 - **Tour vs onboarding (1.1).** `startTour()` refuses the Overview tour while
