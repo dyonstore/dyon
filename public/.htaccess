@@ -10,13 +10,22 @@ DirectoryIndex index.html
 <FilesMatch "(^\.|\.(sqlite|sqlite-wal|sqlite-shm|ini|log|md|example|dist)$)">
   Require all denied
 </FilesMatch>
-# Only PHP under /api and /admin (and router) may execute; deny stray *.php.
+# PHP may execute only from /api, /admin and the front controllers named below; deny every other *.php.
+# public/api/.htaccess and public/admin/.htaccess re-allow their own non-underscore scripts.
 <FilesMatch "\.php$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^(blog|storage|unsubscribe|seo)\.php$">
+  Require all granted
+</FilesMatch>
+# Private includes (_boot.php etc.) are never web-callable anywhere.
+<FilesMatch "^_.*">
   Require all denied
 </FilesMatch>
 
 # ---- security headers (also sent from PHP; see app/Http.php) ----
 <IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(self), geolocation=(), microphone=()"

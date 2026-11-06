@@ -1,0 +1,7 @@
+# Re-allow this directory's scripts (the parent denies *.php); private includes starting with "_" stay denied.
+<FilesMatch "^[^_].*\.php$">
+  Require all granted
+</FilesMatch>
+<FilesMatch "^_.*">
+  Require all denied
+</FilesMatch>

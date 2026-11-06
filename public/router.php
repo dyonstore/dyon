@@ -21,7 +21,8 @@ $deny = function (int $code = 404) {
 };
 if (preg_match('#/\.(?!well-known)#', $uri)) $deny(404);            // dotfiles
 if (preg_match('#\.(sqlite|sqlite-wal|sqlite-shm|ini|log)$#i', $uri)) $deny(404);
-if (preg_match('#(^|/)router\.php$#i', $uri)) $deny(404);           // never serve the router itself
+if (preg_match('#(^|/)router\.php$#i', $uri)) $deny(404);
+if (preg_match('#(^|/)_[^/]*$#', $uri)) $deny(404);                   // _boot.php and other private includes           // never serve the router itself
 // Any traversal or sibling-dir access that php -S may have normalised.
 if (strpos($_SERVER['REQUEST_URI'] ?? '', '..') !== false) $deny(404);
 if (preg_match('#^/(app|config|data|migrations|templates|cron|tests|vendor-php)(/|$)#', $uri)) $deny(404);
