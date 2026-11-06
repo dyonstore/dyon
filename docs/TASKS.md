@@ -250,9 +250,9 @@ allowed) for the §6 heartbeat. **Then wire §3's `detectCountry()` (a) step to 
 Acceptance §4: `npm run test:php` green; existing JS suites green under `php -S`; README "Running
 the server" section; CHANGELOG §4.
 
-### §5 · Account aside — ⬜ to do
+### §5 · Account aside — ✅ done
 
-**T-5.1 · ⬜ Prompt:** Using `js/aside.js` (same focus trap / Esc / scrim as the language aside),
+**T-5.1 · ✅ done. Prompt was:** Using `js/aside.js` (same focus trap / Esc / scrim as the language aside),
 create `js/account-aside.js`, opened by the header avatar button (`#acct-btn`,
 `aria-controls="aside-acct"`) and shortcut **U**. Signed out: explains Stage 1 (no account needed),
 buttons "Sign in with Google" (only if configured) and "Export my data" (RL-09, always available).
@@ -419,6 +419,7 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
+| 2026-11-06 | _T-5.1_ | §5 account aside: `account.js` (server session via `/api/auth/me.php`, mirrors `settings.account`, offline cache, CSRF sign-out), `account-aside.js` (`#acct-btn`, U shortcut, aria-expanded, 32px avatar + sync dot green/amber/grey, local stats hidden in Calm, Sync/Devices/Export/Sign out), `Avatar` proxy (SSRF-hardened, GD 96px WebP, cached) + `/api/avatar.php`, aria-labelled count badges, `auth_error` toast; 30 `acct.*`/`nav.badge_open` keys; 11 unit + 13 e2e + 19 php (php 104, harness 124/123/31, e2e 33/33, i18n 816×3) |
 | 2026-11-06 | _T-4.2–4.5_ | §4 server: `Db` (WAL/FK/user_version migrations), `Crypto` (sodium HMAC, signed cookies), `Session`, `Csrf` (double-submit + Origin/Sec-Fetch-Site), `RateLimit`, `Geo`, `I18n` (ICU port), `Http`, `Auth` (code+PKCE, JWKS cache, RS256, Apple form_post + ES256 secret); `001_init.sql` (18 tables); `/api/{ping,geo}` + `/api/auth/{start,callback,me,logout}`; nginx example, CSP in PHP/Apache/Nginx (php 85, harness 113/123/31, e2e 20/20, i18n 786×3) |
 | 2026-11-06 | _T-4.1_ | §4.1 web root = `public/`; `router.php` deny rules (404 for /app /config /data /migrations /templates /cron /tests /vendor-php, dotfiles, *.sqlite, traversal, missing /dev|/api); `app/bootstrap.php` + `Config`; `tests/php` runner (27 tests); `npm run check`; SW test cache-busted (harness 113/123/31, e2e 20/20, i18n 786×3, php 27) |
 | 2026-10-31 | _this commit_ | §3 country detection + defaults: `build-countries.py`, `countries.json` (25), `tz-country.js` (418), `country.js`, LYD/XOF, onboarding suggestion + `#region-card`, 17 `region.*` keys; 11 unit + 3 e2e (harness 113/123/31, e2e 20/20, i18n 786×3) |

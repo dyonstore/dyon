@@ -6,13 +6,14 @@
 import fs from 'fs';
 import { execFileSync } from 'child_process';
 const add = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const WEB = fs.existsSync('public/locales') ? 'public/' : '';   // web root moved to public/ in §4.1
 const rd = (p) => (fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : {});
-const en = rd('locales/en.json'), ar = rd('locales/ar.json'), frSrc = rd('scripts/out/fr-9.json');
+const en = rd(WEB + 'locales/en.json'), ar = rd(WEB + 'locales/ar.json'), frSrc = rd('scripts/out/fr-9.json');
 for (const [k, v] of Object.entries(add)) {
   if (!v.en || !v.ar || !v.fr) throw new Error('key ' + k + ' needs en, ar and fr');
   en[k] = v.en; ar[k] = v.ar; frSrc[k] = v.fr;
 }
 const w = (p, o) => fs.writeFileSync(p, JSON.stringify(o, null, 1) + '\n');
-w('locales/en.json', en); w('locales/ar.json', ar); w('scripts/out/fr-9.json', frSrc);
+w(WEB + 'locales/en.json', en); w(WEB + 'locales/ar.json', ar); w('scripts/out/fr-9.json', frSrc);
 execFileSync('node', ['scripts/build-fr.mjs'], { stdio: 'inherit' });
 console.log(`added/updated ${Object.keys(add).length} keys`);

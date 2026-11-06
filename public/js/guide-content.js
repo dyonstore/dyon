@@ -1839,7 +1839,7 @@ export const TOURS = {
       }
     },
     {
-      sel: "#account-btn",
+      sel: "#acct-btn",
       title: {
         en: "No account needed — until you share",
         ar: "لا حساب — حتى تشارك",
