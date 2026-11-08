@@ -461,6 +461,50 @@ await scenario('count badges: inbox badge announces its meaning; nothing is red'
   }
 });
 
+/* ---------- §6.5 storage: Settings card + SSR /storage page ---------- */
+await scenario('storage card in Settings: status, usage, "keep my data" (calm answers for granted and declined), link to /storage', { viewport: { width: 375, height: 812 } }, async (page) => {
+  await page.addInitScript(() => {
+    let persisted = false; window.__persistAnswer = true;
+    const sm = { estimate: async () => ({ usage: 3 * 1024 * 1024, quota: 8 * 1024 ** 3 }), persisted: async () => persisted, persist: async () => { if (window.__persistAnswer) persisted = true; return window.__persistAnswer; } };
+    Object.defineProperty(navigator, 'storage', { value: sm, configurable: true });
+  });
+  await boot(page);
+  await page.evaluate(() => { location.hash = '#/settings?s=storage'; }); await page.waitForSelector('#storage-card');
+  await page.waitForFunction(() => document.getElementById('storage-used')?.textContent.trim().length > 0);
+  assert(/MB/.test(await page.textContent('#storage-used')) && /GB/.test(await page.textContent('#storage-used')), 'usage not shown');
+  assert(/best-effort/i.test(await page.textContent('#storage-status')), 'status not best-effort');
+  assert(await page.isVisible('#storage-keep'), 'keep button hidden');
+  await page.evaluate(() => { window.__persistAnswer = false; }); await page.click('#storage-keep');
+  await page.waitForFunction(() => !document.getElementById('storage-msg').hidden);
+  const declined = await page.textContent('#storage-msg'); assert(/fine|still here/i.test(declined) && !/danger|warning|lose/i.test(declined), 'declined copy not calm: ' + declined);
+  await page.evaluate(() => { window.__persistAnswer = true; }); await page.click('#storage-keep');
+  await page.waitForFunction(() => /keep DYON/i.test(document.getElementById('storage-msg').textContent));
+  await page.waitForFunction(() => document.getElementById('storage-keep').hidden);
+  assert(/agreed/i.test(await page.textContent('#storage-status')), 'status did not change after grant');
+  assert((await page.getAttribute('#storage-learn', 'href')) === '/storage' && (await page.getAttribute('#data-storage-link', 'href')) === '/storage', 'links to /storage missing');
+  const over = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1); assert(!over, 'overflow');
+});
+
+for (const [lang, urlp, dir] of [['en', '/storage', 'ltr'], ['ar', '/ar/storage', 'rtl'], ['fr', '/fr/storage', 'ltr']]) {
+  for (const [w, h] of [[360, 740], [768, 900], [1280, 800]]) {
+    for (const scheme of ['light', 'dark']) {
+      await scenario(`/storage ${lang} ${w}px ${scheme}: renders, ${dir}, no overflow, sources linked, panel works`, { viewport: { width: w, height: h }, colorScheme: scheme }, async (page) => {
+        await page.addInitScript(() => { Object.defineProperty(navigator, 'storage', { value: { estimate: async () => ({ usage: 2048, quota: 1e9 }), persisted: async () => false, persist: async () => false }, configurable: true }); });
+        await page.goto(BASE + urlp.slice(1));
+        await page.waitForSelector('#live:not([hidden])', { timeout: 8000 });
+        const r = await page.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang, over: document.documentElement.scrollWidth > innerWidth + 1,
+          links: [...document.querySelectorAll('a[href^="https://"]')].map(a => a.href), h1: document.querySelector('h1')?.textContent.trim().length > 0,
+          bg: getComputedStyle(document.body).backgroundColor, small: [...document.querySelectorAll('.btn')].some(b => b.getBoundingClientRect().height < 40 && b.offsetParent) }));
+        assert(r.dir === dir && r.lang === lang && !r.over && r.h1 && !r.small, 'layout: ' + JSON.stringify(r));
+        assert(r.links.some(u => u.includes('webkit.org/blog/14403')) && r.links.some(u => u.includes('StorageManager/persist')), 'sources missing');
+        const lum = r.bg.match(/\d+/g).slice(0, 3).map(Number).reduce((a, b) => a + b, 0) / 3; assert(scheme === 'dark' ? lum < 90 : lum > 200, `${scheme} not applied: ${r.bg}`);
+        assert(await page.isVisible('#live-keep'), 'keep button not shown');
+        await page.click('#live-keep'); await page.waitForFunction(() => document.getElementById('live-msg').textContent.trim().length > 0);
+      });
+    }
+  }
+}
+
 /* ---------- §6 encrypted sync (own PHP server + data dir; two browser contexts = two devices) ---------- */
 {
   const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dyon-e2e-'));

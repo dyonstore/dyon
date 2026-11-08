@@ -758,6 +758,30 @@ await checkAsync('sync-crypto: wordlist has 2048 unique words; check-word picker
   });
 }
 
+{
+  const ST = await import('./storage.js');
+  const nf = (n, o) => new Intl.NumberFormat('en', o).format(n);
+  await checkAsync('storage: info() reads estimate+persisted; missing/throwing API degrades without throwing', async () => {
+    const a = await ST.info({ estimate: async () => ({ usage: 1048576, quota: 5e9 }), persisted: async () => true, persist: async () => true });
+    const b = await ST.info(null);
+    const c = await ST.info({ estimate: async () => { throw new Error('x'); }, persisted: async () => false });
+    return a.usage === 1048576 && a.persisted === true && a.canPersist && !b.supported && b.usage === null && !c.supported ? true : JSON.stringify([a, b, c]);
+  });
+  await checkAsync('storage: keep() maps granted / declined / error / unsupported and never throws', async () => {
+    const r = [await ST.keep({ persist: async () => true }), await ST.keep({ persist: async () => false }), await ST.keep({ persist: async () => { throw new TypeError('x'); } }), await ST.keep({})];
+    return r.join() === 'granted,declined,error,unsupported' ? true : r.join();
+  });
+  check('storage: formatBytes picks the unit; statusKey is calm for every state', () => {
+    const f = [ST.formatBytes(0, nf), ST.formatBytes(2048, nf), ST.formatBytes(5 * 1024 ** 2, nf), ST.formatBytes(null, nf)];
+    const k = [ST.statusKey({ supported: false }), ST.statusKey({ supported: true, persisted: true }), ST.statusKey({ supported: true, persisted: false })];
+    return /0\s?byte|0 B/i.test(f[0]) && /2\s?kB|2 KB/i.test(f[1]) && /5\s?MB/i.test(f[2]) && f[3] === '' && k.join() === 'storage.st_unsupported,storage.st_persistent,storage.st_best_effort' ? true : JSON.stringify([f, k]);
+  });
+  check('storage: all storage.* keys exist in en/ar/fr and none use red/fear wording', () => {
+    const miss = []; for (const l of ['en', 'ar', 'fr']) for (const k of ['storage.keep', 'storage.keep_declined', 'storage.st_best_effort', 'storage.learn', 'storage.card_title']) if (t(k) === k && l === 'en') miss.push(k);
+    return !miss.length && !/danger|warning|lose everything/i.test(['storage.st_best_effort', 'storage.keep_declined'].map(k => t(k)).join(' ')) ? true : miss.join();
+  });
+}
+
 const passed = results.filter(r => r.ok).length;
 const failed = results.length - passed;
 

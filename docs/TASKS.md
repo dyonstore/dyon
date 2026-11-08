@@ -306,9 +306,9 @@ by turning sync off. E2E with two browser contexts: A creates a person + debt, B
 passphrase) pulls and sees it; offline edit on both → conflict appears; server DB file contains no
 plaintext name (grep the sqlite file). Keys in en/ar/fr.
 
-### §6.5 · `/storage` page — ⬜ to do
+### §6.5 · `/storage` page — ✅ done (2026-11-08)
 
-**T-6.5 · ⬜ Prompt:** SSR page `/storage` (+ `/ar/storage`, `/fr/storage`) explaining where data
+**T-6.5 · ✅ Prompt:** SSR page `/storage` (+ `/ar/storage`, `/fr/storage`) explaining where data
 lives and why exporting matters: IndexedDB is "best-effort" storage that browsers may evict under
 storage pressure; `navigator.storage.persist()` asks for persistent storage; Safari/WebKit may
 delete script-writable storage after 7 days without user interaction for sites not added to the home
@@ -419,6 +419,7 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
+| 2026-11-08 | _T-6.5_ | §6.5 `/storage` (+`/ar`,`/fr`): `app/Site.php` shared SSR shell (canonical, hreflang×3+x-default, og, lang switch, no inline script/style → CSP-safe), `public/storage.php`, `css/site.css`, `storage.js` (info/keep/formatBytes) + `storage-page.js`; all 4 sources re-fetched 2026-11-08 and each claim paragraph carries a citation; Settings `#storage-card` (usage, calm keep-my-data answers) + link in data card; 44 keys; php 136, harness 137/123/31, e2e 61/61 (19 new: 3 langs × 3 widths × light/dark), i18n 957×3. **Next: §7 email** |
 | 2026-11-08 | _T-6.1–6.3_ | §6 E2E encrypted sync: `sync-crypto.js` (PBKDF2≥600k→AES-KW, 24-word BIP-39 recovery, AES-GCM records w/ AAD), `Sync.php` + 6 `/api/sync/*` endpoints (per-user HMAC-named 0600 SQLite, opaque blobs, rev conflicts, quota, device revoke, wipe), `sync.js` engine (own IndexedDB `dyon-sync`, merge3, critical-field conflicts → `#/sync/conflicts`, heartbeat/backoff, wipe hook RL-09), `sync-ui.js` (wizard, join, devices, net chip); 97 `sync.*` keys; php 124, harness 133/123/31, e2e 42/42 (9 sync), i18n 913×3. **Next: §6.5 /storage** |
 | 2026-11-06 | _T-5.1_ | §5 account aside: `account.js` (server session via `/api/auth/me.php`, mirrors `settings.account`, offline cache, CSRF sign-out), `account-aside.js` (`#acct-btn`, U shortcut, aria-expanded, 32px avatar + sync dot green/amber/grey, local stats hidden in Calm, Sync/Devices/Export/Sign out), `Avatar` proxy (SSRF-hardened, GD 96px WebP, cached) + `/api/avatar.php`, aria-labelled count badges, `auth_error` toast; 30 `acct.*`/`nav.badge_open` keys; 11 unit + 13 e2e + 19 php (php 104, harness 124/123/31, e2e 33/33, i18n 816×3) |
 | 2026-11-06 | _T-4.2–4.5_ | §4 server: `Db` (WAL/FK/user_version migrations), `Crypto` (sodium HMAC, signed cookies), `Session`, `Csrf` (double-submit + Origin/Sec-Fetch-Site), `RateLimit`, `Geo`, `I18n` (ICU port), `Http`, `Auth` (code+PKCE, JWKS cache, RS256, Apple form_post + ES256 secret); `001_init.sql` (18 tables); `/api/{ping,geo}` + `/api/auth/{start,callback,me,logout}`; nginx example, CSP in PHP/Apache/Nginx (php 85, harness 113/123/31, e2e 20/20, i18n 786×3) |

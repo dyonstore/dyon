@@ -11,6 +11,7 @@ import * as VAL from './validate.js';
 import * as AUTH from './auth.js';
 import * as CT from './country.js';
 import { renderSyncCard, renderDevicesCard } from './sync-ui.js';
+import * as STO from './storage.js';
 import { el, frag, icon, card, emptyState, progressBar, meterRing, sparkline, amountEl,
          statusBadge, directionBadge, avatar, dueLabel, commitmentRow, chipGroup, disclaimer,
          ayahBlock, toast, sheet, closeSheet, confirmSheet, field, input, textarea, select,
@@ -854,9 +855,12 @@ export function renderSettings(ctx) {
       el('p', { class: 'notice', text: t('views2.pin_local_convenience_not') })
     ]),
 
+    renderStorageCard(),
+
     el('section', { class: 'card', id: 'data-card', 'data-tour': 'set-data' }, [
       el('h3', { text: t('set.data') }),
       el('p', { class: 'notice', text: t('set.offline_ready') }),
+      el('p', { class: 'hint' }, [el('a', { href: (getLocale() === 'en' ? '' : '/' + getLocale()) + '/storage', target: '_blank', rel: 'noopener', id: 'data-storage-link', text: t('storage.learn') })]),
       el('div', { class: 'row tight' }, [
         el('button', { class: 'btn btn-sm', onclick: () => {
           download('dyon-backup-' + S.todayISO() + '.json', JSON.stringify(S.exportPayload(false), null, 2));
@@ -1114,6 +1118,36 @@ function onboardingRegionCard(ctx, rerender) {
 
 /* Settings → Region card. Changing the country offers (never forces) re-applying
    that country's defaults. */
+/* §6.5 — what this browser reports about storage, plus a calm "keep my data" request. Read-only until the person taps. */
+function renderStorageCard() {
+  const status = el('p', { role: 'status', id: 'storage-status', text: t('storage.checking') });
+  const used = el('p', { class: 'muted small', id: 'storage-used' });
+  const msg = el('p', { role: 'status', class: 'notice', id: 'storage-msg', hidden: true });
+  const keepBtn = el('button', { class: 'btn btn-sm btn-primary', type: 'button', id: 'storage-keep', hidden: true, text: t('storage.keep') });
+  const fmt = (n, o) => new Intl.NumberFormat(getLocale() + '-u-nu-latn', o).format(n);
+  const paint = async () => {
+    const i = await STO.info();
+    status.textContent = t(STO.statusKey(i));
+    used.textContent = i.usage == null ? '' : i.quota ? t('storage.used', { used: STO.formatBytes(i.usage, fmt), quota: STO.formatBytes(i.quota, fmt) }) : t('storage.used_only', { used: STO.formatBytes(i.usage, fmt) });
+    keepBtn.hidden = !(i.canPersist && i.persisted !== true);
+  };
+  keepBtn.addEventListener('click', async () => {
+    keepBtn.disabled = true;
+    const r = await STO.keep();
+    msg.textContent = t(r === 'granted' ? 'storage.keep_granted' : r === 'declined' ? 'storage.keep_declined' : 'storage.keep_error'); msg.hidden = false;
+    keepBtn.disabled = false; await paint();
+  });
+  paint();
+  const lp = getLocale() === 'en' ? '' : '/' + getLocale();
+  return el('section', { class: 'card', id: 'storage-card' }, [
+    el('h3', {}, [icon('fa-database'), el('span', { text: ' ' + t('storage.card_title') })]),
+    el('p', { class: 'card-sub', text: t('storage.card_sub') }),
+    status, used,
+    el('div', { class: 'row tight' }, [keepBtn, el('a', { class: 'btn btn-sm', id: 'storage-learn', href: lp + '/storage', target: '_blank', rel: 'noopener', text: t('storage.learn') })]),
+    msg
+  ]);
+}
+
 function renderRegionCard(ctx) {
   const s = S.state.settings;
   const cc = s.country || (s.country_detected && s.country_detected.country) || '';

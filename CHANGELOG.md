@@ -5,6 +5,9 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
 
 ## [2.0.0] — unreleased
 
+### 6.5 · Storage page
+- **`/storage`, `/ar/storage`, `/fr/storage`** (server-rendered): where data lives, when browsers may evict it, what `navigator.storage.persist()` does, what to do. Every claim cites MDN or WebKit with a link. A live panel (read in the browser, nothing sent) shows usage and a calm "Keep my data on this device" button; Settings has the same card.
+
 ### 6 · End-to-end encrypted sync
 - **Optional, zero-knowledge.** Turn on in Settings → Sync: passphrase (≥12) + 24-word recovery phrase (BIP-39). A random AES-GCM data key is wrapped
   twice (PBKDF2-SHA-256 ≥600 000 it. and recovery key); every record is encrypted on-device (AAD = user|table|id|rev). The server stores opaque blobs
