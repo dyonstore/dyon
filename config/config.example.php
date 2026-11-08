@@ -6,6 +6,7 @@ return [
     'env'            => 'prod',                 // 'dev' enables /dev/* harness pages
     'base_url'       => 'https://dyon.store',
     'data_dir'       => dirname(__DIR__) . '/data',
+    'sync'           => ['quota_bytes' => 50 * 1024 * 1024],   // §6: per-user encrypted-sync quota
     'secret_key'     => '',                     // 32+ random bytes, base64 (php -r 'echo base64_encode(random_bytes(32));')
     'cookie_secure'  => true,                   // false only for http://localhost dev
     'trusted_proxy_header' => '',               // e.g. 'CF-Connecting-IP' behind Cloudflare; empty = REMOTE_ADDR only

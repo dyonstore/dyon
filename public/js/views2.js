@@ -10,6 +10,7 @@ import * as db from './db.js';
 import * as VAL from './validate.js';
 import * as AUTH from './auth.js';
 import * as CT from './country.js';
+import { renderSyncCard, renderDevicesCard } from './sync-ui.js';
 import { el, frag, icon, card, emptyState, progressBar, meterRing, sparkline, amountEl,
          statusBadge, directionBadge, avatar, dueLabel, commitmentRow, chipGroup, disclaimer,
          ayahBlock, toast, sheet, closeSheet, confirmSheet, field, input, textarea, select,
@@ -802,6 +803,9 @@ export function renderSettings(ctx) {
     ]),
 
     renderRegionCard(ctx),
+
+    renderSyncCard(),
+    renderDevicesCard(),
 
     el('section', { class: 'card' }, [
       el('h3', { text: t('views2.currencies_units') }),

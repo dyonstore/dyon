@@ -2,6 +2,10 @@
    Usage: node scripts/e2e.mjs [baseUrl]    default http://127.0.0.1:8080/
    Each scenario gets a fresh context (fresh IndexedDB). Failures exit 1. */
 import { chromium } from 'playwright';
+import { spawn, execFileSync } from 'node:child_process';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 
 const BASE = process.argv[2] || process.env.DYON_BASE || 'http://127.0.0.1:8080/';
 const PHONE = { viewport: { width: 375, height: 812 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 };
@@ -9,6 +13,7 @@ const results = [];
 const browser = await chromium.launch();
 
 async function scenario(name, opts, fn) {
+  if (process.env.E2E_ONLY && !name.includes(process.env.E2E_ONLY)) return;
   const ctx = await browser.newContext(opts);
   const page = await ctx.newPage();
   const errors = [];
@@ -455,6 +460,186 @@ await scenario('count badges: inbox badge announces its meaning; nothing is red'
     const [r, g, b] = info.bg.match(/\d+/g).map(Number); assert(!(r > 180 && g < 90 && b < 90), 'badge is red: ' + info.bg);
   }
 });
+
+/* ---------- §6 encrypted sync (own PHP server + data dir; two browser contexts = two devices) ---------- */
+{
+  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dyon-e2e-'));
+  const port = 18950 + Math.floor(Math.random() * 40);
+  const env = { ...process.env, DYON_ENV: 'dev', DYON_COOKIE_SECURE: '0', DYON_DATA_DIR: dataDir, DYON_SECRET_KEY: Buffer.alloc(32, 'e').toString('base64') };
+  const srv = spawn('php', ['-S', '127.0.0.1:' + port, '-t', 'public', 'public/router.php'], { env, stdio: 'ignore', detached: false });
+  const SB = `http://127.0.0.1:${port}/`;
+  for (let i = 0; i < 60; i++) { try { if ((await fetch(SB + 'api/ping.php')).ok) break; } catch {} await new Promise(r => setTimeout(r, 100)); }
+  const mkUser = (sub) => JSON.parse(execFileSync('php', ['scripts/e2e-session.php', sub], { env, encoding: 'utf8' }));
+  const U = mkUser('sync-e2e');
+  const cookies = [{ name: 'dyon_sess', value: U.sess, url: SB }, { name: 'dyon_csrf', value: U.csrf, url: SB }];
+  const devs = [];
+  const newDevice = async (opts = {}) => {
+    const ctx = await browser.newContext(opts); await ctx.addCookies(cookies);
+    const page = await ctx.newPage(); const errors = [];
+    page.on('pageerror', e => errors.push(e.message));
+    await page.goto(SB + 'index.html#/');
+    await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+    await page.evaluate(async () => { await window.DYON.store.saveSettings({ onboarded: true, locale: 'en', digits: 'latn' }); window.DYON.ctx.applyLocale(); await window.DYON.account.refresh(); });
+    devs.push(ctx); return { ctx, page, errors };
+  };
+  const goSettings = async (page) => { await page.evaluate(() => { location.hash = '#/settings?s=sync'; }); await page.waitForSelector('#sync-card'); await page.waitForTimeout(200); };
+  const allServerBytes = () => { const d = path.join(dataDir, 'users'); if (!fs.existsSync(d)) return ''; return fs.readdirSync(d).map(f => fs.readFileSync(path.join(d, f)).toString('latin1')).join('\n'); };
+  const PASS = 'correct horse battery staple';
+  let A, B, phrase = '';
+
+  await scenario('sync: card offers sign-in when signed out, sync is optional (375×812, ar)', { ...PHONE }, async (page) => {
+    await page.goto(SB + 'index.html#/');
+    await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+    await page.evaluate(async () => { await window.DYON.store.saveSettings({ onboarded: true, locale: 'ar' }); window.DYON.ctx.applyLocale(); });
+    await page.evaluate(() => { location.hash = '#/settings?s=sync'; }); await page.waitForSelector('#sync-card');
+    const r = await page.evaluate(() => ({ dir: document.documentElement.dir, on: !!document.querySelector('#sync-on'), chip: document.getElementById('net-chip')?.hidden,
+      over: document.documentElement.scrollWidth > innerWidth + 1, devices: !!document.querySelector('#devices-card') }));
+    assert(r.dir === 'rtl' && !r.on && r.chip === true && !r.over && r.devices, 'signed-out/RTL state wrong: ' + JSON.stringify(r));
+    assert(/\S/.test(await page.textContent('#sync-card')), 'empty card');
+  });
+
+  await scenario('sync: device A turns sync on — passphrase, 24-word phrase, re-type 3 words, upload', {}, async () => {
+    A = await newDevice();
+    const p = A.page; await goSettings(p);
+    await p.click('#sync-on'); await p.fill('#sync-pass', 'short'); await p.fill('#sync-pass2', 'short'); await p.click('#sync-next');
+    assert(/12/.test(await p.textContent('.sheet .err')), 'short passphrase not refused');
+    await p.fill('#sync-pass', PASS); await p.fill('#sync-pass2', PASS + 'x'); await p.click('#sync-next');
+    assert((await p.textContent('.sheet .err')).trim().length > 0, 'mismatch not refused');
+    await p.fill('#sync-pass2', PASS); await p.click('#sync-next');
+    await p.waitForSelector('[data-testid="phrase"]', { timeout: 20000 });
+    const words = await p.$$eval('[data-testid="phrase"] li span', n => n.map(x => x.textContent));
+    assert(words.length === 24, 'phrase not 24 words'); phrase = words.join(' ');
+    await p.click('#sync-written');
+    const ins = await p.$$('.sheet input[data-n]'); assert(ins.length === 3, 'need 3 check words');
+    await ins[0].fill('wrongword'); for (let i = 1; i < 3; i++) await ins[i].fill(words[+(await ins[i].getAttribute('data-n')) - 1]);
+    await p.click('#sync-finish'); assert(/match/i.test(await p.textContent('.sheet .err')), 'wrong word accepted');
+    for (const i of ins) await i.fill(words[+(await i.getAttribute('data-n')) - 1]);
+    await p.click('#sync-finish');
+    await p.waitForFunction(() => window.DYON.sync.isEnabled(), null, { timeout: 20000 });
+    await p.waitForFunction(() => !document.getElementById('net-chip').hidden);
+    assert(await p.evaluate(() => window.DYON.account.syncStatus() !== 'off'), 'dot still off');
+  });
+
+  await scenario('sync: A creates a person + debt; B (same account, passphrase) pulls it; server holds no plaintext', {}, async () => {
+    const p = A.page;
+    await p.evaluate(async () => {
+      const S = window.DYON.store;
+      await S.createCommitment({ counterparty_name: 'Zainab Secret', direction: 'I_OWE', amount_minor: 5000, unit_code: 'USD', description: 'borrowed-for-roof-77', status: 'active', visibility: 'private' });
+      await window.DYON.sync.syncNow();
+    });
+    assert(await p.evaluate(() => window.DYON.sync.pendingCount()) === 0, 'A still has pending changes');
+    B = await newDevice(); await goSettings(B.page);
+    await B.page.click('#sync-join'); await B.page.fill('#sync-secret', 'wrong passphrase here'); await B.page.click('#sync-join-go');
+    await B.page.waitForFunction(() => document.querySelector('.sheet .err')?.textContent.trim().length > 0, null, { timeout: 20000 });
+    assert(!(await B.page.evaluate(() => window.DYON.sync.isEnabled())), 'wrong passphrase connected');
+    await B.page.fill('#sync-secret', PASS); await B.page.click('#sync-join-go');
+    await B.page.waitForFunction(() => window.DYON.sync.isEnabled(), null, { timeout: 20000 });
+    await B.page.evaluate(() => window.DYON.sync.syncNow());
+    const got = await B.page.evaluate(() => { const S = window.DYON.store.state; return { c: S.commitments.map(c => c.description), p: S.counterparties.map(c => c.alias), audit: S.audit.some(a => a.action === 'sync.apply') }; });
+    assert(got.c.includes('borrowed-for-roof-77') && got.p.includes('Zainab Secret'), 'B did not get the data: ' + JSON.stringify(got));
+    assert(got.audit, 'no sync.apply audit event on B');
+    const raw = allServerBytes(); assert(raw.length > 0, 'no server file');
+    for (const needle of ['Zainab', 'borrowed-for-roof', 'amount_minor', 'counterparty']) assert(!raw.includes(needle), 'plaintext on server: ' + needle);
+    const sys = fs.readFileSync(path.join(dataDir, 'system.sqlite')).toString('latin1'); assert(!sys.includes('Zainab') && !sys.includes(PASS), 'system db leaks');
+    const users = fs.readdirSync(path.join(dataDir, 'users')).filter(f => f.endsWith('.sqlite')); assert(users.length === 1 && !users[0].startsWith(U.user + '.'), 'user file naming');
+    assert((fs.statSync(path.join(dataDir, 'users', users[0])).mode & 0o777) === 0o600, 'user file not 0600');
+  });
+
+  await scenario('sync: spiritual and audit never leave the device; local edit syncs by itself within seconds', {}, async () => {
+    await A.page.evaluate(async () => { const S = window.DYON.store; await S.db.put('spiritual', { id: 'sp_secret', note: 'dua-private-xyz', created_at: Date.now() }); });
+    const c = await A.page.evaluate(async () => { const S = window.DYON.store; const x = S.state.commitments[0]; await S.updateCommitment(x.id, { description: 'edited-on-A-auto' }); return x.id; });
+    await B.page.waitForFunction(async (id) => { await window.DYON.sync.syncNow(); return window.DYON.store.state.commitments.find(x => x.id === id)?.description === 'edited-on-A-auto'; }, c, { timeout: 25000 });
+    const raw = allServerBytes(); assert(!raw.includes('dua-private'), 'spiritual leaked');
+    assert(await B.page.evaluate(() => !window.DYON.store.state.spiritual.some(s => s.id === 'sp_secret')), 'spiritual reached B');
+    await A.page.waitForFunction(() => window.DYON.sync.pendingCount() === 0, null, { timeout: 15000 }).catch(() => {});
+    assert(await A.page.evaluate(() => window.DYON.sync.pendingCount()) === 0, 'A pending after auto-sync: ' + JSON.stringify(await A.page.evaluate(() => window.DYON.sync.status())));
+  });
+
+  await scenario('sync: both edit the amount offline → newer kept, other value one tap away in "Needs a look"; nothing lost', {}, async () => {
+    const id = await A.page.evaluate(() => window.DYON.store.state.commitments[0].id);
+    await A.ctx.setOffline(true); await B.ctx.setOffline(true);
+    await A.page.evaluate(async (id) => { await window.DYON.store.updateCommitment(id, { amount_minor: 11100 }); }, id);
+    await B.page.waitForTimeout(30);
+    await B.page.evaluate(async (id) => { await window.DYON.store.updateCommitment(id, { amount_minor: 22200 }); }, id);
+    assert(await A.page.evaluate(() => window.DYON.sync.status().phase) === 'offline', 'A not offline');
+    assert(await A.page.evaluate(() => window.DYON.account.syncStatus()) === 'offline', 'dot not offline');
+    assert(await A.page.evaluate(() => document.getElementById('net-chip').dataset.state) === 'offline', 'chip not offline');
+    await A.ctx.setOffline(false); await B.ctx.setOffline(false);
+    await A.page.evaluate(() => window.DYON.sync.syncNow()); await B.page.evaluate(() => window.DYON.sync.syncNow());
+    await A.page.evaluate(() => window.DYON.sync.syncNow());
+    const b = await B.page.evaluate((id) => ({ amt: window.DYON.store.state.commitments.find(x => x.id === id).amount_minor, n: window.DYON.sync.conflicts().length }), id);
+    assert(b.n === 1 && b.amt === 22200, 'B should keep its newer 222.00 and list one conflict: ' + JSON.stringify(b));
+    const a = await A.page.evaluate((id) => window.DYON.store.state.commitments.find(x => x.id === id).amount_minor, id);
+    assert(a === 22200, 'A did not converge on the newer value: ' + a);
+    await B.page.evaluate(() => { location.hash = '#/settings?s=sync'; }); await B.page.waitForSelector('[data-testid="conflicts-link"]');
+    await B.page.click('[data-testid="conflicts-link"]'); await B.page.waitForSelector('[data-conflict]');
+    const txt = await B.page.textContent('[data-conflict]'); assert(/111/.test(txt) && /222/.test(txt), 'both values not shown: ' + txt);
+    await B.page.click('[data-conflict] [data-act="other"]'); await B.page.waitForSelector('[data-testid="no-conflicts"]');
+    assert(await B.page.evaluate((id) => window.DYON.store.state.commitments.find(x => x.id === id).amount_minor, id) === 11100, 'other value not applied');
+    await B.page.evaluate(() => window.DYON.sync.syncNow()); await A.page.evaluate(() => window.DYON.sync.syncNow());
+    assert(await A.page.evaluate((id) => window.DYON.store.state.commitments.find(x => x.id === id).amount_minor, id) === 11100, 'choice did not sync to A');
+  });
+
+  await scenario('sync: a different-field edit on both devices merges silently (no conflict)', {}, async () => {
+    const id = await A.page.evaluate(() => window.DYON.store.state.commitments[0].id);
+    await A.page.evaluate(async (id) => { await window.DYON.store.updateCommitment(id, { notes: 'note-from-A' }); }, id);
+    await B.page.evaluate(async (id) => { await window.DYON.store.updateCommitment(id, { description: 'desc-from-B' }); }, id);
+    for (const pg of [A.page, B.page, A.page, B.page]) await pg.evaluate(() => window.DYON.sync.syncNow());
+    for (const pg of [A.page, B.page]) {
+      const r = await pg.evaluate((id) => { const c = window.DYON.store.state.commitments.find(x => x.id === id); return [c.notes, c.description, window.DYON.sync.conflicts().length]; }, id);
+      assert(r[0] === 'note-from-A' && r[1] === 'desc-from-B' && r[2] === 0, 'merge failed: ' + JSON.stringify(r));
+    }
+  });
+
+  await scenario('sync: devices card lists both; B removes A → A is cut off (403) and keeps its local data', {}, async () => {
+    await goSettings(B.page); await B.page.waitForSelector('#devices-card [data-device]');
+    assert((await B.page.$$('#devices-card [data-device]')).length === 2, 'expected 2 devices');
+    const aId = await A.page.evaluate(() => window.DYON.sync.status().deviceId);
+    await B.page.evaluate((id) => window.DYON.sync.revokeDevice(id), aId);
+    await A.page.evaluate(async () => { await window.DYON.store.updateCommitment(window.DYON.store.state.commitments[0].id, { notes: 'after-revoke' }); await window.DYON.sync.syncNow(); });
+    await A.page.waitForFunction(() => !window.DYON.sync.isEnabled(), null, { timeout: 10000 });
+    const left = await A.page.evaluate(() => window.DYON.store.state.commitments.length);
+    assert(left >= 1, 'A lost its local data'); 
+    await goSettings(A.page); assert(/removed from sync/i.test(await A.page.textContent('#sync-card')), 'no revoked notice');
+  });
+
+  await scenario('sync: turning sync off keeps local data; server copy stays; delete-copy needs the word and wipes the file', {}, async () => {
+    const before = await B.page.evaluate(() => window.DYON.store.state.commitments.length);
+    await goSettings(B.page); await B.page.click('#sync-off'); await B.page.click('.sheet .btn-primary');
+    await B.page.waitForFunction(() => !window.DYON.sync.isEnabled());
+    assert(await B.page.evaluate(() => window.DYON.store.state.commitments.length) === before, 'turning off changed local data');
+    assert(fs.readdirSync(path.join(dataDir, 'users')).some(f => f.endsWith('.sqlite')), 'server copy vanished');
+    await B.page.evaluate(() => window.DYON.sync.syncNow());   // no-op when off
+    // re-join, then wipe server copy
+    await goSettings(B.page); await B.page.click('#sync-join'); await B.page.fill('#sync-secret', PASS); await B.page.click('#sync-join-go');
+    await B.page.waitForFunction(() => window.DYON.sync.isEnabled(), null, { timeout: 20000 });
+    await goSettings(B.page); await B.page.click('#sync-wipe'); await B.page.fill('#wipe-word', 'nope'); await B.page.click('.sheet .btn-danger');
+    assert(await B.page.evaluate(() => window.DYON.sync.isEnabled()), 'wiped without confirmation word');
+    await B.page.fill('#wipe-word', 'delete'); await B.page.click('.sheet .btn-danger');
+    await B.page.waitForFunction(() => !window.DYON.sync.isEnabled());
+    assert(!fs.existsSync(path.join(dataDir, 'users')) || fs.readdirSync(path.join(dataDir, 'users')).filter(f => f.endsWith('.sqlite')).length === 0, 'server file still there');
+    assert(await B.page.evaluate(() => window.DYON.store.state.commitments.length) === before, 'wipe touched local data');
+  });
+
+  await scenario('sync: "Delete all data" on a synced device turns sync off and still works with no network (RL-09)', {}, async () => {
+    const D = await newDevice(); await goSettings(D.page);
+    await D.page.click('#sync-on'); await D.page.fill('#sync-pass', PASS); await D.page.fill('#sync-pass2', PASS); await D.page.click('#sync-next');
+    await D.page.waitForSelector('[data-testid="phrase"]', { timeout: 20000 });
+    const words = await D.page.$$eval('[data-testid="phrase"] li span', n => n.map(x => x.textContent));
+    await D.page.click('#sync-written'); for (const i of await D.page.$$('.sheet input[data-n]')) await i.fill(words[+(await i.getAttribute('data-n')) - 1]);
+    await D.page.click('#sync-finish'); await D.page.waitForFunction(() => window.DYON.sync.isEnabled(), null, { timeout: 20000 });
+    await D.ctx.setOffline(true);
+    await D.page.evaluate(async () => { await window.DYON.store.wipe(); });
+    await D.page.waitForFunction(() => !window.DYON.sync.isEnabled());
+    assert(await D.page.evaluate(() => window.DYON.store.state.commitments.length) === 0, 'wipe did not clear');
+    // export is a pure local function: works offline, signed in or not
+    assert(await D.page.evaluate(() => JSON.parse(JSON.stringify(window.DYON.store.exportPayload(false))).app === 'DYON'), 'export failed offline');
+  });
+
+  for (const c of devs) await c.close().catch(() => {});
+  srv.kill('SIGTERM'); fs.rmSync(dataDir, { recursive: true, force: true });
+}
+
 
 await browser.close();
 const failed = results.filter(r => !r.ok);

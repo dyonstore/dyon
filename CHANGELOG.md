@@ -5,6 +5,13 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
 
 ## [2.0.0] — unreleased
 
+### 6 · End-to-end encrypted sync
+- **Optional, zero-knowledge.** Turn on in Settings → Sync: passphrase (≥12) + 24-word recovery phrase (BIP-39). A random AES-GCM data key is wrapped
+  twice (PBKDF2-SHA-256 ≥600 000 it. and recovery key); every record is encrypted on-device (AAD = user|table|id|rev). The server stores opaque blobs
+  in a per-user 0600 SQLite file named by HMAC, with quota, revision conflicts, device list/revoke and a confirmed "delete server copy".
+- **Engine.** Own IndexedDB, 3-way merge; amount/date/direction/type/status clashes go to **Needs a look** with the other value one tap away.
+  Spiritual notes, audit log and settings never leave the device. Offline-first with heartbeat + backoff; "Delete all data" turns sync off (RL-09).
+
 ### 5 · Account aside
 - **Account panel (5.1).** Header avatar button `#acct-btn` and shortcut **U** open an aside (reuses `aside.js`). Signed out: explains Stage 1,
   sign-in buttons only for configured providers, and **Export my data** (RL-09, never gated). Signed in: same-origin 32/56 px picture with an

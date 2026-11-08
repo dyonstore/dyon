@@ -9,6 +9,8 @@ import { seedDemo } from './seed.js';
 import { renderGuide, startTour, endTour, tourDone, tourActive, repaintTour, openHelp } from './guide.js';
 import * as AUTH from './auth.js';
 import * as ACCT from './account.js';
+import * as SY from './sync.js';
+import { netChip, paintNetChip, renderConflicts } from './sync-ui.js';
 import { accountButton as makeAccountButton, paintAccountButton, openAccountAside } from './account-aside.js';
 import * as QR from './qr.js';
 import { el, icon, clear, toast, registerShortcut, closeSheet, sheet, input, confirmSheet } from './ui.js';
@@ -140,6 +142,7 @@ function buildChrome() {
         style: { position: 'relative' },
         onclick: () => { location.hash = '#/inbox'; }
       }, [icon('fa-bell'), queueCount ? el('span', { class: 'dot' }) : null]),
+      netChip(),
       makeAccountButton((opener) => openAccountAside(opener)),
       el('button', {
         class: 'btn btn-primary hide-mobile', id: 'quick-add-btn', type: 'button', 'data-tour': 'add',
@@ -273,6 +276,7 @@ function render() {
     case 'islamic': view = V2.renderIslamic(); break;
     case 'calm': view = V2.renderCalm(); break;
     case 'settings': view = V2.renderSettings(ctx); break;
+    case 'sync/conflicts': view = renderConflicts(); break;
     case 'about': view = V2.renderAbout(); break;
     case 'guide': view = renderGuide(params); break;
     case 'r': view = QR.renderRequest(params, { onAdd: (pre) => {
@@ -514,7 +518,8 @@ async function boot() {
   ACCT.subscribe(repaintAcct);
   window.addEventListener('online', repaintAcct);
   window.addEventListener('offline', repaintAcct);
-  ACCT.refresh().then(() => { surfaceAuthError(); repaintAcct(); });
+  SY.subscribe(() => { paintNetChip(document.getElementById('net-chip')); repaintAcct(); });
+  ACCT.refresh().then(() => { surfaceAuthError(); repaintAcct(); SY.init(); });
 
   /* Release undo-window reminders (RL-10) */
   const pending = S.activeUndoWindows();
@@ -537,4 +542,4 @@ boot().catch(err => {
   hideBootScreen();
 });
 
-window.DYON = { store: S, ctx, account: ACCT };
+window.DYON = { store: S, ctx, account: ACCT, sync: SY };

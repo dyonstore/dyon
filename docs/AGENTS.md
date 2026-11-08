@@ -184,10 +184,11 @@ These agent tools do heavy work cheaply — prefer them over manual grinding:
 ## 8. Current status (keep in sync with TASKS.md §C / §E)
 
 - ✅ §1 bugs · ✅ §2 i18n (786 keys) · ✅ §3 country · ✅ §4.1 layout (web root `public/`)
-- ✅ §4 server (classes, schema, auth, hardening, geo/ping) · ✅ §5 account aside · ▶ §6 encrypted sync — **next**; then §6.5 storage, §7 email, §8 blog, §10 admin
+- ✅ §4 server (classes, schema, auth, hardening, geo/ping) · ✅ §5 account aside · ✅ §6 encrypted sync · ▶ §6.5 storage — **next**; then, §7 email, §8 blog, §10 admin
 - One command for all gates: `npm run check` (server must be up: `setsid -f php -S 127.0.0.1:8080 -t public public/router.php`).
 - PHP tests: `php tests/php/run.php [filter]` — `tests/php/lib.php` has `test/eq/ok/throws/tmpdir/dev_server/http`.
 - Pitfall: never `pkill` + restart in one shell command; harness pages live in `public/dev/` (404 in prod).
 - Pitfall: PHP `+` on arrays keeps the LEFT value — use `array_merge` for header defaults. Files starting `_` in `public/` are never web-callable. Set `secret_key` (config or `DYON_SECRET_KEY`) before using sessions.
+- Pitfall (sync): sync state lives in its own IndexedDB `dyon-sync` (not the ledger DB); `window.DYON.sync` is exposed for e2e; `spiritual/audit/settings` never sync. In PHP tests that mint a session for a `php -S` server run `PRAGMA wal_checkpoint(PASSIVE)` or the server can't see it. `E2E_ONLY="sync:" node scripts/e2e.mjs` runs a subset (the §6 block spawns its own server).
 - Pitfall: new unit tests in `public/js/tests.js` must go ABOVE the `const passed = …` summary block or they are not counted. `check()` is sync — use `await checkAsync()` for anything returning a Promise.
 - Pitfall: `scripts/i18n-add.mjs` now resolves `public/locales`; e2e mocks the API with `page.route('**/api/auth/me.php', …)` (see §5 scenarios).

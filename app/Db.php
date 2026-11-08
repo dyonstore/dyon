@@ -35,6 +35,9 @@ final class Db
         return $db;
     }
 
+    /** Drop one cached handle (before deleting its file). */
+    public static function forget(string $file): void { unset(self::$open[$file]); }
+
     /** Test helper: forget cached handles. */
     public static function reset(): void { self::$open = []; }
 

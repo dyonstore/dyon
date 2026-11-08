@@ -1,0 +1,487 @@
+{
+ "sync.title": {
+  "en": "Sync between devices",
+  "ar": "المزامنة بين الأجهزة",
+  "fr": "Synchronisation entre appareils"
+ },
+ "sync.sub": {
+  "en": "Optional. Your devices share an encrypted copy that the server cannot read.",
+  "ar": "اختيارية. تتشارك أجهزتك نسخة مشفّرة لا يستطيع الخادم قراءتها.",
+  "fr": "Facultative. Vos appareils partagent une copie chiffrée que le serveur ne peut pas lire."
+ },
+ "sync.needs_account": {
+  "en": "Sign in to sync between your devices. Everything keeps working on this device without it.",
+  "ar": "سجّل الدخول للمزامنة بين أجهزتك. كل شيء يعمل على هذا الجهاز بدونها.",
+  "fr": "Connectez-vous pour synchroniser vos appareils. Tout fonctionne sans cela sur cet appareil."
+ },
+ "sync.sign_in": {
+  "en": "Sign in",
+  "ar": "تسجيل الدخول",
+  "fr": "Se connecter"
+ },
+ "sync.turn_on": {
+  "en": "Turn on sync",
+  "ar": "تشغيل المزامنة",
+  "fr": "Activer la synchronisation"
+ },
+ "sync.connect": {
+  "en": "Connect this device",
+  "ar": "ربط هذا الجهاز",
+  "fr": "Connecter cet appareil"
+ },
+ "sync.connect_hint": {
+  "en": "A synced copy already exists. Connect this device with your passphrase.",
+  "ar": "توجد نسخة متزامنة بالفعل. اربط هذا الجهاز بعبارة المرور الخاصة بك.",
+  "fr": "Une copie synchronisée existe déjà. Connectez cet appareil avec votre phrase secrète."
+ },
+ "sync.off_hint": {
+  "en": "Sync is off. Your data lives only on this device.",
+  "ar": "المزامنة متوقفة. بياناتك موجودة على هذا الجهاز فقط.",
+  "fr": "La synchronisation est désactivée. Vos données restent sur cet appareil."
+ },
+ "sync.phase.idle": {
+  "en": "Up to date",
+  "ar": "محدّث",
+  "fr": "À jour"
+ },
+ "sync.phase.syncing": {
+  "en": "Syncing…",
+  "ar": "جارٍ المزامنة…",
+  "fr": "Synchronisation…"
+ },
+ "sync.phase.offline": {
+  "en": "Offline — changes will upload when you're back online",
+  "ar": "غير متصل — سيتم رفع التغييرات عند عودة الاتصال",
+  "fr": "Hors ligne — les modifications seront envoyées au retour de la connexion"
+ },
+ "sync.phase.paused": {
+  "en": "Paused — sign in again to continue",
+  "ar": "متوقفة — سجّل الدخول مجددًا للمتابعة",
+  "fr": "En pause — reconnectez-vous pour continuer"
+ },
+ "sync.last": {
+  "en": "Last synced {time}",
+  "ar": "آخر مزامنة {time}",
+  "fr": "Dernière synchronisation : {time}"
+ },
+ "sync.never": {
+  "en": "Not synced yet",
+  "ar": "لم تتم المزامنة بعد",
+  "fr": "Pas encore synchronisé"
+ },
+ "sync.pending": {
+  "en": "{count, plural, one {# change waiting to upload} other {# changes waiting to upload}}",
+  "ar": "{count, plural, zero {لا تغييرات بانتظار الرفع} one {تغيير واحد بانتظار الرفع} two {تغييران بانتظار الرفع} few {# تغييرات بانتظار الرفع} many {# تغييرًا بانتظار الرفع} other {# تغيير بانتظار الرفع}}",
+  "fr": "{count, plural, one {# modification en attente d'envoi} other {# modifications en attente d'envoi}}"
+ },
+ "sync.now": {
+  "en": "Sync now",
+  "ar": "زامن الآن",
+  "fr": "Synchroniser maintenant"
+ },
+ "sync.turn_off": {
+  "en": "Turn off sync on this device",
+  "ar": "إيقاف المزامنة على هذا الجهاز",
+  "fr": "Désactiver la synchronisation sur cet appareil"
+ },
+ "sync.turn_off_msg": {
+  "en": "This device stops syncing. Everything on this device stays exactly as it is. The synced copy stays on the server until you delete it.",
+  "ar": "سيتوقف هذا الجهاز عن المزامنة. يبقى كل ما على هذا الجهاز كما هو. تبقى النسخة المتزامنة على الخادم حتى تحذفها.",
+  "fr": "Cet appareil cesse de synchroniser. Tout ce qui s'y trouve reste inchangé. La copie synchronisée reste sur le serveur jusqu'à ce que vous la supprimiez."
+ },
+ "sync.turn_off_do": {
+  "en": "Turn off",
+  "ar": "إيقاف",
+  "fr": "Désactiver"
+ },
+ "sync.turned_off": {
+  "en": "Sync is off on this device",
+  "ar": "المزامنة متوقفة على هذا الجهاز",
+  "fr": "La synchronisation est désactivée sur cet appareil"
+ },
+ "sync.delete_copy": {
+  "en": "Delete synced copy from server",
+  "ar": "حذف النسخة المتزامنة من الخادم",
+  "fr": "Supprimer la copie synchronisée du serveur"
+ },
+ "sync.delete_msg": {
+  "en": "This permanently deletes the encrypted copy and the stored keys, and disconnects every device. The data on your devices is not touched. Type “{word}” to confirm.",
+  "ar": "سيؤدي هذا إلى حذف النسخة المشفّرة والمفاتيح المخزّنة نهائيًا وفصل كل الأجهزة. لن تُمسّ البيانات الموجودة على أجهزتك. اكتب «{word}» للتأكيد.",
+  "fr": "Cela supprime définitivement la copie chiffrée et les clés stockées, et déconnecte tous les appareils. Les données de vos appareils ne sont pas touchées. Saisissez « {word} » pour confirmer."
+ },
+ "sync.confirm_word": {
+  "en": "delete",
+  "ar": "حذف",
+  "fr": "supprimer"
+ },
+ "sync.confirm_label": {
+  "en": "Confirmation word",
+  "ar": "كلمة التأكيد",
+  "fr": "Mot de confirmation"
+ },
+ "sync.delete_do": {
+  "en": "Delete synced copy",
+  "ar": "حذف النسخة المتزامنة",
+  "fr": "Supprimer la copie synchronisée"
+ },
+ "sync.deleted": {
+  "en": "The synced copy was deleted",
+  "ar": "تم حذف النسخة المتزامنة",
+  "fr": "La copie synchronisée a été supprimée"
+ },
+ "sync.loss_warning": {
+  "en": "If you forget your passphrase and lose your recovery phrase, nobody — including us — can recover the synced copy. The data on your devices is never affected.",
+  "ar": "إذا نسيت عبارة المرور وفقدت عبارة الاسترداد، فلا أحد — بما فيهم نحن — يستطيع استعادة النسخة المتزامنة. بيانات أجهزتك لا تتأثر أبدًا.",
+  "fr": "Si vous oubliez votre phrase secrète et perdez votre phrase de récupération, personne — nous compris — ne peut récupérer la copie synchronisée. Les données de vos appareils ne sont jamais touchées."
+ },
+ "sync.export_note": {
+  "en": "Exporting and deleting your data on this device never needs sync or an account.",
+  "ar": "التصدير وحذف بياناتك على هذا الجهاز لا يحتاجان إلى مزامنة أو حساب.",
+  "fr": "Exporter et supprimer vos données sur cet appareil n'exige ni synchronisation ni compte."
+ },
+ "sync.w.title": {
+  "en": "Turn on sync",
+  "ar": "تشغيل المزامنة",
+  "fr": "Activer la synchronisation"
+ },
+ "sync.w.pass_label": {
+  "en": "Sync passphrase",
+  "ar": "عبارة مرور المزامنة",
+  "fr": "Phrase secrète de synchronisation"
+ },
+ "sync.w.pass_hint": {
+  "en": "At least 12 characters. Use a phrase only you know. It never leaves this device.",
+  "ar": "12 حرفًا على الأقل. استخدم عبارة لا يعرفها غيرك. لا تغادر هذا الجهاز أبدًا.",
+  "fr": "12 caractères minimum. Choisissez une phrase que vous seul connaissez. Elle ne quitte jamais cet appareil."
+ },
+ "sync.w.pass2_label": {
+  "en": "Type it again",
+  "ar": "اكتبها مرة أخرى",
+  "fr": "Saisissez-la à nouveau"
+ },
+ "sync.w.err_short": {
+  "en": "Use at least 12 characters.",
+  "ar": "استخدم 12 حرفًا على الأقل.",
+  "fr": "Utilisez au moins 12 caractères."
+ },
+ "sync.w.err_mismatch": {
+  "en": "The two entries don't match.",
+  "ar": "الإدخالان غير متطابقين.",
+  "fr": "Les deux saisies ne correspondent pas."
+ },
+ "sync.w.next": {
+  "en": "Continue",
+  "ar": "متابعة",
+  "fr": "Continuer"
+ },
+ "sync.w.securing": {
+  "en": "Securing your keys — this takes a moment…",
+  "ar": "جارٍ تأمين مفاتيحك — يستغرق هذا لحظات…",
+  "fr": "Sécurisation de vos clés — cela prend un instant…"
+ },
+ "sync.w.phrase_title": {
+  "en": "Your recovery phrase",
+  "ar": "عبارة الاسترداد الخاصة بك",
+  "fr": "Votre phrase de récupération"
+ },
+ "sync.w.phrase_body": {
+  "en": "Write these 24 words on paper and keep them somewhere safe. They are the only way back in if you forget your passphrase. They are shown once and cannot be shown again.",
+  "ar": "اكتب هذه الكلمات الأربع والعشرين على ورقة واحتفظ بها في مكان آمن. هي الطريق الوحيد للعودة إذا نسيت عبارة المرور. تُعرض مرة واحدة ولا يمكن عرضها مجددًا.",
+  "fr": "Notez ces 24 mots sur papier et gardez-les en lieu sûr. C'est le seul moyen de revenir si vous oubliez votre phrase secrète. Ils ne sont affichés qu'une fois."
+ },
+ "sync.w.written": {
+  "en": "I wrote them down",
+  "ar": "كتبتها",
+  "fr": "Je les ai notés"
+ },
+ "sync.w.check_title": {
+  "en": "Check your copy",
+  "ar": "تحقق من نسختك",
+  "fr": "Vérifiez votre copie"
+ },
+ "sync.w.check_body": {
+  "en": "Type words number {a}, {b} and {c} from your phrase.",
+  "ar": "اكتب الكلمات رقم {a} و{b} و{c} من عبارتك.",
+  "fr": "Saisissez les mots n° {a}, {b} et {c} de votre phrase."
+ },
+ "sync.w.word_n": {
+  "en": "Word {n}",
+  "ar": "الكلمة {n}",
+  "fr": "Mot {n}"
+ },
+ "sync.w.err_words": {
+  "en": "Those words don't match. Check your paper copy.",
+  "ar": "هذه الكلمات غير مطابقة. راجع نسختك الورقية.",
+  "fr": "Ces mots ne correspondent pas. Vérifiez votre copie papier."
+ },
+ "sync.w.device_label": {
+  "en": "Name for this device",
+  "ar": "اسم لهذا الجهاز",
+  "fr": "Nom de cet appareil"
+ },
+ "sync.w.device_default": {
+  "en": "My device",
+  "ar": "جهازي",
+  "fr": "Mon appareil"
+ },
+ "sync.w.finish": {
+  "en": "Turn on sync",
+  "ar": "تشغيل المزامنة",
+  "fr": "Activer la synchronisation"
+ },
+ "sync.w.on": {
+  "en": "Sync is on",
+  "ar": "المزامنة قيد التشغيل",
+  "fr": "La synchronisation est activée"
+ },
+ "sync.j.title": {
+  "en": "Connect this device",
+  "ar": "ربط هذا الجهاز",
+  "fr": "Connecter cet appareil"
+ },
+ "sync.j.body": {
+  "en": "Enter your sync passphrase. If you forgot it, use your 24-word recovery phrase instead.",
+  "ar": "أدخل عبارة مرور المزامنة. إذا نسيتها فاستخدم عبارة الاسترداد المكوّنة من 24 كلمة.",
+  "fr": "Saisissez votre phrase secrète de synchronisation. Si vous l'avez oubliée, utilisez votre phrase de récupération de 24 mots."
+ },
+ "sync.j.use_phrase": {
+  "en": "Use recovery phrase instead",
+  "ar": "استخدم عبارة الاسترداد بدلًا من ذلك",
+  "fr": "Utiliser la phrase de récupération"
+ },
+ "sync.j.use_pass": {
+  "en": "Use passphrase instead",
+  "ar": "استخدم عبارة المرور بدلًا من ذلك",
+  "fr": "Utiliser la phrase secrète"
+ },
+ "sync.j.phrase_label": {
+  "en": "Recovery phrase (24 words)",
+  "ar": "عبارة الاسترداد (24 كلمة)",
+  "fr": "Phrase de récupération (24 mots)"
+ },
+ "sync.j.err_secret": {
+  "en": "That didn't unlock your synced copy.",
+  "ar": "لم يفتح هذا نسختك المتزامنة.",
+  "fr": "Cela n'a pas déverrouillé votre copie synchronisée."
+ },
+ "sync.j.err_phrase": {
+  "en": "That doesn't look like a valid recovery phrase.",
+  "ar": "لا تبدو هذه عبارة استرداد صالحة.",
+  "fr": "Cela ne ressemble pas à une phrase de récupération valide."
+ },
+ "sync.j.go": {
+  "en": "Connect",
+  "ar": "ربط",
+  "fr": "Connecter"
+ },
+ "sync.err.network": {
+  "en": "Couldn't reach the server. Nothing was changed.",
+  "ar": "تعذّر الوصول إلى الخادم. لم يتغير شيء.",
+  "fr": "Impossible de joindre le serveur. Rien n'a été modifié."
+ },
+ "sync.err.generic": {
+  "en": "Something went wrong. Nothing was changed.",
+  "ar": "حدث خطأ ما. لم يتغير شيء.",
+  "fr": "Un problème est survenu. Rien n'a été modifié."
+ },
+ "sync.err.signin": {
+  "en": "Sign in first.",
+  "ar": "سجّل الدخول أولًا.",
+  "fr": "Connectez-vous d'abord."
+ },
+ "sync.problem.revoked": {
+  "en": "This device was removed from sync. The data on it is untouched.",
+  "ar": "أُزيل هذا الجهاز من المزامنة. البيانات عليه لم تُمسّ.",
+  "fr": "Cet appareil a été retiré de la synchronisation. Ses données sont intactes."
+ },
+ "sync.problem.wiped": {
+  "en": "The synced copy was deleted. The data on this device is untouched.",
+  "ar": "حُذفت النسخة المتزامنة. بيانات هذا الجهاز لم تُمسّ.",
+  "fr": "La copie synchronisée a été supprimée. Les données de cet appareil sont intactes."
+ },
+ "sync.problem.quota": {
+  "en": "Your synced copy is full. New changes stay on this device only.",
+  "ar": "نسختك المتزامنة ممتلئة. تبقى التغييرات الجديدة على هذا الجهاز فقط.",
+  "fr": "Votre copie synchronisée est pleine. Les nouvelles modifications restent sur cet appareil."
+ },
+ "sync.problem.other_account": {
+  "en": "This device is linked to a different account. Sign in with the account you used.",
+  "ar": "هذا الجهاز مرتبط بحساب آخر. سجّل الدخول بالحساب الذي استخدمته.",
+  "fr": "Cet appareil est lié à un autre compte. Connectez-vous avec le compte utilisé."
+ },
+ "sync.problem.retry": {
+  "en": "The last attempt didn't go through. We'll try again shortly.",
+  "ar": "لم تنجح المحاولة الأخيرة. سنعيد المحاولة قريبًا.",
+  "fr": "La dernière tentative a échoué. Nouvel essai sous peu."
+ },
+ "sync.dismiss": {
+  "en": "Dismiss",
+  "ar": "إخفاء",
+  "fr": "Ignorer"
+ },
+ "sync.net.online": {
+  "en": "Online",
+  "ar": "متصل",
+  "fr": "En ligne"
+ },
+ "sync.net.offline": {
+  "en": "Offline",
+  "ar": "غير متصل",
+  "fr": "Hors ligne"
+ },
+ "sync.net.syncing": {
+  "en": "Syncing…",
+  "ar": "جارٍ المزامنة…",
+  "fr": "Synchronisation…"
+ },
+ "sync.dev.title": {
+  "en": "Devices",
+  "ar": "الأجهزة",
+  "fr": "Appareils"
+ },
+ "sync.dev.sub": {
+  "en": "Devices connected to your synced copy.",
+  "ar": "الأجهزة المرتبطة بنسختك المتزامنة.",
+  "fr": "Appareils connectés à votre copie synchronisée."
+ },
+ "sync.dev.this": {
+  "en": "This device",
+  "ar": "هذا الجهاز",
+  "fr": "Cet appareil"
+ },
+ "sync.dev.last": {
+  "en": "Last seen {time}",
+  "ar": "آخر ظهور {time}",
+  "fr": "Vu pour la dernière fois : {time}"
+ },
+ "sync.dev.rename": {
+  "en": "Rename",
+  "ar": "إعادة تسمية",
+  "fr": "Renommer"
+ },
+ "sync.dev.remove": {
+  "en": "Remove",
+  "ar": "إزالة",
+  "fr": "Retirer"
+ },
+ "sync.dev.removed": {
+  "en": "Removed",
+  "ar": "أُزيل",
+  "fr": "Retiré"
+ },
+ "sync.dev.remove_msg": {
+  "en": "“{label}” will stop syncing and won't receive new changes. The data already on it is not touched.",
+  "ar": "سيتوقف «{label}» عن المزامنة ولن يتلقى تغييرات جديدة. البيانات الموجودة عليه لا تُمسّ.",
+  "fr": "« {label} » cessera de synchroniser et ne recevra plus de modifications. Ses données ne sont pas touchées."
+ },
+ "sync.dev.new_name": {
+  "en": "Device name",
+  "ar": "اسم الجهاز",
+  "fr": "Nom de l'appareil"
+ },
+ "sync.dev.empty": {
+  "en": "No devices yet.",
+  "ar": "لا توجد أجهزة بعد.",
+  "fr": "Aucun appareil pour l'instant."
+ },
+ "sync.dev.off": {
+  "en": "Turn on sync to see your devices.",
+  "ar": "شغّل المزامنة لرؤية أجهزتك.",
+  "fr": "Activez la synchronisation pour voir vos appareils."
+ },
+ "sync.c.title": {
+  "en": "Needs a look",
+  "ar": "يحتاج إلى نظرة",
+  "fr": "À regarder"
+ },
+ "sync.c.sub": {
+  "en": "Two devices changed the same item. The newer change was kept and the other value is one tap away. Nothing was lost.",
+  "ar": "غيّر جهازان العنصر نفسه. تم الاحتفاظ بالتغيير الأحدث والقيمة الأخرى على بُعد نقرة. لم يُفقد شيء.",
+  "fr": "Deux appareils ont modifié le même élément. La modification la plus récente est conservée et l'autre valeur est à un geste. Rien n'a été perdu."
+ },
+ "sync.c.empty": {
+  "en": "Nothing needs a look.",
+  "ar": "لا شيء يحتاج إلى نظرة.",
+  "fr": "Rien à regarder."
+ },
+ "sync.c.kept_mine": {
+  "en": "Kept: this device's value",
+  "ar": "المحتفظ به: قيمة هذا الجهاز",
+  "fr": "Conservé : la valeur de cet appareil"
+ },
+ "sync.c.kept_theirs": {
+  "en": "Kept: the other device's value",
+  "ar": "المحتفظ به: قيمة الجهاز الآخر",
+  "fr": "Conservé : la valeur de l'autre appareil"
+ },
+ "sync.c.mine": {
+  "en": "This device",
+  "ar": "هذا الجهاز",
+  "fr": "Cet appareil"
+ },
+ "sync.c.theirs": {
+  "en": "Other device",
+  "ar": "الجهاز الآخر",
+  "fr": "Autre appareil"
+ },
+ "sync.c.use_other": {
+  "en": "Use the other value",
+  "ar": "استخدم القيمة الأخرى",
+  "fr": "Utiliser l'autre valeur"
+ },
+ "sync.c.keep": {
+  "en": "Keep what's shown",
+  "ar": "أبقِ المعروض",
+  "fr": "Garder la valeur affichée"
+ },
+ "sync.c.resolved": {
+  "en": "Done",
+  "ar": "تم",
+  "fr": "C'est fait"
+ },
+ "sync.c.field.amount_minor": {
+  "en": "Amount",
+  "ar": "المبلغ",
+  "fr": "Montant"
+ },
+ "sync.c.field.unit_code": {
+  "en": "Unit",
+  "ar": "الوحدة",
+  "fr": "Unité"
+ },
+ "sync.c.field.due_on": {
+  "en": "Due date",
+  "ar": "تاريخ الاستحقاق",
+  "fr": "Date d'échéance"
+ },
+ "sync.c.field.direction": {
+  "en": "Direction",
+  "ar": "الاتجاه",
+  "fr": "Sens"
+ },
+ "sync.c.field.type": {
+  "en": "Type",
+  "ar": "النوع",
+  "fr": "Type"
+ },
+ "sync.c.field.status": {
+  "en": "Status",
+  "ar": "الحالة",
+  "fr": "Statut"
+ },
+ "sync.c.untitled": {
+  "en": "Untitled item",
+  "ar": "عنصر بلا عنوان",
+  "fr": "Élément sans titre"
+ },
+ "sync.c.none": {
+  "en": "none",
+  "ar": "لا شيء",
+  "fr": "aucune"
+ },
+ "sync.c.back": {
+  "en": "Back to settings",
+  "ar": "العودة إلى الإعدادات",
+  "fr": "Retour aux réglages"
+ }
+}

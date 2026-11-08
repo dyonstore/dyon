@@ -6,10 +6,10 @@ Config::set(['data_dir' => $dir, 'cookie_secure' => false, 'secret_key' => base6
 Db::reset();
 
 /* ---- Db / schema ---- */
-test('migrate twice is a no-op; user_version = 1', function () {
+test('migrate twice is a no-op; user_version = latest', function () {
     $db = Db::system();
     eq($db->version(), Db::latestVersion());
-    eq($db->version(), 1);
+    ok($db->version() >= 2);
     eq($db->migrate(), 0);
 });
 test('Db pragmas: WAL, foreign_keys, busy_timeout', function () {

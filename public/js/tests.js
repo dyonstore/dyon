@@ -673,6 +673,91 @@ await checkAsync('RL-09: the account panel code never gates export behind sign-i
 });
 
 
+
+/* ---------- §6 sync crypto ---------- */
+const SC = await import('./sync-crypto.js');
+let _sk = null;
+const syncKeys = async () => _sk ||= await SC.createKeys('correct horse battery');
+await checkAsync('sync-crypto: passphrase unlock round-trips the data key; wrong passphrase fails the check', async () => {
+  const { dataKey, meta } = await syncKeys();
+  const dk = await SC.unlockWithPassphrase('correct horse battery', meta);
+  const blob = await SC.encryptRecord(dataKey, 7, 'commitments', 'c_1', 1, { name: 'Sam', amount: 50 });
+  const back = await SC.decryptRecord(dk, 7, 'commitments', 'c_1', 1, blob);
+  let bad = ''; try { await SC.unlockWithPassphrase('wrong', meta); } catch (e) { bad = e.code; }
+  return back.name === 'Sam' && back.amount === 50 && bad === 'bad_secret' ? true : JSON.stringify({ back, bad });
+});
+await checkAsync('sync-crypto: meta carries only salt/iter/wrapped keys/key_check; no plaintext, no key material', async () => {
+  const { meta } = await syncKeys();
+  const keys = Object.keys(meta).sort().join();
+  return keys === 'kdf_iter,key_check,salt,wrapped_key,wrapped_key_recovery' && meta.kdf_iter >= 600000 ? true : keys;
+});
+await checkAsync('sync-crypto: recovery phrase is 24 words, unlocks the same key, tolerates case/spacing, rejects a typo', async () => {
+  const { dataKey, phrase, meta } = await syncKeys();
+  const words = phrase.split(' ');
+  const dk = await SC.unlockWithPhrase('  ' + phrase.toUpperCase().replace(/ /g, '   ') + ' ', meta);
+  const blob = await SC.encryptRecord(dataKey, 1, 't', 'i', 1, { x: 1 });
+  const ok = (await SC.decryptRecord(dk, 1, 't', 'i', 1, blob)).x === 1;
+  const typo = [...words]; typo[3] = typo[3] === 'zoo' ? 'abandon' : 'zoo';
+  let e1 = ''; try { await SC.unlockWithPhrase(typo.join(' '), meta); } catch (e) { e1 = e.code; }
+  let e2 = ''; try { await SC.unlockWithPhrase(words.slice(1).join(' '), meta); } catch (e) { e2 = e.code; }
+  return words.length === 24 && ok && e1 && e2 === 'bad_phrase' ? true : JSON.stringify({ n: words.length, ok, e1, e2 });
+});
+await checkAsync('sync-crypto: tampered AAD (user/table/id/rev) or ciphertext fails authentication', async () => {
+  const { dataKey } = await syncKeys();
+  const blob = await SC.encryptRecord(dataKey, 7, 'commitments', 'c_1', 2, { a: 1 });
+  const res = [];
+  for (const args of [[8, 'commitments', 'c_1', 2], [7, 'witnesses', 'c_1', 2], [7, 'commitments', 'c_2', 2], [7, 'commitments', 'c_1', 3]]) {
+    try { await SC.decryptRecord(dataKey, ...args, blob); res.push('ACCEPTED'); } catch (e) { res.push(e.code); }
+  }
+  const o = JSON.parse(blob); o.ct = o.ct.slice(0, -4) + (o.ct.endsWith('AAAA') ? 'BBBB' : 'AAAA');
+  try { await SC.decryptRecord(dataKey, 7, 'commitments', 'c_1', 2, JSON.stringify(o)); res.push('ACCEPTED'); } catch (e) { res.push(e.code); }
+  return res.every(x => x === 'tampered') ? true : res.join();
+});
+await checkAsync('sync-crypto: blob is {v:1, iv(12B), ct}; fresh IV each time; no plaintext in it', async () => {
+  const { dataKey } = await syncKeys();
+  const a = JSON.parse(await SC.encryptRecord(dataKey, 1, 't', 'i', 1, { name: 'Zainab' }));
+  const b = JSON.parse(await SC.encryptRecord(dataKey, 1, 't', 'i', 1, { name: 'Zainab' }));
+  return a.v === 1 && SC.unb64(a.iv).length === 12 && a.iv !== b.iv && a.ct !== b.ct && !JSON.stringify(a).includes('Zainab') ? true : JSON.stringify(a);
+});
+await checkAsync('sync-crypto: refuses to unwrap or create with fewer than 600 000 iterations', async () => {
+  const { meta } = await syncKeys();
+  let e1 = ''; try { await SC.unlockWithPassphrase('correct horse battery', { ...meta, kdf_iter: 1000 }); } catch (e) { e1 = e.code; }
+  let e2 = ''; try { await SC.createKeys('x', { iterations: 599999 }); } catch (e) { e2 = e.code; }
+  return e1 === 'kdf_too_weak' && e2 === 'kdf_too_weak' && SC.KDF_MIN_ITER === 600000 ? true : e1 + '/' + e2;
+});
+await checkAsync('sync-crypto: wordlist has 2048 unique words; check-word picker returns 3 distinct sorted positions; passphrase change keeps the data key', async () => {
+  const { WORDS } = await import('./sync-wordlist.js');
+  const p = SC.pickCheckWords(); const { dataKey, meta } = await syncKeys();
+  const m2 = await SC.rewrapPassphrase(dataKey, 'new pass phrase', meta);
+  const dk = await SC.unlockWithPassphrase('new pass phrase', m2);
+  const blob = await SC.encryptRecord(dataKey, 1, 't', 'i', 1, { k: 1 });
+  return WORDS.length === 2048 && new Set(WORDS).size === 2048 && p.length === 3 && new Set(p).size === 3 && p[0] < p[1] && p[1] < p[2]
+    && (await SC.decryptRecord(dk, 1, 't', 'i', 1, blob)).k === 1 ? true : 'fail';
+});
+
+{
+  const SY = await import('./sync.js');
+  check('sync merge3: one-sided edits are taken as is; both-sided edits keep the newer and report only critical fields', () => {
+    const base = { id: 'a', amount_minor: 100, description: 'x', note: 'n', status: 'active', updated_at: 1 };
+    const local = { ...base, amount_minor: 200, updated_at: 5 };
+    const remote = { ...base, description: 'y', updated_at: 4 };
+    const m1 = SY.merge3(base, local, remote);
+    if (m1.merged.amount_minor !== 200 || m1.merged.description !== 'y' || m1.conflicts.length) return 'disjoint: ' + JSON.stringify(m1);
+    const r2 = { ...base, amount_minor: 300, note: 'theirs', updated_at: 9 };
+    const l2 = { ...base, amount_minor: 200, note: 'mine', updated_at: 5 };
+    const m2 = SY.merge3(base, l2, r2);
+    if (m2.merged.amount_minor !== 300 || m2.merged.note !== 'theirs') return 'newer wins: ' + JSON.stringify(m2);
+    if (m2.conflicts.length !== 1 || m2.conflicts[0].field !== 'amount_minor' || m2.conflicts[0].mine !== 200 || m2.conflicts[0].theirs !== 300 || m2.conflicts[0].kept !== 'theirs') return 'conflict list: ' + JSON.stringify(m2.conflicts);
+    const m3 = SY.merge3(base, l2, { ...r2, updated_at: 2 });
+    return m3.merged.amount_minor === 200 && m3.conflicts[0].kept === 'mine' ? true : 'local newer: ' + JSON.stringify(m3);
+  });
+  check('sync merge3: no base (first meeting) never loses a field; spiritual/audit/settings are never synced', () => {
+    const m = SY.merge3(null, { id: 'a', x: 1, updated_at: 2 }, { id: 'a', y: 2, updated_at: 1 });
+    const never = ['spiritual', 'audit', 'settings'].every(t => !SY.SYNCED.has(t));
+    return m.merged.x === 1 && m.merged.y === 2 && never && SY.SYNCED.has('commitments') && SY.CRITICAL.has('amount_minor') ? true : JSON.stringify(m);
+  });
+}
+
 const passed = results.filter(r => r.ok).length;
 const failed = results.length - passed;
 

@@ -266,9 +266,9 @@ en/ar/fr (`acct.*`). E2E: U opens, Esc closes, focus returns, RTL anchoring, 360
 avatar fallback when `/api/avatar.php` 404s. Styles already exist in `css/style.css` (`acct-photo`,
 `acct-fallback`, `sync-dot`, `acct-stats`).
 
-### §6 · End-to-end encrypted sync — ⬜ to do
+### §6 · End-to-end encrypted sync — ✅ done (2026-11-08)
 
-**T-6.1 · ⬜ Client crypto (`js/sync-crypto.js`).** *Prompt:* WebCrypto only. On "Turn on sync":
+**T-6.1 · ✅ Client crypto (`js/sync-crypto.js`).** *Prompt:* WebCrypto only. On "Turn on sync":
 generate a random 256-bit **data key** (AES-GCM, extractable only for wrapping). Derive a
 **wrapping key** from the user's sync passphrase with PBKDF2-SHA-256, **≥ 600 000 iterations**,
 16-byte random salt. Wrap the data key with AES-KW (or AES-GCM). Also generate a **recovery phrase**
@@ -280,7 +280,7 @@ AAD = `userId|table|recordId|rev`. Never send plaintext names, amounts, notes or
 round-trip, wrong passphrase → `key_check` fails, recovery phrase unwraps, tampered AAD fails,
 iteration floor enforced on unwrap (refuse < 600 000).
 
-**T-6.2 · ⬜ Server storage + API.** *Prompt:* Per-user SQLite `data/users/{user_id}.sqlite` (created on
+**T-6.2 · ✅ Server storage + API.** *Prompt:* Per-user SQLite `data/users/{user_id}.sqlite` (created on
 first push, `0600`) with `records(table_name, record_id, rev, deleted, blob, updated_at,
 device_id, PRIMARY KEY(table_name, record_id))` and `changes(seq INTEGER PK, table_name,
 record_id, rev)`. Endpoints (session + CSRF, rate-limited, max body 2 MB, total quota per user
@@ -293,7 +293,7 @@ accepts when `base_rev` matches, otherwise returns that item in `conflicts` with
 per-user file and `sync_meta`; requires re-typing a confirmation word). The server treats blobs as
 opaque bytes. PHP tests for each endpoint incl. conflict, quota, revoked device → 403.
 
-**T-6.3 · ⬜ Client sync engine (`js/sync.js`).** *Prompt:* Outbox table in IndexedDB fed by
+**T-6.3 · ✅ Client sync engine (`js/sync.js`).** *Prompt:* Outbox table in IndexedDB fed by
 `store.js` writes (record id, table, rev++). Sync loop: push outbox → pull since last seq → decrypt
 → apply. Conflicts: if both sides changed the same record, keep **both** versions — the newer is
 applied, the other goes into a "Needs a look" list (`#/sync/conflicts`) where the user picks; never
@@ -419,6 +419,7 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
+| 2026-11-08 | _T-6.1–6.3_ | §6 E2E encrypted sync: `sync-crypto.js` (PBKDF2≥600k→AES-KW, 24-word BIP-39 recovery, AES-GCM records w/ AAD), `Sync.php` + 6 `/api/sync/*` endpoints (per-user HMAC-named 0600 SQLite, opaque blobs, rev conflicts, quota, device revoke, wipe), `sync.js` engine (own IndexedDB `dyon-sync`, merge3, critical-field conflicts → `#/sync/conflicts`, heartbeat/backoff, wipe hook RL-09), `sync-ui.js` (wizard, join, devices, net chip); 97 `sync.*` keys; php 124, harness 133/123/31, e2e 42/42 (9 sync), i18n 913×3. **Next: §6.5 /storage** |
 | 2026-11-06 | _T-5.1_ | §5 account aside: `account.js` (server session via `/api/auth/me.php`, mirrors `settings.account`, offline cache, CSRF sign-out), `account-aside.js` (`#acct-btn`, U shortcut, aria-expanded, 32px avatar + sync dot green/amber/grey, local stats hidden in Calm, Sync/Devices/Export/Sign out), `Avatar` proxy (SSRF-hardened, GD 96px WebP, cached) + `/api/avatar.php`, aria-labelled count badges, `auth_error` toast; 30 `acct.*`/`nav.badge_open` keys; 11 unit + 13 e2e + 19 php (php 104, harness 124/123/31, e2e 33/33, i18n 816×3) |
 | 2026-11-06 | _T-4.2–4.5_ | §4 server: `Db` (WAL/FK/user_version migrations), `Crypto` (sodium HMAC, signed cookies), `Session`, `Csrf` (double-submit + Origin/Sec-Fetch-Site), `RateLimit`, `Geo`, `I18n` (ICU port), `Http`, `Auth` (code+PKCE, JWKS cache, RS256, Apple form_post + ES256 secret); `001_init.sql` (18 tables); `/api/{ping,geo}` + `/api/auth/{start,callback,me,logout}`; nginx example, CSP in PHP/Apache/Nginx (php 85, harness 113/123/31, e2e 20/20, i18n 786×3) |
 | 2026-11-06 | _T-4.1_ | §4.1 web root = `public/`; `router.php` deny rules (404 for /app /config /data /migrations /templates /cron /tests /vendor-php, dotfiles, *.sqlite, traversal, missing /dev|/api); `app/bootstrap.php` + `Config`; `tests/php` runner (27 tests); `npm run check`; SW test cache-busted (harness 113/123/31, e2e 20/20, i18n 786×3, php 27) |

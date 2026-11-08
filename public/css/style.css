@@ -913,3 +913,12 @@ body.calm .sync-dot.pending { background: var(--text-3); }
   border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2); white-space: nowrap; }
 .net-chip.offline { border-color: color-mix(in srgb, var(--needs) 40%, transparent); }
 @media (max-width: 640px) { .net-chip span { display: none; } }
+
+/* §6 sync: recovery phrase grid (always LTR words), device rows */
+.phrase-grid { list-style: none; counter-reset: w; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 0; margin: 8px 0; }
+.phrase-grid li { counter-increment: w; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 8px; font-family: ui-monospace, monospace; font-size: .9rem; display: flex; gap: 6px; }
+.phrase-grid li::before { content: counter(w); color: var(--text-3); min-width: 1.4em; font-size: .75rem; align-self: center; }
+@media (max-width: 420px) { .phrase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.net-chip.syncing .fa-rotate, .net-chip.syncing i { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .net-chip.syncing i { animation: none; } }

@@ -77,29 +77,35 @@ export async function get(store, id) {
     r.onerror = () => rej(r.error);
   });
 }
-export async function put(store, obj) {
+/* §6: a single optional hook lets the sync engine see local writes without store.js knowing about it.
+   { quiet: true } is used by the engine itself when applying remote changes (must not echo back). */
+let writeHook = null;
+export function setWriteHook(fn) { writeHook = fn; }
+const notify = (store, id, deleted, opts) => { if (writeHook && !(opts && opts.quiet)) { try { writeHook(store, id, deleted); } catch {} } };
+
+export async function put(store, obj, opts) {
   const os = await tx(store, 'readwrite');
   return new Promise((res, rej) => {
     const r = os.put(obj);
-    r.onsuccess = () => res(obj);
+    r.onsuccess = () => { notify(store, obj.id, false, opts); res(obj); };
     r.onerror = () => rej(r.error);
   });
 }
-export async function putMany(store, arr) {
+export async function putMany(store, arr, opts) {
   const db = await open();
   return new Promise((res, rej) => {
     const t = db.transaction(store, 'readwrite');
     const os = t.objectStore(store);
     arr.forEach(o => os.put(o));
-    t.oncomplete = () => res(arr.length);
+    t.oncomplete = () => { arr.forEach(o => notify(store, o.id, false, opts)); res(arr.length); };
     t.onerror = () => rej(t.error);
   });
 }
-export async function del(store, id) {
+export async function del(store, id, opts) {
   const os = await tx(store, 'readwrite');
   return new Promise((res, rej) => {
     const r = os.delete(id);
-    r.onsuccess = () => res(true);
+    r.onsuccess = () => { notify(store, id, true, opts); res(true); };
     r.onerror = () => rej(r.error);
   });
 }
@@ -111,8 +117,11 @@ export async function clearStore(store) {
     r.onerror = () => rej(r.error);
   });
 }
+let wipeHook = null;
+export function setWipeHook(fn) { wipeHook = fn; }
 export async function wipeAll() {
   for (const s of STORES) await clearStore(s);
+  if (wipeHook) { try { await wipeHook(); } catch {} }
 }
 
 /* ---------- ids & hashing ---------- */

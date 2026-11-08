@@ -61,11 +61,11 @@ final class Http
         return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
 
-    public static function jsonBody(): array
+    public static function jsonBody(int $max = 1048576): array
     {
-        $raw = file_get_contents('php://input', false, null, 0, 1048577);
+        $raw = file_get_contents('php://input', false, null, 0, $max + 1);
         if ($raw === '' || $raw === false) return [];
-        if (strlen($raw) > 1048576) self::error(413, 'too_large', 'Request body too large');
+        if (strlen($raw) > $max) self::error(413, 'too_large', 'Request body too large');
         $d = json_decode($raw, true);
         if (!is_array($d)) self::error(400, 'bad_json', 'Invalid JSON');
         return $d;
