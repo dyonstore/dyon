@@ -1,0 +1,55 @@
+# DYON — production Apache rules. The web root is this directory (public/).
+# /app, /config, /data, /migrations, /templates, /cron, /tests are SIBLINGS of
+# public/ and are therefore already outside the document root. These rules are
+# defense in depth for shared hosting that may expose them.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html
+
+# ---- deny sensitive files ----
+<FilesMatch "(^\.|\.(sqlite|sqlite-wal|sqlite-shm|ini|log|md|example|dist)$)">
+  Require all denied
+</FilesMatch>
+# PHP may execute only from /api, /admin and the front controllers named below; deny every other *.php.
+# public/api/.htaccess and public/admin/.htaccess re-allow their own non-underscore scripts.
+<FilesMatch "\.php$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^(blog|storage|unsubscribe|seo)\.php$">
+  Require all granted
+</FilesMatch>
+# Private includes (_boot.php etc.) are never web-callable anywhere.
+<FilesMatch "^_.*">
+  Require all denied
+</FilesMatch>
+
+# ---- security headers (also sent from PHP; see app/Http.php) ----
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(self), geolocation=(), microphone=()"
+  # HSTS: enable only once HTTPS is verified on all subdomains (see docs/DEPLOY.md)
+  # Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Dev harnesses are never served in production.
+  RewriteRule ^dev/ - [R=404,L]
+
+  # Allow real files and directories (static assets, /api/*.php, /admin/*.php).
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Server-rendered front controllers.
+  RewriteRule ^(ar/|fr/)?(blog|news|events)(/.*)?$        blog.php        [L,QSA]
+  RewriteRule ^(ar/|fr/)?storage/?$                        storage.php     [L,QSA]
+  RewriteRule ^unsubscribe/?$                              unsubscribe.php [L,QSA]
+  RewriteRule ^(sitemap\.xml|robots\.txt|feed\.xml|atom\.xml)$ seo.php     [L,QSA]
+
+  # Everything else: the PWA shell (hash router takes over client-side).
+  RewriteRule ^ index.html [L]
+</IfModule>

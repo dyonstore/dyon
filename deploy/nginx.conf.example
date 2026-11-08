@@ -1,0 +1,56 @@
+# DYON — Nginx server block (PHP-FPM). Replace dyon.example / socket path, then `nginx -t`.
+# Web root is public/. /app /config /data /migrations /templates /cron /tests /vendor-php live OUTSIDE it.
+
+server {
+    listen 80;
+    server_name dyon.example;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name dyon.example;
+    root /var/www/dyon/public;
+    index index.html;
+
+    # ssl_certificate / ssl_certificate_key ... (certbot)
+
+    # ---- security headers (same values PHP sends; see app/Http.php) ----
+    add_header Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(self), geolocation=(), microphone=()" always;
+    # Enable once HTTPS works on every subdomain (see docs/DEPLOY.md):
+    # add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+
+    client_max_body_size 8m;
+
+    # ---- deny rules ----
+    location ~ /\.(?!well-known) { return 404; }                    # dotfiles
+    location ~* \.(sqlite|sqlite-wal|sqlite-shm|ini|log|md|example|dist)$ { return 404; }
+    location ~ ^/(app|config|data|migrations|templates|cron|tests|vendor-php)(/|$) { return 404; }
+    location ^~ /dev/ { return 404; }                               # harness pages: dev only
+    location ~ (^|/)_[^/]*$ { return 404; }                         # private includes (_boot.php)
+    location = /router.php { return 404; }
+
+    # ---- server-rendered front controllers ----
+    location ~ ^/(ar/|fr/)?(blog|news|events)(/|$) { rewrite ^ /blog.php last; }
+    location ~ ^/(ar/|fr/)?storage/?$              { rewrite ^ /storage.php last; }
+    location = /unsubscribe                        { rewrite ^ /unsubscribe.php last; }
+    location ~ ^/(sitemap\.xml|robots\.txt|feed\.xml|atom\.xml)$ { rewrite ^ /seo.php last; }
+    location ~ ^/(ar|fr)/(feed|atom)\.xml$         { rewrite ^ /seo.php last; }
+
+    # ---- PHP: only /api, /admin and the front controllers above may execute ----
+    location ~ ^/(api|admin)/[^/]+\.php$ { include fastcgi_params; fastcgi_pass unix:/run/php/php8.3-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; }
+    location ~ ^/(api|admin)/auth/[^/]+\.php$ { include fastcgi_params; fastcgi_pass unix:/run/php/php8.3-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; }
+    location ~ ^/(blog|storage|unsubscribe|seo)\.php$ { include fastcgi_params; fastcgi_pass unix:/run/php/php8.3-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; }
+    location ~ \.php$ { return 404; }
+
+    # ---- static assets: long cache for fonts/images; never cache the service worker or manifest ----
+    location ~* \.(woff2|jpg|jpeg|png|svg|webp|avif)$ { expires 30d; add_header Cache-Control "public, max-age=2592000, immutable"; }
+    location = /sw.js { add_header Cache-Control "no-cache"; }
+    location = /manifest.webmanifest { add_header Cache-Control "no-cache"; }
+
+    # ---- the PWA shell: everything else (hash router takes over) ----
+    location / { try_files $uri $uri/ /index.html; }
+}

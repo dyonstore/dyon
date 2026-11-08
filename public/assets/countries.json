@@ -1,0 +1,962 @@
+{
+  "version": 1,
+  "checked_at": "2026-10-29",
+  "countries": {
+    "TN": {
+      "code": "TN",
+      "locales": [
+        "ar",
+        "fr"
+      ],
+      "currency": "TND",
+      "minor_units": 3,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "mena",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/tn"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "DZ": {
+      "code": "DZ",
+      "locales": [
+        "ar",
+        "fr"
+      ],
+      "currency": "DZD",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sat",
+      "first_day": 6,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "mena",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/dz"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "MA": {
+      "code": "MA",
+      "locales": [
+        "ar",
+        "fr"
+      ],
+      "currency": "MAD",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "mena",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/ma"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "LY": {
+      "code": "LY",
+      "locales": [
+        "ar"
+      ],
+      "currency": "LYD",
+      "minor_units": 3,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sat",
+      "first_day": 6,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "mena",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/ly"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "EG": {
+      "code": "EG",
+      "locales": [
+        "ar"
+      ],
+      "currency": "EGP",
+      "minor_units": 2,
+      "digits": "arab",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sat",
+      "first_day": 6,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "mena",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/eg"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "SA": {
+      "code": "SA",
+      "locales": [
+        "ar"
+      ],
+      "currency": "SAR",
+      "minor_units": 2,
+      "digits": "arab",
+      "calendar_primary": "islamic-umalqura",
+      "calendar_secondary": "gregory",
+      "week_start": "sun",
+      "first_day": 7,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "gulf",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/sa"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "AE": {
+      "code": "AE",
+      "locales": [
+        "ar",
+        "en"
+      ],
+      "currency": "AED",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "gulf",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/ae"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "QA": {
+      "code": "QA",
+      "locales": [
+        "ar"
+      ],
+      "currency": "QAR",
+      "minor_units": 2,
+      "digits": "arab",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sat",
+      "first_day": 6,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "gulf",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/qa"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "KW": {
+      "code": "KW",
+      "locales": [
+        "ar"
+      ],
+      "currency": "KWD",
+      "minor_units": 3,
+      "digits": "arab",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sat",
+      "first_day": 6,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "gulf",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/kw"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "JO": {
+      "code": "JO",
+      "locales": [
+        "ar"
+      ],
+      "currency": "JOD",
+      "minor_units": 3,
+      "digits": "arab",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sat",
+      "first_day": 6,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "mena",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/jo"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "LB": {
+      "code": "LB",
+      "locales": [
+        "ar",
+        "fr"
+      ],
+      "currency": "LBP",
+      "minor_units": 2,
+      "digits": "arab",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "mena",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/lb"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "FR": {
+      "code": "FR",
+      "locales": [
+        "fr"
+      ],
+      "currency": "EUR",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": " "
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "eu",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/fr"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "BE": {
+      "code": "BE",
+      "locales": [
+        "fr"
+      ],
+      "currency": "EUR",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": " "
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "eu",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/be"
+          }
+        ],
+        "debt_advice": [
+          {
+            "label_en": "Médiation de dettes",
+            "label_ar": "الوساطة في الديون",
+            "label_fr": "Médiation de dettes",
+            "url": "https://www.mediationdedettes.be"
+          }
+        ]
+      },
+      "checked_at": "2026-10-29"
+    },
+    "CH": {
+      "code": "CH",
+      "locales": [
+        "fr",
+        "de",
+        "it"
+      ],
+      "currency": "CHF",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd.MM.yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": "’"
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "eu",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/ch"
+          }
+        ],
+        "debt_advice": [
+          {
+            "label_en": "Dettes Conseils Suisse",
+            "label_ar": "استشارات الديون سويسرا",
+            "label_fr": "Dettes Conseils Suisse",
+            "url": "https://www.dettes.ch"
+          }
+        ]
+      },
+      "checked_at": "2026-10-29"
+    },
+    "CA": {
+      "code": "CA",
+      "locales": [
+        "en",
+        "fr"
+      ],
+      "currency": "CAD",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "sun",
+      "first_day": 7,
+      "date_format": "yyyy-MM-dd",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "na",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/ca"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "DE": {
+      "code": "DE",
+      "locales": [
+        "de"
+      ],
+      "currency": "EUR",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd.MM.yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "eu",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/de"
+          }
+        ],
+        "debt_advice": [
+          {
+            "label_en": "Meine Schulden",
+            "label_ar": "ديوني",
+            "label_fr": "Meine Schulden",
+            "url": "https://www.meine-schulden.de"
+          },
+          {
+            "label_en": "Verbraucherzentrale — debt",
+            "label_ar": "مركز المستهلك — الديون",
+            "label_fr": "Verbraucherzentrale — dettes",
+            "url": "https://www.verbraucherzentrale.de/wissen/geld-versicherungen/kredit-schulden-insolvenz"
+          }
+        ]
+      },
+      "checked_at": "2026-10-29"
+    },
+    "IT": {
+      "code": "IT",
+      "locales": [
+        "it"
+      ],
+      "currency": "EUR",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "eu",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/it"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "GB": {
+      "code": "GB",
+      "locales": [
+        "en"
+      ],
+      "currency": "GBP",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "uk",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/gb"
+          }
+        ],
+        "debt_advice": [
+          {
+            "label_en": "StepChange",
+            "label_ar": "StepChange",
+            "label_fr": "StepChange",
+            "url": "https://www.stepchange.org"
+          },
+          {
+            "label_en": "Citizens Advice — debt & money",
+            "label_ar": "Citizens Advice — الديون والمال",
+            "label_fr": "Citizens Advice — dettes & argent",
+            "url": "https://www.citizensadvice.org.uk/debt-and-money/"
+          }
+        ]
+      },
+      "checked_at": "2026-10-29"
+    },
+    "US": {
+      "code": "US",
+      "locales": [
+        "en"
+      ],
+      "currency": "USD",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "sun",
+      "first_day": 7,
+      "date_format": "MM/dd/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": false,
+      "zakat_note": null,
+      "legal_variant": "na",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/us"
+          }
+        ],
+        "debt_advice": [
+          {
+            "label_en": "NFCC",
+            "label_ar": "NFCC",
+            "label_fr": "NFCC",
+            "url": "https://www.nfcc.org/"
+          },
+          {
+            "label_en": "CFPB — debt collection",
+            "label_ar": "CFPB — تحصيل الديون",
+            "label_fr": "CFPB — recouvrement de dettes",
+            "url": "https://www.consumerfinance.gov/consumer-tools/debt-collection/"
+          }
+        ]
+      },
+      "checked_at": "2026-10-29"
+    },
+    "TR": {
+      "code": "TR",
+      "locales": [
+        "tr"
+      ],
+      "currency": "TRY",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "none",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd.MM.yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "tr",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/tr"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "ID": {
+      "code": "ID",
+      "locales": [
+        "id"
+      ],
+      "currency": "IDR",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sun",
+      "first_day": 7,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": "."
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "sea",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/id"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "MY": {
+      "code": "MY",
+      "locales": [
+        "ms",
+        "en"
+      ],
+      "currency": "MYR",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "sea",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/my"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "PK": {
+      "code": "PK",
+      "locales": [
+        "ur",
+        "en"
+      ],
+      "currency": "PKR",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "sun",
+      "first_day": 7,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "sa",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/pk"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "SN": {
+      "code": "SN",
+      "locales": [
+        "fr"
+      ],
+      "currency": "XOF",
+      "minor_units": 0,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ",",
+        "group": " "
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "waf",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/sn"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    },
+    "NG": {
+      "code": "NG",
+      "locales": [
+        "en"
+      ],
+      "currency": "NGN",
+      "minor_units": 2,
+      "digits": "latn",
+      "calendar_primary": "gregory",
+      "calendar_secondary": "islamic-umalqura",
+      "week_start": "mon",
+      "first_day": 1,
+      "date_format": "dd/MM/yyyy",
+      "number_format": {
+        "decimal": ".",
+        "group": ","
+      },
+      "suggest_islamic_mode": true,
+      "zakat_note": {
+        "en": "Zakat is typically due at ~85 g of gold (nisab) held for a lunar year. DYON only reminds you; it is not a fatwa — confirm the current nisab with a qualified scholar.",
+        "ar": "تجب الزكاة عادةً عند بلوغ النصاب (نحو ٨٥ غرامًا من الذهب) وحولان الحول. يذكّرك ديون فقط، وهذا ليس فتوى — تحقّق من النصاب الحالي مع أهل العلم.",
+        "fr": "La zakat est généralement due au nisab (≈ 85 g d'or) détenu pendant une année lunaire. DYON ne fait que vous le rappeler ; ce n'est pas une fatwa — confirmez le nisab actuel auprès d'un savant qualifié."
+      },
+      "legal_variant": "waf",
+      "resources": {
+        "emergency": [
+          {
+            "label_en": "Find a helpline",
+            "label_ar": "ابحث عن خط مساعدة",
+            "label_fr": "Trouver une ligne d'écoute",
+            "url": "https://findahelpline.com/countries/ng"
+          }
+        ],
+        "debt_advice": []
+      },
+      "checked_at": "2026-10-29"
+    }
+  }
+}

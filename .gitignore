@@ -7,8 +7,15 @@ vendor-php/
 .tools/
 composer.lock
 
-# Server data (SQLite files, avatars, mail spool, backups) — never committed
-/data/
+# Server runtime data — never committed (SQLite DBs, avatars, mail spool, backups).
+# NOTE: data/countries.json is canonical *source* data and IS committed (see !rule).
+/data/*.sqlite
+/data/*.sqlite-*
+/data/system.sqlite*
+/data/users/
+/data/avatars/
+/data/mail-out/
+/data/backups/
 /config/config.local.php
 /config/config.php
 

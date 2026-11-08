@@ -113,9 +113,18 @@ RTL); typing "fran" filters to Français; Tab cycles inside; Esc closes and focu
 **T-2.6 · ⬜ hreflang-ready PHP pages** — done as part of §7/§8 (server pages render
 `<html lang dir>` from the same locale files via `app/I18n.php`).
 
-### §3 · Country detection and defaults — 🟡 in progress (nothing committed yet)
+### §3 · Country detection and defaults — ✅ done
 
-**Prompt (complete, self-contained):**
+Done: `scripts/build-countries.py` → `data/countries.json` + `assets/countries.json`
+(25 seeds, HTTP-200-checked resource links) + `js/tz-country.js` (418 IANA zones);
+LYD/XOF added to `CURRENCIES`; `js/country.js` (`detectCountry` server→tz→language,
+`countryDefaults`, `applyCountry` — never sets `islamic_mode`, never overrides a chosen
+locale); onboarding step-0 suggestion card + searchable `Intl.DisplayNames` picker;
+Settings → `#region-card` (offers, never forces); 17 new i18n keys (`region.*`);
+`assets/countries.json`, `js/country.js`, `js/tz-country.js` in SW CORE. Tests: 11 unit
++ 3 e2e. Harness 113/123/31, e2e 20/20, i18n 786×3, SW hash current.
+
+**Prompt (complete, self-contained — kept for reference):**
 
 1. Create `scripts/build-countries.py` that writes **`data/countries.json`** (canonical; seeds SQLite
    `country_defaults` in §4) and **`assets/countries.json`** (client copy, add to SW CORE), plus
@@ -167,9 +176,9 @@ RTL); typing "fran" filters to Français; Tab cycles inside; Esc closes and focu
 Acceptance: all harnesses + e2e + i18n-check green; no network request leaves the origin.
 
 
-### §4 · PHP + SQLite server, auth, security — ⬜ to do
+### §4 · PHP + SQLite server, auth, security — ✅ done
 
-**T-4.1 · ⬜ Layout and router.** *Prompt:* Restructure so the **web root is `/public`**: move
+**T-4.1 · ✅ Layout and router (done).** *Prompt:* Restructure so the **web root is `/public`**: move
 `index.html`, `privacy.html`, `sw.js`, `manifest*`, `css/`, `js/`, `locales/`, `vendor/` (fonts/icons),
 `assets/`, `images/`, icons into `public/` (`git mv`, keep history). Test harness pages
 (`tests.html`, `route-check.html`, `flow-check.html`, `preview-*.html`) move to `public/dev/` and are
@@ -182,7 +191,7 @@ git-ignored, `0700`), `/config` (`config.php` reads env / `config.local.php`, gi
 `php -S 0.0.0.0:8080 -t public public/router.php`). Acceptance: all existing harnesses + e2e pass when
 served by `php -S`; `GET /app/…`, `/data/…`, `/config/…`, `/.git/…`, `/vendor-php/…` are 404.
 
-**T-4.2 · ⬜ Core classes.** *Prompt:* In `/app` implement, each with a PHP test in `tests/php/`
+**T-4.2 · ✅ Core classes.** *Prompt:* In `/app` implement, each with a PHP test in `tests/php/`
 (plain PHP runner `tests/php/run.php`, no PHPUnit dependency; `npm run test:php`):
 - `Db` — PDO SQLite singleton per file; on open: `PRAGMA journal_mode=WAL; foreign_keys=ON;
   busy_timeout=5000; synchronous=NORMAL`; `migrate()` applies `/migrations/NNN_*.sql` in order using
@@ -208,7 +217,7 @@ served by `php -S`; `GET /app/…`, `/data/…`, `/config/…`, `/.git/…`, `/v
   null — **never** logs or stores the IP).
 - `Http` helpers: JSON responses with `Cache-Control: no-store`, error shape `{error:{code,message}}`.
 
-**T-4.3 · ⬜ Schema.** *Prompt:* `migrations/001_init.sql` for `data/system.sqlite` with tables
+**T-4.3 · ✅ Schema.** *Prompt:* `migrations/001_init.sql` for `data/system.sqlite` with tables
 `users(id, provider, sub, email, name, avatar_url, locale, country, created_at, last_seen_at,
 deleted_at)`, `sessions(id, user_id, token_hmac UNIQUE, created_at, expires_at, ua_hash)`,
 `devices(id, user_id, label, created_at, last_seen_at, revoked_at)`, `sync_meta(user_id PK,
@@ -224,7 +233,7 @@ online_url)`, `tags`, `post_tags`, `media(id, path, mime, w, h, alt_i18n JSON, s
 meta JSON, at)`, `rate_limits`. Indexes on all FKs and lookup columns. Test: migrate twice is a
 no-op; FK cascade on user delete; `user_version` = 1.
 
-**T-4.4 · ⬜ Hardening.** *Prompt:* `public/.htaccess` and `deploy/nginx.conf.example`: deny
+**T-4.4 · ✅ Hardening.** *Prompt:* `public/.htaccess` and `deploy/nginx.conf.example`: deny
 dotfiles, `*.sqlite*`, `*.php` outside `/api`, `/admin`, `router.php`, `index.php`; rewrite
 `/blog|/news|/events|/storage|/unsubscribe|/{ar,fr}/…` to their PHP front controllers. Send headers
 from PHP **and** server config: `Content-Security-Policy` (`default-src 'self'; img-src 'self' data:
@@ -234,16 +243,16 @@ blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action '
 `Permissions-Policy: camera=(self), geolocation=(), microphone=()`. Test with curl in
 `tests/php/headers.sh`.
 
-**T-4.5 · ⬜ `/api/geo.php` + `/api/ping.php`.** `geo.php` returns only `{"country":"TN"}` or
+**T-4.5 · ✅ `/api/geo.php` + `/api/ping.php`.** `geo.php` returns only `{"country":"TN"}` or
 `{"country":null}`, `Cache-Control: private, max-age=3600`. `ping.php` returns `{ok:true, t}` (HEAD
 allowed) for the §6 heartbeat. **Then wire §3's `detectCountry()` (a) step to it.**
 
 Acceptance §4: `npm run test:php` green; existing JS suites green under `php -S`; README "Running
 the server" section; CHANGELOG §4.
 
-### §5 · Account aside — ⬜ to do
+### §5 · Account aside — ✅ done
 
-**T-5.1 · ⬜ Prompt:** Using `js/aside.js` (same focus trap / Esc / scrim as the language aside),
+**T-5.1 · ✅ done. Prompt was:** Using `js/aside.js` (same focus trap / Esc / scrim as the language aside),
 create `js/account-aside.js`, opened by the header avatar button (`#acct-btn`,
 `aria-controls="aside-acct"`) and shortcut **U**. Signed out: explains Stage 1 (no account needed),
 buttons "Sign in with Google" (only if configured) and "Export my data" (RL-09, always available).
@@ -257,9 +266,9 @@ en/ar/fr (`acct.*`). E2E: U opens, Esc closes, focus returns, RTL anchoring, 360
 avatar fallback when `/api/avatar.php` 404s. Styles already exist in `css/style.css` (`acct-photo`,
 `acct-fallback`, `sync-dot`, `acct-stats`).
 
-### §6 · End-to-end encrypted sync — ⬜ to do
+### §6 · End-to-end encrypted sync — ✅ done (2026-11-08)
 
-**T-6.1 · ⬜ Client crypto (`js/sync-crypto.js`).** *Prompt:* WebCrypto only. On "Turn on sync":
+**T-6.1 · ✅ Client crypto (`js/sync-crypto.js`).** *Prompt:* WebCrypto only. On "Turn on sync":
 generate a random 256-bit **data key** (AES-GCM, extractable only for wrapping). Derive a
 **wrapping key** from the user's sync passphrase with PBKDF2-SHA-256, **≥ 600 000 iterations**,
 16-byte random salt. Wrap the data key with AES-KW (or AES-GCM). Also generate a **recovery phrase**
@@ -271,7 +280,7 @@ AAD = `userId|table|recordId|rev`. Never send plaintext names, amounts, notes or
 round-trip, wrong passphrase → `key_check` fails, recovery phrase unwraps, tampered AAD fails,
 iteration floor enforced on unwrap (refuse < 600 000).
 
-**T-6.2 · ⬜ Server storage + API.** *Prompt:* Per-user SQLite `data/users/{user_id}.sqlite` (created on
+**T-6.2 · ✅ Server storage + API.** *Prompt:* Per-user SQLite `data/users/{user_id}.sqlite` (created on
 first push, `0600`) with `records(table_name, record_id, rev, deleted, blob, updated_at,
 device_id, PRIMARY KEY(table_name, record_id))` and `changes(seq INTEGER PK, table_name,
 record_id, rev)`. Endpoints (session + CSRF, rate-limited, max body 2 MB, total quota per user
@@ -284,7 +293,7 @@ accepts when `base_rev` matches, otherwise returns that item in `conflicts` with
 per-user file and `sync_meta`; requires re-typing a confirmation word). The server treats blobs as
 opaque bytes. PHP tests for each endpoint incl. conflict, quota, revoked device → 403.
 
-**T-6.3 · ⬜ Client sync engine (`js/sync.js`).** *Prompt:* Outbox table in IndexedDB fed by
+**T-6.3 · ✅ Client sync engine (`js/sync.js`).** *Prompt:* Outbox table in IndexedDB fed by
 `store.js` writes (record id, table, rev++). Sync loop: push outbox → pull since last seq → decrypt
 → apply. Conflicts: if both sides changed the same record, keep **both** versions — the newer is
 applied, the other goes into a "Needs a look" list (`#/sync/conflicts`) where the user picks; never
@@ -297,9 +306,9 @@ by turning sync off. E2E with two browser contexts: A creates a person + debt, B
 passphrase) pulls and sees it; offline edit on both → conflict appears; server DB file contains no
 plaintext name (grep the sqlite file). Keys in en/ar/fr.
 
-### §6.5 · `/storage` page — ⬜ to do
+### §6.5 · `/storage` page — ✅ done (2026-11-08)
 
-**T-6.5 · ⬜ Prompt:** SSR page `/storage` (+ `/ar/storage`, `/fr/storage`) explaining where data
+**T-6.5 · ✅ Prompt:** SSR page `/storage` (+ `/ar/storage`, `/fr/storage`) explaining where data
 lives and why exporting matters: IndexedDB is "best-effort" storage that browsers may evict under
 storage pressure; `navigator.storage.persist()` asks for persistent storage; Safari/WebKit may
 delete script-writable storage after 7 days without user interaction for sites not added to the home
@@ -410,7 +419,14 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
-| 2026-10-31 | _this commit_ | Bugfix: boot loader hidden before PIN gate (reload-with-PIN stuck on loader); added standard `mobile-web-app-capable` meta (deprecation warning) + 2 unit tests (harness 102/123/31) |
+| 2026-11-08 | _T-6.5_ | §6.5 `/storage` (+`/ar`,`/fr`): `app/Site.php` shared SSR shell (canonical, hreflang×3+x-default, og, lang switch, no inline script/style → CSP-safe), `public/storage.php`, `css/site.css`, `storage.js` (info/keep/formatBytes) + `storage-page.js`; all 4 sources re-fetched 2026-11-08 and each claim paragraph carries a citation; Settings `#storage-card` (usage, calm keep-my-data answers) + link in data card; 44 keys; php 136, harness 137/123/31, e2e 61/61 (19 new: 3 langs × 3 widths × light/dark), i18n 957×3. **Next: §7 email** |
+| 2026-11-08 | _T-6.1–6.3_ | §6 E2E encrypted sync: `sync-crypto.js` (PBKDF2≥600k→AES-KW, 24-word BIP-39 recovery, AES-GCM records w/ AAD), `Sync.php` + 6 `/api/sync/*` endpoints (per-user HMAC-named 0600 SQLite, opaque blobs, rev conflicts, quota, device revoke, wipe), `sync.js` engine (own IndexedDB `dyon-sync`, merge3, critical-field conflicts → `#/sync/conflicts`, heartbeat/backoff, wipe hook RL-09), `sync-ui.js` (wizard, join, devices, net chip); 97 `sync.*` keys; php 124, harness 133/123/31, e2e 42/42 (9 sync), i18n 913×3. **Next: §6.5 /storage** |
+| 2026-11-06 | _T-5.1_ | §5 account aside: `account.js` (server session via `/api/auth/me.php`, mirrors `settings.account`, offline cache, CSRF sign-out), `account-aside.js` (`#acct-btn`, U shortcut, aria-expanded, 32px avatar + sync dot green/amber/grey, local stats hidden in Calm, Sync/Devices/Export/Sign out), `Avatar` proxy (SSRF-hardened, GD 96px WebP, cached) + `/api/avatar.php`, aria-labelled count badges, `auth_error` toast; 30 `acct.*`/`nav.badge_open` keys; 11 unit + 13 e2e + 19 php (php 104, harness 124/123/31, e2e 33/33, i18n 816×3) |
+| 2026-11-06 | _T-4.2–4.5_ | §4 server: `Db` (WAL/FK/user_version migrations), `Crypto` (sodium HMAC, signed cookies), `Session`, `Csrf` (double-submit + Origin/Sec-Fetch-Site), `RateLimit`, `Geo`, `I18n` (ICU port), `Http`, `Auth` (code+PKCE, JWKS cache, RS256, Apple form_post + ES256 secret); `001_init.sql` (18 tables); `/api/{ping,geo}` + `/api/auth/{start,callback,me,logout}`; nginx example, CSP in PHP/Apache/Nginx (php 85, harness 113/123/31, e2e 20/20, i18n 786×3) |
+| 2026-11-06 | _T-4.1_ | §4.1 web root = `public/`; `router.php` deny rules (404 for /app /config /data /migrations /templates /cron /tests /vendor-php, dotfiles, *.sqlite, traversal, missing /dev|/api); `app/bootstrap.php` + `Config`; `tests/php` runner (27 tests); `npm run check`; SW test cache-busted (harness 113/123/31, e2e 20/20, i18n 786×3, php 27) |
+| 2026-10-31 | _this commit_ | §3 country detection + defaults: `build-countries.py`, `countries.json` (25), `tz-country.js` (418), `country.js`, LYD/XOF, onboarding suggestion + `#region-card`, 17 `region.*` keys; 11 unit + 3 e2e (harness 113/123/31, e2e 20/20, i18n 786×3) |
+| 2026-10-31 | `b54295d` | docs: AGENTS.md fast-start operating manual |
+| 2026-10-31 | `7e032b8` | Bugfix: boot loader hidden before PIN gate (reload-with-PIN stuck on loader); added standard `mobile-web-app-capable` meta (deprecation warning) + 2 unit tests (harness 102/123/31) |
 | 2026-10-30 | _prev_ | T-2.1b SW caches locales + import-graph test + offline e2e; T-1.10b French tour e2e; T-2.5b language-aside e2e; overflow matrix in en/ar/fr (harness 100/123/31, e2e 17/17) |
 | 2026-10-30 | `ac42f56` | docs: TASKS.md hand-off board created |
 | 2026-10-30 | `c51d0b2` | §2 i18n: locale files, ICU, French UI+guide, i18n-check, detection, language aside; amount prefill + audit race fixes |
