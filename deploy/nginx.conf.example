@@ -36,8 +36,8 @@ server {
     # ---- server-rendered front controllers ----
     location ~ ^/(ar/|fr/)?(blog|news|events)(/|$) { rewrite ^ /blog.php last; }
     location ~ ^/(ar/|fr/)?storage/?$              { rewrite ^ /storage.php last; }
-    location = /unsubscribe                        { rewrite ^ /unsubscribe.php last; }
-    location ~ ^/(sitemap\.xml|robots\.txt|feed\.xml|atom\.xml)$ { rewrite ^ /seo.php last; }
+    location ~ ^/(ar/|fr/)?(unsubscribe|subscribe)(/|$) { rewrite ^ /unsubscribe.php last; }
+    location ~ ^/(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$ { rewrite ^ /seo.php last; }
     location ~ ^/(ar|fr)/(feed|atom)\.xml$         { rewrite ^ /seo.php last; }
 
     # ---- PHP: only /api, /admin and the front controllers above may execute ----

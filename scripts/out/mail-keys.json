@@ -1,0 +1,357 @@
+{
+ "mail.greeting": {
+  "en": "Hello {name},",
+  "ar": "مرحباً {name}،",
+  "fr": "Bonjour {name},"
+ },
+ "mail.online": {
+  "en": "online",
+  "ar": "عبر الإنترنت",
+  "fr": "en ligne"
+ },
+ "mail.unnamed_device": {
+  "en": "a new device",
+  "ar": "جهاز جديد",
+  "fr": "un nouvel appareil"
+ },
+ "mail.cta_confirm": {
+  "en": "Confirm my subscription",
+  "ar": "أكّد اشتراكي",
+  "fr": "Confirmer mon abonnement"
+ },
+ "mail.cta_manage": {
+  "en": "Manage my emails",
+  "ar": "إدارة رسائلي",
+  "fr": "Gérer mes e-mails"
+ },
+ "mail.cta_resubscribe": {
+  "en": "Subscribe again",
+  "ar": "اشترك من جديد",
+  "fr": "Me réabonner"
+ },
+ "mail.cta_devices": {
+  "en": "Review my devices",
+  "ar": "راجع أجهزتي",
+  "fr": "Voir mes appareils"
+ },
+ "mail.cta_data": {
+  "en": "Open my data settings",
+  "ar": "افتح إعدادات بياناتي",
+  "fr": "Ouvrir mes réglages de données"
+ },
+ "mail.cta_read": {
+  "en": "Read the article",
+  "ar": "اقرأ المقال",
+  "fr": "Lire l’article"
+ },
+ "mail.cta_event": {
+  "en": "See the event",
+  "ar": "اطّلع على الفعالية",
+  "fr": "Voir l’événement"
+ },
+ "mail.footer_account": {
+  "en": "You are receiving this because of activity on your DYON account or a request you made. It is not a newsletter.",
+  "ar": "وصلتك هذه الرسالة بسبب نشاط على حسابك في ديون أو طلب قدّمته. وهي ليست نشرة بريدية.",
+  "fr": "Vous recevez ce message à cause d’une activité sur votre compte DYON ou d’une demande de votre part. Ce n’est pas une lettre d’information."
+ },
+ "mail.footer_bulk": {
+  "en": "You are receiving this because you subscribed to DYON updates. You can change what you receive, or stop, at any time.",
+  "ar": "وصلتك هذه الرسالة لأنك اشتركت في مستجدات ديون. يمكنك تغيير ما يصلك أو التوقف في أي وقت.",
+  "fr": "Vous recevez ce message parce que vous êtes abonné aux nouvelles de DYON. Vous pouvez modifier ce que vous recevez, ou vous arrêter, à tout moment."
+ },
+ "mail.footer_contact": {
+  "en": "You are receiving this because you wrote to DYON.",
+  "ar": "وصلتك هذه الرسالة لأنك راسلت ديون.",
+  "fr": "Vous recevez ce message parce que vous avez écrit à DYON."
+ },
+ "mail.manage_link": {
+  "en": "Manage or unsubscribe",
+  "ar": "إدارة الاشتراك أو إلغاؤه",
+  "fr": "Gérer ou se désabonner"
+ },
+ "mail.subscribe_confirm.subject": {
+  "en": "Please confirm your DYON subscription",
+  "ar": "يرجى تأكيد اشتراكك في ديون",
+  "fr": "Veuillez confirmer votre abonnement à DYON"
+ },
+ "mail.subscribe_confirm.body": {
+  "en": "Someone, hopefully you, asked to receive DYON updates at this address.\n\nNothing will be sent until you confirm. If this was not you, ignore this email and nothing happens.",
+  "ar": "طلب أحدهم، ونأمل أن تكون أنت، تلقي مستجدات ديون على هذا العنوان.\n\nلن يُرسل شيء قبل أن تؤكد. وإن لم تكن أنت، فتجاهل هذه الرسالة ولن يحدث شيء.",
+  "fr": "Quelqu’un, sans doute vous, a demandé à recevoir les nouvelles de DYON à cette adresse.\n\nRien ne sera envoyé tant que vous n’aurez pas confirmé. Si ce n’était pas vous, ignorez ce message : il ne se passera rien."
+ },
+ "mail.subscribe_welcome.subject": {
+  "en": "You are subscribed to DYON updates",
+  "ar": "أنت مشترك في مستجدات ديون",
+  "fr": "Vous êtes abonné aux nouvelles de DYON"
+ },
+ "mail.subscribe_welcome.body": {
+  "en": "Thank you for confirming. We will write only about what you chose, and rarely.\n\nEvery email has a link to change your choices or stop with one tap.",
+  "ar": "شكراً لتأكيدك. لن نكتب إلا عمّا اخترته، وبقلّة.\n\nفي كل رسالة رابط لتغيير اختياراتك أو التوقف بنقرة واحدة.",
+  "fr": "Merci d’avoir confirmé. Nous n’écrirons que sur ce que vous avez choisi, et rarement.\n\nChaque e-mail contient un lien pour modifier vos choix ou vous arrêter d’un geste."
+ },
+ "mail.unsubscribe_done.subject": {
+  "en": "You have been unsubscribed",
+  "ar": "تم إلغاء اشتراكك",
+  "fr": "Vous êtes désabonné"
+ },
+ "mail.unsubscribe_done.body": {
+  "en": "You will no longer receive DYON updates at this address.\n\nYour DYON account and the data on your devices are not affected. If this was a mistake, you can subscribe again at any time.",
+  "ar": "لن تصلك بعد الآن مستجدات ديون على هذا العنوان.\n\nحسابك في ديون والبيانات على أجهزتك لم تتأثر. وإن كان ذلك عن طريق الخطأ فيمكنك الاشتراك من جديد في أي وقت.",
+  "fr": "Vous ne recevrez plus les nouvelles de DYON à cette adresse.\n\nVotre compte DYON et les données de vos appareils ne sont pas touchés. Si c’était une erreur, vous pouvez vous réabonner à tout moment."
+ },
+ "mail.signin_new_device.subject": {
+  "en": "New sign-in to your DYON account",
+  "ar": "تسجيل دخول جديد إلى حسابك في ديون",
+  "fr": "Nouvelle connexion à votre compte DYON"
+ },
+ "mail.signin_new_device.body": {
+  "en": "Your DYON account was signed in to from a browser or device we had not seen before.\n\nIf this was you, there is nothing to do. If not, open your devices list, remove the one you do not recognise, and sign in again with your provider.",
+  "ar": "سُجّل الدخول إلى حسابك في ديون من متصفح أو جهاز لم نعرفه من قبل.\n\nإن كنت أنت فلا حاجة إلى أي إجراء. وإن لم تكن، فافتح قائمة أجهزتك، وأزل الجهاز الذي لا تعرفه، ثم سجّل الدخول من جديد عبر مزوّدك.",
+  "fr": "Votre compte DYON a été connecté depuis un navigateur ou un appareil que nous ne connaissions pas.\n\nSi c’était vous, il n’y a rien à faire. Sinon, ouvrez la liste de vos appareils, retirez celui que vous ne reconnaissez pas, puis reconnectez-vous avec votre fournisseur."
+ },
+ "mail.sync_enabled.subject": {
+  "en": "Encrypted sync is on",
+  "ar": "المزامنة المشفّرة مفعّلة",
+  "fr": "La synchronisation chiffrée est activée"
+ },
+ "mail.sync_enabled.body": {
+  "en": "Encrypted sync was turned on for your DYON account.\n\nYour data is encrypted on your device before it leaves it, so DYON cannot read it. Keep your recovery phrase somewhere safe: without it and your passphrase, nobody can restore your data.\n\nIf you did not do this, review your devices.",
+  "ar": "فُعّلت المزامنة المشفّرة لحسابك في ديون.\n\nتُشفَّر بياناتك على جهازك قبل أن تغادره، لذلك لا يستطيع ديون قراءتها. احتفظ بعبارة الاسترداد في مكان آمن: بدونها وبدون عبارة المرور لا يستطيع أحد استعادة بياناتك.\n\nإن لم تكن أنت من فعل ذلك، فراجع أجهزتك.",
+  "fr": "La synchronisation chiffrée a été activée pour votre compte DYON.\n\nVos données sont chiffrées sur votre appareil avant de le quitter : DYON ne peut pas les lire. Gardez votre phrase de récupération en lieu sûr : sans elle et sans votre phrase secrète, personne ne peut restaurer vos données.\n\nSi ce n’était pas vous, vérifiez vos appareils."
+ },
+ "mail.sync_device_added.subject": {
+  "en": "A device joined your sync",
+  "ar": "انضم جهاز إلى مزامنتك",
+  "fr": "Un appareil a rejoint votre synchronisation"
+ },
+ "mail.sync_device_added.body": {
+  "en": "{device} was added to your encrypted sync.\n\nIf this was you, there is nothing to do. If not, remove it from your devices list now.",
+  "ar": "أُضيف {device} إلى مزامنتك المشفّرة.\n\nإن كنت أنت فلا حاجة إلى أي إجراء. وإن لم تكن، فأزله من قائمة أجهزتك الآن.",
+  "fr": "{device} a été ajouté à votre synchronisation chiffrée.\n\nSi c’était vous, il n’y a rien à faire. Sinon, retirez-le dès maintenant de la liste de vos appareils."
+ },
+ "mail.sync_wiped.subject": {
+  "en": "Your server copy was deleted",
+  "ar": "حُذفت نسختك على الخادم",
+  "fr": "Votre copie sur le serveur a été supprimée"
+ },
+ "mail.sync_wiped.body": {
+  "en": "The encrypted copy DYON held for your sync was deleted at your request.\n\nYour data on your own devices was not touched. You can turn sync on again whenever you like.",
+  "ar": "حُذفت النسخة المشفّرة التي كان ديون يحتفظ بها لمزامنتك بناءً على طلبك.\n\nلم تُمَسّ بياناتك على أجهزتك. يمكنك تفعيل المزامنة من جديد متى شئت.",
+  "fr": "La copie chiffrée que DYON conservait pour votre synchronisation a été supprimée à votre demande.\n\nLes données de vos propres appareils n’ont pas été touchées. Vous pouvez réactiver la synchronisation quand vous voulez."
+ },
+ "mail.account_deleted.subject": {
+  "en": "Your DYON account was deleted",
+  "ar": "حُذف حسابك في ديون",
+  "fr": "Votre compte DYON a été supprimé"
+ },
+ "mail.account_deleted.body": {
+  "en": "Your DYON account and its encrypted sync copy were deleted, as you asked.\n\nWhatever is stored in your browsers stays there until you delete it yourself. This is the last email we will send you about it.",
+  "ar": "حُذف حسابك في ديون ونسخة المزامنة المشفّرة الخاصة به كما طلبت.\n\nما هو مخزّن في متصفحاتك يبقى هناك حتى تحذفه بنفسك. هذه آخر رسالة نرسلها إليك بهذا الشأن.",
+  "fr": "Votre compte DYON et sa copie de synchronisation chiffrée ont été supprimés, comme vous l’avez demandé.\n\nCe qui est enregistré dans vos navigateurs y reste jusqu’à ce que vous le supprimiez vous-même. C’est le dernier e-mail que nous vous envoyons à ce sujet."
+ },
+ "mail.export_reminder.subject": {
+  "en": "A friendly reminder to back up",
+  "ar": "تذكير ودّي بالنسخ الاحتياطي",
+  "fr": "Un petit rappel pour sauvegarder"
+ },
+ "mail.export_reminder.body": {
+  "en": "Your ledger lives on your device. An exported backup is the one copy that is fully yours.\n\nIt takes a few seconds and never needs an account.",
+  "ar": "يعيش دفترك على جهازك. والنسخة الاحتياطية المُصدَّرة هي النسخة الوحيدة التي تملكها بالكامل.\n\nتستغرق ثوانيَ قليلة ولا تحتاج إلى حساب.",
+  "fr": "Votre registre vit sur votre appareil. Une sauvegarde exportée est la seule copie qui vous appartient entièrement.\n\nCela prend quelques secondes et ne demande jamais de compte."
+ },
+ "mail.contact_received.subject": {
+  "en": "We received your message",
+  "ar": "وصلتنا رسالتك",
+  "fr": "Nous avons bien reçu votre message"
+ },
+ "mail.contact_received.body": {
+  "en": "Thank you for writing to DYON. A person reads every message and will reply when they can.\n\nWe do not share your message or your address with anyone.",
+  "ar": "شكراً لمراسلتك ديون. يقرأ شخصٌ كل رسالة وسيردّ حين يستطيع.\n\nلا نشارك رسالتك ولا عنوانك مع أحد.",
+  "fr": "Merci d’avoir écrit à DYON. Une personne lit chaque message et répondra dès qu’elle le pourra.\n\nNous ne partageons ni votre message ni votre adresse avec personne."
+ },
+ "mail.contact_reply.subject": {
+  "en": "A reply from DYON",
+  "ar": "رد من ديون",
+  "fr": "Une réponse de DYON"
+ },
+ "mail.contact_reply.body": {
+  "en": "{reply}\n\nThis is a reply to your message. You can answer this email directly.",
+  "ar": "{reply}\n\nهذا ردّ على رسالتك. يمكنك الرد على هذه الرسالة مباشرة.",
+  "fr": "{reply}\n\nCeci est une réponse à votre message. Vous pouvez répondre directement à cet e-mail."
+ },
+ "mail.digest_blog.subject": {
+  "en": "New on the DYON blog",
+  "ar": "جديد في مدونة ديون",
+  "fr": "Nouveau sur le blog DYON"
+ },
+ "mail.digest_blog.body": {
+  "en": "{title}\n\n{summary}",
+  "ar": "{title}\n\n{summary}",
+  "fr": "{title}\n\n{summary}"
+ },
+ "mail.event_reminder.subject": {
+  "en": "An event is coming up",
+  "ar": "فعالية قريبة",
+  "fr": "Un événement approche"
+ },
+ "mail.event_reminder.body": {
+  "en": "{title}\n\n{when} · {place}\n\n{summary}",
+  "ar": "{title}\n\n{when} · {place}\n\n{summary}",
+  "fr": "{title}\n\n{when} · {place}\n\n{summary}"
+ },
+ "sub.title": {
+  "en": "Get DYON updates",
+  "ar": "احصل على مستجدات ديون",
+  "fr": "Recevoir les nouvelles de DYON"
+ },
+ "sub.lead": {
+  "en": "Choose what you would like to hear about. We write rarely, and every email has a one-tap way out. You do not need an account.",
+  "ar": "اختر ما تودّ أن يصلك. نكتب نادراً، وفي كل رسالة طريق للخروج بنقرة واحدة. لا تحتاج إلى حساب.",
+  "fr": "Choisissez ce que vous souhaitez recevoir. Nous écrivons rarement, et chaque e-mail offre une sortie en un geste. Aucun compte n’est nécessaire."
+ },
+ "sub.email": {
+  "en": "Email address",
+  "ar": "البريد الإلكتروني",
+  "fr": "Adresse e-mail"
+ },
+ "sub.streams": {
+  "en": "What to send me",
+  "ar": "ما الذي أودّ استلامه",
+  "fr": "Ce que je souhaite recevoir"
+ },
+ "sub.stream_product": {
+  "en": "Product updates",
+  "ar": "مستجدات المنتج",
+  "fr": "Nouveautés du produit"
+ },
+ "sub.stream_product_d": {
+  "en": "What is new in DYON.",
+  "ar": "ما الجديد في ديون.",
+  "fr": "Ce qui change dans DYON."
+ },
+ "sub.stream_blog": {
+  "en": "Blog",
+  "ar": "المدونة",
+  "fr": "Blog"
+ },
+ "sub.stream_blog_d": {
+  "en": "New articles.",
+  "ar": "المقالات الجديدة.",
+  "fr": "Les nouveaux articles."
+ },
+ "sub.stream_events": {
+  "en": "Events",
+  "ar": "الفعاليات",
+  "fr": "Événements"
+ },
+ "sub.stream_events_d": {
+  "en": "A reminder before an event.",
+  "ar": "تذكير قبل كل فعالية.",
+  "fr": "Un rappel avant chaque événement."
+ },
+ "sub.submit": {
+  "en": "Subscribe",
+  "ar": "اشترك",
+  "fr": "S’abonner"
+ },
+ "sub.hp": {
+  "en": "Leave this field empty",
+  "ar": "اترك هذا الحقل فارغاً",
+  "fr": "Laissez ce champ vide"
+ },
+ "sub.invalid": {
+  "en": "Please enter a valid email address and choose at least one topic.",
+  "ar": "يرجى إدخال بريد إلكتروني صالح واختيار موضوع واحد على الأقل.",
+  "fr": "Veuillez saisir une adresse e-mail valide et choisir au moins un sujet."
+ },
+ "sub.sent_title": {
+  "en": "Check your inbox",
+  "ar": "تحقق من بريدك",
+  "fr": "Consultez votre boîte de réception"
+ },
+ "sub.sent_body": {
+  "en": "If that address can receive mail, we have sent a link to confirm. Nothing is subscribed until you tap it.",
+  "ar": "إن كان بإمكان هذا العنوان استلام البريد فقد أرسلنا رابط تأكيد. لا يُفعَّل أي اشتراك قبل أن تنقر عليه.",
+  "fr": "Si cette adresse peut recevoir du courrier, nous avons envoyé un lien de confirmation. Aucun abonnement n’est actif tant que vous n’avez pas cliqué dessus."
+ },
+ "sub.confirm_title": {
+  "en": "Confirm your subscription",
+  "ar": "أكّد اشتراكك",
+  "fr": "Confirmez votre abonnement"
+ },
+ "sub.confirm_body": {
+  "en": "Tap the button to start receiving DYON updates at this address.",
+  "ar": "انقر الزر لتبدأ باستلام مستجدات ديون على هذا العنوان.",
+  "fr": "Appuyez sur le bouton pour commencer à recevoir les nouvelles de DYON à cette adresse."
+ },
+ "sub.confirm_btn": {
+  "en": "Yes, subscribe me",
+  "ar": "نعم، اشتركني",
+  "fr": "Oui, m’abonner"
+ },
+ "sub.confirmed_title": {
+  "en": "You are subscribed",
+  "ar": "أنت مشترك الآن",
+  "fr": "Vous êtes abonné"
+ },
+ "sub.confirmed_body": {
+  "en": "Thank you. A short welcome is on its way, with a link to change your choices at any time.",
+  "ar": "شكراً لك. رسالة ترحيب قصيرة في طريقها إليك، وفيها رابط لتغيير اختياراتك في أي وقت.",
+  "fr": "Merci. Un court message de bienvenue arrive, avec un lien pour modifier vos choix à tout moment."
+ },
+ "sub.bad_title": {
+  "en": "This link is no longer valid",
+  "ar": "هذا الرابط لم يعد صالحاً",
+  "fr": "Ce lien n’est plus valide"
+ },
+ "sub.bad_body": {
+  "en": "It may have expired or already been used. You can start again whenever you like.",
+  "ar": "ربما انتهت صلاحيته أو سبق استخدامه. يمكنك البدء من جديد متى شئت.",
+  "fr": "Il a peut-être expiré ou déjà été utilisé. Vous pouvez recommencer quand vous voulez."
+ },
+ "sub.start_again": {
+  "en": "Subscribe",
+  "ar": "اشترك",
+  "fr": "S’abonner"
+ },
+ "unsub.title": {
+  "en": "Your emails from DYON",
+  "ar": "رسائلك من ديون",
+  "fr": "Vos e-mails de DYON"
+ },
+ "unsub.lead": {
+  "en": "Choose what you would like to keep, or stop everything with one button. Nothing changes until you press a button.",
+  "ar": "اختر ما تودّ الاحتفاظ به، أو أوقف كل شيء بزر واحد. لا يتغير شيء قبل أن تضغط زراً.",
+  "fr": "Choisissez ce que vous souhaitez garder, ou arrêtez tout d’un bouton. Rien ne change tant que vous n’appuyez pas sur un bouton."
+ },
+ "unsub.save": {
+  "en": "Save my choices",
+  "ar": "احفظ اختياراتي",
+  "fr": "Enregistrer mes choix"
+ },
+ "unsub.all": {
+  "en": "Unsubscribe from everything",
+  "ar": "ألغِ اشتراكي في كل شيء",
+  "fr": "Me désabonner de tout"
+ },
+ "unsub.saved": {
+  "en": "Your choices are saved.",
+  "ar": "حُفظت اختياراتك.",
+  "fr": "Vos choix sont enregistrés."
+ },
+ "unsub.done_title": {
+  "en": "You are unsubscribed",
+  "ar": "أُلغي اشتراكك",
+  "fr": "Vous êtes désabonné"
+ },
+ "unsub.done_body": {
+  "en": "You will not receive DYON updates at this address any more. Your account and your data are not affected.",
+  "ar": "لن تصلك مستجدات ديون على هذا العنوان بعد الآن. حسابك وبياناتك لم يتأثرا.",
+  "fr": "Vous ne recevrez plus les nouvelles de DYON à cette adresse. Votre compte et vos données ne sont pas touchés."
+ },
+ "unsub.inactive": {
+  "en": "This address is not subscribed right now.",
+  "ar": "هذا العنوان غير مشترك حالياً.",
+  "fr": "Cette adresse n’est pas abonnée pour le moment."
+ }
+}

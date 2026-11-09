@@ -184,7 +184,7 @@ These agent tools do heavy work cheaply — prefer them over manual grinding:
 ## 8. Current status (keep in sync with TASKS.md §C / §E)
 
 - ✅ §1 bugs · ✅ §2 i18n (786 keys) · ✅ §3 country · ✅ §4.1 layout (web root `public/`)
-- ✅ §4 server (classes, schema, auth, hardening, geo/ping) · ✅ §5 account aside · ✅ §6 encrypted sync · ✅ §6.5 storage · ▶ §7 email — **next**; then, §7 email, §8 blog, §10 admin
+- ✅ §4 server (classes, schema, auth, hardening, geo/ping) · ✅ §5 account aside · ✅ §6 encrypted sync · ✅ §6.5 storage · ✅ §7 email · ▶ §8 blog/news/events + SEO — **next**; then §10 admin, delivery
 - One command for all gates: `npm run check` (server must be up: `setsid -f php -S 127.0.0.1:8080 -t public public/router.php`).
 - PHP tests: `php tests/php/run.php [filter]` — `tests/php/lib.php` has `test/eq/ok/throws/tmpdir/dev_server/http`.
 - Pitfall: never `pkill` + restart in one shell command; harness pages live in `public/dev/` (404 in prod).
@@ -193,3 +193,11 @@ These agent tools do heavy work cheaply — prefer them over manual grinding:
 - Pitfall (SSR pages): use `Dyon\Site::page()` (shared shell for storage/blog/news/events) — the CSP forbids inline script/style, so pass copy to JS via `data-*` and load a `/js/*.js` module. Add any new browser JS to `CORE` in `sw.js`. `storage.info(null)` = no API (passing `undefined` triggers the default param).
 - Pitfall: new unit tests in `public/js/tests.js` must go ABOVE the `const passed = …` summary block or they are not counted. `check()` is sync — use `await checkAsync()` for anything returning a Promise.
 - Pitfall: `scripts/i18n-add.mjs` now resolves `public/locales`; e2e mocks the API with `page.route('**/api/auth/me.php', …)` (see §5 scenarios).
+
+### §7 pitfalls (email)
+- Chromium sends `Origin: null` on form POSTs under `Referrer-Policy: no-referrer`; public form pages use `same-origin`, and `Csrf::sameOrigin()` trusts `Sec-Fetch-Site: same-origin`.
+- PHPMailer RFC 2047-encodes long custom headers, which breaks `List-Unsubscribe`; use `MailMessage::addRawHeader` (ASCII only).
+- Confirm/unsub tokens are derived (`id.HMAC(purpose|id|email|salt)`); re-submitting within 10 min must not rotate the confirm salt, or the mailed link dies.
+- Per-IP rate limits make e2e flaky on one IP: e2e clears `rate_limits` between scenarios. Bulk templates re-check consent at send time (`MailSkip`).
+- New mail template = add to `Mailer::TEMPLATES`, 2 keys per locale (`mail.<t>.subject|body`), subject static (never variables/amounts).
+- `pkill -f scripts/e2e.mjs` kills your own shell; use `pgrep -x node | xargs kill`. e2e prints only at the end: run detached and poll.

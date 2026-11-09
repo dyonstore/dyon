@@ -33,31 +33,38 @@ final class Site
     {
         $l = $o['locale']; $dir = I18n::dir($l); $base = rtrim((string)Config::get('base_url', ''), '/');
         $t = static fn(string $k, array $v = []) => I18n::t($k, $v, $l);
-        $alts = ''; $switch = '';
+        $alts = ''; $switch = ''; $map = $o['alts'] ?? null;      // alts: locale => localised path, for pages that exist in only some languages
         foreach (self::NAMES as $code => $name) {
-            $href = self::localePath($code, $o['path']);
+            $href = $map !== null ? ($map[$code] ?? null) : self::localePath($code, $o['path']);
+            if ($href === null) continue;
             if ($o['alternates'] ?? true) $alts .= '<link rel="alternate" hreflang="' . $code . '" href="' . self::e($base . $href) . '">' . "\n";
             $switch .= '<a href="' . self::e($href) . '" lang="' . $code . '" hreflang="' . $code . '"' . ($code === $l ? ' aria-current="true"' : '') . '>' . self::e($name) . '</a>';
         }
-        if ($o['alternates'] ?? true) $alts .= '<link rel="alternate" hreflang="x-default" href="' . self::e($base . $o['path']) . '">' . "\n";
+        $canon = $base . ($map !== null ? ($map[$l] ?? self::localePath($l, $o['path'])) : self::localePath($l, $o['path']));
+        if ($o['alternates'] ?? true) $alts .= '<link rel="alternate" hreflang="x-default" href="' . self::e($base . ($map !== null ? ($map['en'] ?? reset($map)) : $o['path'])) . '">' . "\n";
         $desc = $o['desc'] ?? '';
         $h  = '<!DOCTYPE html><html lang="' . $l . '" dir="' . $dir . '"><head><meta charset="utf-8">';
         $h .= '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
         $h .= '<title>' . self::e($o['title']) . '</title>';
         if ($desc !== '') $h .= '<meta name="description" content="' . self::e($desc) . '">';
         if (!empty($o['noindex'])) $h .= '<meta name="robots" content="noindex">';
-        else $h .= '<link rel="canonical" href="' . self::e($base . self::localePath($l, $o['path'])) . '">' . "\n" . $alts;
+        else $h .= '<link rel="canonical" href="' . self::e($canon) . '">' . "\n" . $alts;
         $h .= '<meta property="og:site_name" content="DYON"><meta property="og:type" content="' . self::e($o['type'] ?? 'website') . '"><meta property="og:title" content="' . self::e($o['title']) . '">';
         if ($desc !== '') $h .= '<meta property="og:description" content="' . self::e($desc) . '">';
+        if (empty($o['noindex'])) $h .= '<meta property="og:url" content="' . self::e($canon) . '"><meta property="og:locale" content="' . ['en' => 'en_US', 'ar' => 'ar_AR', 'fr' => 'fr_FR'][$l] . '">'
+            . '<meta property="og:image" content="' . self::e($base . '/images/icon-512.jpg') . '"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="' . self::e($o['title']) . '">'
+            . ($desc !== '' ? '<meta name="twitter:description" content="' . self::e($desc) . '">' : '');
         $h .= '<meta name="color-scheme" content="light dark"><meta name="theme-color" content="#0b1020">';
         $h .= '<link rel="icon" href="/images/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="/vendor/fonts/fonts.css"><link rel="stylesheet" href="/css/site.css">';
         $h .= $o['head'] ?? '';
         $h .= '</head><body><a class="skip" href="#main">' . self::e($t('storage.skip')) . '</a>';
         $h .= '<header class="site-head"><div class="wrap"><a class="brand" href="' . self::e(self::localePath($l, '/')) . '" aria-label="DYON">DYON</a>';
-        $h .= '<nav class="lang" aria-label="' . self::e($t('storage.lang')) . '">' . $switch . '</nav>';
+        $h .= '<nav class="main-nav" aria-label="' . self::e($t('site.nav')) . '">';
+        foreach (['blog', 'news', 'events'] as $sec) $h .= '<a href="' . self::e(self::localePath($l, '/' . $sec)) . '">' . self::e($t('site.nav_' . $sec)) . '</a>';
+        $h .= '</nav><nav class="lang" aria-label="' . self::e($t('storage.lang')) . '">' . $switch . '</nav>';
         $h .= '<a class="btn btn-sm" href="/">' . self::e($t('storage.open_app')) . '</a></div></header>';
         $h .= '<main id="main" class="wrap prose">' . $o['body'] . '</main>';
-        $h .= '<footer class="site-foot"><div class="wrap"><p>' . self::e($t('storage.footer')) . '</p><p><a href="/privacy.html">' . self::e($t('storage.privacy')) . '</a></p></div></footer>';
+        $h .= '<footer class="site-foot"><div class="wrap"><p>' . self::e($t('storage.footer')) . '</p><p><a href="/privacy.html">' . self::e($t('storage.privacy')) . '</a> · <a href="' . self::e(self::localePath($l, '/subscribe')) . '">' . self::e($t('site.subscribe')) . '</a> · <a href="' . self::e(self::localePath($l, '/feed.xml')) . '">' . self::e($t('site.feed')) . '</a></p></div></footer>';
         foreach ($o['scripts'] ?? [] as $s) $h .= '<script type="module" src="' . self::e($s) . '"></script>';
         return $h . '</body></html>';
     }

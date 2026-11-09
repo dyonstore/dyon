@@ -322,9 +322,9 @@ Storage Policy" `https://webkit.org/blog/14403/updates-to-storage-policy/`. In-a
 `navigator.storage.estimate()` and a "Keep my data on this device" button calling `persist()` with the
 result explained calmly. Linked from Settings and from the export reminder. No fear wording.
 
-### §7 · Email (PHPMailer, SMTP) — ⬜ to do
+### §7 · Email (PHPMailer, SMTP) — ✅ done (2026-11-09)
 
-**T-7.1 · ⬜ Mailer + queue.** *Prompt:* `composer.json` with only `phpmailer/phpmailer` (vendor-dir
+**T-7.1 · ✅ Mailer + queue.** *Prompt:* `composer.json` with only `phpmailer/phpmailer` (vendor-dir
 `vendor-php`). `app/Mailer.php` sends via SMTP from `dyon@dyon.store` (host/port/user/pass from
 config; TLS required), sets `List-Unsubscribe: <https://dyon.store/unsubscribe?t=…>,
 <mailto:unsubscribe@dyon.store?subject=…>` **and** `List-Unsubscribe-Post: List-Unsubscribe=One-Click`
@@ -333,14 +333,14 @@ Everything goes through `email_queue`; `cron/send-mail.php` (every minute, lock 
 exponential backoff, 5 attempts, writes `email_log`). Dev transport `file` writes `.eml` to
 `data/mail-out/` so tests never hit SMTP.
 
-**T-7.2 · ⬜ Streams + subscription.** Streams: `account` (transactional: sign-in notice, sync
+**T-7.2 · ✅ Streams + subscription.** Streams: `account` (transactional: sign-in notice, sync
 enabled, device added, data wiped — not unsubscribable but minimal), `product` (release notes),
 `blog`, `events`. `/api/subscribe.php` (double opt-in, rate-limited, honeypot field, no third-party
 CAPTCHA) → confirm email; `/unsubscribe` page: GET shows a one-button form (never unsubscribes on
 GET, because link scanners), POST (and RFC 8058 one-click POST) unsubscribes from that stream or all;
 preference centre per stream. Tokens stored as HMACs only.
 
-**T-7.3 · ⬜ Templates.** 13 templates × en/ar/fr in `/templates/email/{name}.{locale}.php` (or one
+**T-7.3 · ✅ Templates.** 13 templates × en/ar/fr in `/templates/email/{name}.{locale}.php` (or one
 template + I18n keys; ICU via `app/I18n.php`): `subscribe_confirm`, `subscribe_welcome`,
 `unsubscribe_done`, `signin_new_device`, `sync_enabled`, `sync_device_added`, `sync_wiped`,
 `account_deleted`, `export_reminder`, `contact_received`, `contact_reply`, `digest_blog`,
@@ -419,6 +419,7 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
+| 2026-11-09 | _T-7.1–7.3_ | §7 email: `Mailer` (13 templates ×3 locales, static subjects, queue, worker w/ backoff 1,2,4…min ≤1 day, 5 attempts, `email_log`, file transport, TLS-only SMTP, `MailMessage` raw ASCII List-Unsubscribe + One-Click), `Subscribers` (double opt-in, derived HMAC tokens never stored, honeypot, 3/day per address), `/subscribe` `/subscribe/confirm` `/unsubscribe` (+ar/fr; GET never changes state; POST + RFC 8058 one-click), `api/subscribe.php`, `api/contact.php`, `cron/send-mail.php` (flock), account hooks (sign-in new device, sync enabled/device added/wiped); migration 003; 71 keys; php 162, harness 137/123/31, e2e 82/82 (21 new), i18n 1028×3. **Next: §8 blog/news/events + SEO** |
 | 2026-11-08 | _T-6.5_ | §6.5 `/storage` (+`/ar`,`/fr`): `app/Site.php` shared SSR shell (canonical, hreflang×3+x-default, og, lang switch, no inline script/style → CSP-safe), `public/storage.php`, `css/site.css`, `storage.js` (info/keep/formatBytes) + `storage-page.js`; all 4 sources re-fetched 2026-11-08 and each claim paragraph carries a citation; Settings `#storage-card` (usage, calm keep-my-data answers) + link in data card; 44 keys; php 136, harness 137/123/31, e2e 61/61 (19 new: 3 langs × 3 widths × light/dark), i18n 957×3. **Next: §7 email** |
 | 2026-11-08 | _T-6.1–6.3_ | §6 E2E encrypted sync: `sync-crypto.js` (PBKDF2≥600k→AES-KW, 24-word BIP-39 recovery, AES-GCM records w/ AAD), `Sync.php` + 6 `/api/sync/*` endpoints (per-user HMAC-named 0600 SQLite, opaque blobs, rev conflicts, quota, device revoke, wipe), `sync.js` engine (own IndexedDB `dyon-sync`, merge3, critical-field conflicts → `#/sync/conflicts`, heartbeat/backoff, wipe hook RL-09), `sync-ui.js` (wizard, join, devices, net chip); 97 `sync.*` keys; php 124, harness 133/123/31, e2e 42/42 (9 sync), i18n 913×3. **Next: §6.5 /storage** |
 | 2026-11-06 | _T-5.1_ | §5 account aside: `account.js` (server session via `/api/auth/me.php`, mirrors `settings.account`, offline cache, CSRF sign-out), `account-aside.js` (`#acct-btn`, U shortcut, aria-expanded, 32px avatar + sync dot green/amber/grey, local stats hidden in Calm, Sync/Devices/Export/Sign out), `Avatar` proxy (SSRF-hardened, GD 96px WebP, cached) + `/api/avatar.php`, aria-labelled count badges, `auth_error` toast; 30 `acct.*`/`nav.badge_open` keys; 11 unit + 13 e2e + 19 php (php 104, harness 124/123/31, e2e 33/33, i18n 816×3) |

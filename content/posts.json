@@ -1,0 +1,22 @@
+{
+  "tags": {
+    "product":  {"en": "Product",  "ar": "المنتج",   "fr": "Produit"},
+    "values":   {"en": "Our values", "ar": "قيمنا",  "fr": "Nos valeurs"},
+    "guidance": {"en": "Guidance", "ar": "إرشاد",    "fr": "Repères"},
+    "howto":    {"en": "How to",   "ar": "كيف",      "fr": "Pas à pas"},
+    "privacy":  {"en": "Privacy",  "ar": "الخصوصية", "fr": "Vie privée"}
+  },
+  "posts": [
+    {"type": "blog", "slug": "introducing-dyon",                 "date": "2026-10-20", "tags": ["product"]},
+    {"type": "blog", "slug": "no-interest-no-late-fees",         "date": "2026-10-22", "tags": ["values"]},
+    {"type": "blog", "slug": "writing-debts-down",               "date": "2026-10-24", "tags": ["guidance"]},
+    {"type": "blog", "slug": "time-for-someone-in-hardship",     "date": "2026-10-26", "tags": ["guidance", "values"]},
+    {"type": "blog", "slug": "asking-for-your-money-back-kindly","date": "2026-10-28", "tags": ["howto"]},
+    {"type": "blog", "slug": "talking-about-money-with-family",  "date": "2026-10-30", "tags": ["howto"]},
+    {"type": "blog", "slug": "your-data-stays-on-your-device",   "date": "2026-11-01", "tags": ["privacy"]},
+    {"type": "blog", "slug": "exporting-and-backing-up",         "date": "2026-11-03", "tags": ["privacy", "howto"]},
+    {"type": "blog", "slug": "dyon-in-arabic-and-french",        "date": "2026-11-05", "tags": ["product"]},
+    {"type": "blog", "slug": "settling-with-a-qr-code",          "date": "2026-11-07", "tags": ["howto", "product"]},
+    {"type": "news", "slug": "dyon-2-0",                         "date": "2026-11-09", "tags": ["product"]}
+  ]
+}
