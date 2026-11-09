@@ -4,7 +4,7 @@
    page asks it to take over (the user taps "Reload"), so nothing updates
    silently under someone's half-typed form. */
 
-const VERSION = 'dyon-43b1885d9ec9';
+const VERSION = 'dyon-69ea7df896d9';
 const CORE = [
   './',
   './index.html',

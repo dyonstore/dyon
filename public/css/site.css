@@ -34,3 +34,17 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 "Int
 .site-foot p { margin: .25rem 0; } .site-foot a { color: var(--text-2); }
 [hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+/* forms (subscribe / preference centre / contact) */
+.form { display: grid; gap: 1rem; margin-block: 1.25rem; }
+.form label { font-weight: 600; color: var(--text); display: block; margin-block-end: .25rem; }
+.form input[type="email"], .form input[type="text"], .form textarea, .form select { inline-size: 100%; min-block-size: 44px; padding: .55rem .75rem; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.form textarea { min-block-size: 8rem; }
+.form input:focus-visible, .form textarea:focus-visible, .form select:focus-visible { outline: 3px solid var(--brand); outline-offset: 1px; }
+.opt { display: flex; gap: .75rem; align-items: flex-start; padding: .75rem .9rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.opt input { inline-size: 22px; block-size: 22px; margin-block-start: .2rem; flex: none; accent-color: var(--brand); }
+.opt b { display: block; color: var(--text); } .opt span { color: var(--text-2); font-size: .9rem; }
+.hp { position: absolute; inset-inline-start: -9999px; inline-size: 1px; block-size: 1px; overflow: hidden; }
+.msg { padding: .75rem 1rem; border-radius: 12px; background: var(--soft); color: var(--text); }
+.msg.err { background: transparent; border: 1px solid var(--needs); color: var(--needs); }
+.actions { display: flex; gap: .6rem; flex-wrap: wrap; }
+.btn-quiet { background: transparent; }

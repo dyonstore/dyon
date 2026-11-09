@@ -505,6 +505,51 @@ for (const [lang, urlp, dir] of [['en', '/storage', 'ltr'], ['ar', '/ar/storage'
   }
 }
 
+/* ---------- §7 subscribe / confirm / unsubscribe pages (own PHP server + data dir, file mail transport) ---------- */
+{
+  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dyon-e2e-mail-'));
+  const port = 19000 + Math.floor(Math.random() * 40);
+  const env = { ...process.env, DYON_ENV: 'dev', DYON_COOKIE_SECURE: '0', DYON_DATA_DIR: dataDir, DYON_SECRET_KEY: Buffer.alloc(32, 'f').toString('base64'), DYON_MAIL_TRANSPORT: 'file', DYON_BASE_URL: `http://127.0.0.1:${port}` };
+  const srv = spawn('php', ['-S', '127.0.0.1:' + port, '-t', 'public', 'public/router.php'], { env, stdio: 'ignore', detached: false });
+  const MB = `http://127.0.0.1:${port}/`;
+  for (let i = 0; i < 60; i++) { try { if ((await fetch(MB + 'api/ping.php')).ok) break; } catch {} await new Promise(r => setTimeout(r, 100)); }
+  const tokenFor = (kind, email) => execFileSync('php', ['-r', `require "app/bootstrap.php"; $r=Dyon\\Db::system()->one("SELECT * FROM subscribers WHERE email=?",["${email}"]); echo Dyon\\Subscribers::token("${kind}",$r);`], { env, encoding: 'utf8' }).trim();
+  const freshLimits = () => execFileSync('php', ['-r', 'require "app/bootstrap.php"; Dyon\\Db::system()->exec("DELETE FROM rate_limits");'], { env });   // the per-IP limiter is tested in PHP; e2e reuses one IP
+  for (const [lang, pre, dir] of [['en', '', 'ltr'], ['ar', 'ar/', 'rtl'], ['fr', 'fr/', 'ltr']]) {
+    for (const [w, h] of [[360, 740], [768, 900], [1280, 800]]) {
+      for (const scheme of ['light', 'dark']) {
+        await scenario(`/subscribe ${lang} ${w}px ${scheme}: renders ${dir}, no overflow, 44px targets, honeypot hidden, submit → check-your-email notice`, { viewport: { width: w, height: h }, colorScheme: scheme }, async (page) => {
+          await page.goto(MB + pre + 'subscribe');
+          const r = await page.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang, over: document.documentElement.scrollWidth > innerWidth + 1,
+            hp: (() => { const e = document.querySelector('input[name=website]'); const b = e.getBoundingClientRect(); return b.width < 2 || b.height < 2 || e.offsetParent === null || b.right < 0 || b.left < -500 || b.left > innerWidth + 500; })(),
+            small: [...document.querySelectorAll('.btn, input[type=email]')].some(b => b.getBoundingClientRect().height < 40), bg: getComputedStyle(document.body).backgroundColor }));
+          assert(r.dir === dir && r.lang === lang && !r.over && r.hp && !r.small, 'layout: ' + JSON.stringify(r));
+          const lum = r.bg.match(/\d+/g).slice(0, 3).map(Number).reduce((a, b) => a + b, 0) / 3; assert(scheme === 'dark' ? lum < 90 : lum > 200, `${scheme} not applied: ${r.bg}`);
+          freshLimits(); await page.fill('input[name=email]', `e2e-${lang}-${w}-${scheme}@example.org`); await page.click('button[type=submit]');
+          await page.waitForSelector('.msg'); assert(!(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)), 'notice overflow');
+        });
+      }
+    }
+  }
+  for (const [lang, pre, dir] of [['en', '', 'ltr'], ['ar', 'ar/', 'rtl'], ['fr', 'fr/', 'ltr']]) {
+    await scenario(`/subscribe → confirm → unsubscribe flow ${lang}: GET changes nothing, POST does, preference centre saves`, { viewport: { width: 360, height: 740 } }, async (page) => {
+      const em = `flow-${lang}@example.org`;
+      freshLimits(); await page.goto(MB + pre + 'subscribe'); await page.fill('input[name=email]', em); await page.click('button[type=submit]'); await page.waitForSelector('.msg');
+      await page.goto(MB + pre + 'subscribe/confirm?t=' + encodeURIComponent(tokenFor('confirm', em)));
+      assert(await page.isVisible('form button[type=submit]'), 'confirm button missing');
+      await page.click('form button[type=submit]'); await page.waitForSelector('.msg');
+      await page.goto(MB + pre + 'unsubscribe?t=' + encodeURIComponent(tokenFor('unsub', em)));
+      assert((await page.locator('input[type=checkbox]').count()) === 3 && (await page.evaluate(() => document.documentElement.dir)) === dir, 'preference centre');
+      await page.uncheck('input[value=blog]'); await page.click('button[value=save]'); await page.waitForSelector('.msg');
+      assert(!(await page.isChecked('input[value=blog]')) && (await page.isChecked('input[value=product]')), 'save did not persist');
+      await page.click('button[value=all]'); await page.waitForSelector('.msg');
+      const st = execFileSync('php', ['-r', `require "app/bootstrap.php"; echo Dyon\\Db::system()->val("SELECT status FROM subscribers WHERE email=?",["${em}"]);`], { env, encoding: 'utf8' }).trim();
+      assert(st === 'unsubscribed', 'status ' + st);
+    });
+  }
+  srv.kill();
+}
+
 /* ---------- §6 encrypted sync (own PHP server + data dir; two browser contexts = two devices) ---------- */
 {
   const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dyon-e2e-'));

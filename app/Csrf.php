@@ -20,6 +20,22 @@ final class Csrf
         return $t;
     }
 
+    /** Origin-only check for public form posts that have no session (subscribe, contact): same-origin or no browser hint. */
+    public static function sameOrigin(?array $server = null): bool
+    {
+        $server ??= $_SERVER;
+        $sfs = $server['HTTP_SEC_FETCH_SITE'] ?? '';
+        if ($sfs !== '' && !in_array($sfs, ['same-origin', 'none'], true)) return false;
+        if ($sfs === 'same-origin') return true;                       // set by the browser itself; a page cannot forge it
+        $origin = $server['HTTP_ORIGIN'] ?? '';
+        if ($origin === 'null') return false;
+        if ($origin !== '') {
+            $oh = parse_url($origin, PHP_URL_HOST); $op = parse_url($origin, PHP_URL_PORT);
+            return hash_equals(strtolower((string)($server['HTTP_HOST'] ?? '')), strtolower($op ? "$oh:$op" : (string)$oh));
+        }
+        return true;
+    }
+
     /** Pure check used by tests and enforce(). $server/$cookies/$post default to the superglobals. */
     public static function check(?array $server = null, ?array $cookies = null, ?array $post = null, ?string $host = null): bool
     {
@@ -29,6 +45,7 @@ final class Csrf
 
         $sfs = $server['HTTP_SEC_FETCH_SITE'] ?? '';
         if ($sfs !== '' && !in_array($sfs, ['same-origin', 'none'], true)) return false;
+        if ($sfs === 'same-origin') return true;                       // set by the browser itself; a page cannot forge it
 
         $origin = $server['HTTP_ORIGIN'] ?? '';
         if ($origin !== '' && $origin !== 'null') {

@@ -6,4 +6,5 @@ $u = sync_user(10); $uid = (int)$u['id'];
 $in = Http::jsonBody(1024);
 if (($in['confirm'] ?? '') !== 'delete') Http::error(400, 'confirm_required', 'Confirmation is required');
 Sync::wipe($uid);
+\Dyon\Mailer::toUser($uid, 'sync_wiped');
 Http::json(['ok' => true]);

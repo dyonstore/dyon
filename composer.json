@@ -1,0 +1,7 @@
+{
+  "name": "dyonstore/dyon",
+  "description": "DYON — the Commitments Ledger",
+  "license": "proprietary",
+  "require": { "php": ">=8.2", "phpmailer/phpmailer": "^6.9" },
+  "config": { "vendor-dir": "vendor-php", "optimize-autoloader": true, "sort-packages": true }
+}

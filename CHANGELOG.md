@@ -5,6 +5,13 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
 
 ## [2.0.0] — unreleased
 
+### 7 · Email
+- **Mailer + queue** (PHPMailer, SMTP with TLS required, `file` transport for dev/tests): 13 templates in en/ar/fr (RTL, inline CSS, no images/trackers/redirects),
+  static subjects (never an amount), exponential backoff, 5 attempts, `email_log`, `cron/send-mail.php` (lock file, batch 50).
+- **Subscriptions**: `/subscribe`, `/subscribe/confirm`, `/unsubscribe` (+`/ar`, `/fr`) and `/api/subscribe.php`: double opt-in, honeypot, no CAPTCHA, derived HMAC tokens,
+  GET never changes state, RFC 8058 one-click, per-stream preference centre; consent re-checked at send time.
+- **Account notices**: new-device sign-in, sync enabled, device added, server copy deleted. `/api/contact.php` stores the message and acknowledges it.
+
 ### 6.5 · Storage page
 - **`/storage`, `/ar/storage`, `/fr/storage`** (server-rendered): where data lives, when browsers may evict it, what `navigator.storage.persist()` does, what to do. Every claim cites MDN or WebKit with a link. A live panel (read in the browser, nothing sent) shows usage and a calm "Keep my data on this device" button; Settings has the same card.
 

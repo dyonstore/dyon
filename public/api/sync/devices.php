@@ -10,7 +10,7 @@ $in = Http::jsonBody(4096);
 switch ($in['action'] ?? '') {
     case 'register':
         if (!Sync::meta($uid)) Http::error(404, 'not_set_up', 'Sync is not set up');
-        try { Http::json(['id' => Sync::registerDevice($uid, (string)($in['label'] ?? ''))]); }
+        try { $did = Sync::registerDevice($uid, (string)($in['label'] ?? '')); \Dyon\Mailer::toUser($uid, 'sync_device_added', ['device' => mb_substr(trim((string)($in['label'] ?? '')), 0, 60)]); Http::json(['id' => $did]); }
         catch (RuntimeException $e) { Http::error(409, 'too_many_devices', 'Too many devices'); }
     case 'rename':
         if (!Sync::renameDevice($uid, (int)($in['id'] ?? 0), (string)($in['label'] ?? ''))) Http::error(404, 'not_found', 'No such device');

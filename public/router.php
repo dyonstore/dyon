@@ -44,7 +44,7 @@ $front = [
     '#^/(ar|fr)/(blog|news|events)(/|$)#'        => 'blog.php',
     '#^/storage(/|$)#'                           => 'storage.php',
     '#^/(ar|fr)/storage(/|$)#'                   => 'storage.php',
-    '#^/unsubscribe(/|$)#'                       => 'unsubscribe.php',
+    '#^/(ar/|fr/)?(unsubscribe|subscribe)(/|$)#' => 'unsubscribe.php',
     '#^/(sitemap\.xml|robots\.txt|feed\.xml|atom\.xml)$#' => 'seo.php',
 ];
 

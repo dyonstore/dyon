@@ -47,7 +47,7 @@ DirectoryIndex index.html
   # Server-rendered front controllers.
   RewriteRule ^(ar/|fr/)?(blog|news|events)(/.*)?$        blog.php        [L,QSA]
   RewriteRule ^(ar/|fr/)?storage/?$                        storage.php     [L,QSA]
-  RewriteRule ^unsubscribe/?$                              unsubscribe.php [L,QSA]
+  RewriteRule ^(ar/|fr/)?(unsubscribe|subscribe)(/.*)?$    unsubscribe.php [L,QSA]
   RewriteRule ^(sitemap\.xml|robots\.txt|feed\.xml|atom\.xml)$ seo.php     [L,QSA]
 
   # Everything else: the PWA shell (hash router takes over client-side).

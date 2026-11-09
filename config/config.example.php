@@ -19,8 +19,10 @@ return [
         'apple'     => ['client_id' => '', 'team_id' => '', 'key_id' => '', 'private_key' => ''],
     ],
 
+    'mail_transport' => 'smtp',                 // 'smtp' | 'file' (writes .eml to data/mail-out/; used in dev and tests)
+    'unsubscribe_mailbox' => 'unsubscribe@dyon.store',
     'smtp' => ['host' => '', 'port' => 587, 'user' => '', 'pass' => '', 'secure' => 'tls',
-               'from' => 'hello@dyon.store', 'from_name' => 'DYON', 'bounce' => 'bounce@dyon.store'],
+               'from' => 'dyon@dyon.store', 'from_name' => 'DYON', 'bounce' => 'bounce@dyon.store'],
 
     'admin_sub_hashes' => [],                   // sha256(provider+sub) of allowed admins
     'admin_totp_secret' => '',                  // base32
