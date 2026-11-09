@@ -34,7 +34,7 @@ if (strpos($uri, '/dev/') === 0 && (getenv('APP_ENV') ?: 'dev') !== 'dev') $deny
    (never the SPA shell, which would serve HTML as a JS module or JSON). */
 if ($uri !== '/' && (!($path && strpos($path, $root) === 0 && is_file($path)))
     && (preg_match('#^/(dev|api|admin)/#', $uri) || preg_match('#\.[a-z0-9]{1,6}$#i', $uri))
-    && !preg_match('#^/(sitemap\.xml|robots\.txt|feed\.xml|atom\.xml)$#', $uri)) $deny(404);
+    && !preg_match('#^/(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$#', $uri)) $deny(404);
 
 /* ---- server-rendered routes (front controllers, added in later tasks) ---- */
 $front = [
@@ -45,7 +45,7 @@ $front = [
     '#^/storage(/|$)#'                           => 'storage.php',
     '#^/(ar|fr)/storage(/|$)#'                   => 'storage.php',
     '#^/(ar/|fr/)?(unsubscribe|subscribe)(/|$)#' => 'unsubscribe.php',
-    '#^/(sitemap\.xml|robots\.txt|feed\.xml|atom\.xml)$#' => 'seo.php',
+    '#^/(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$#' => 'seo.php',
 ];
 
 /* Real static files inside public/ are served verbatim (let php -S do it). */
