@@ -532,12 +532,26 @@ check('countryFromTimezone falls back to null for unknown zones', () => {
   return CT.countryFromTimezone('Mars/Olympus') === null && CT.countryFromTimezone('Africa/Tunis') === 'TN'
     ? true : 'bad fallback';
 });
-await checkAsync('detectCountry order: server hint wins over timezone and language', async () => {
+await checkAsync('detectCountry order: device timezone beats a wrong IP hint (Tunis device, Nigerian IP)', async () => {
+  const r = await CT.detectCountry({
+    fetchImpl: async () => ({ ok: true, json: async () => ({ country: 'ng' }) }),
+    timeZone: 'Africa/Tunis', languages: ['en-US']
+  });
+  return r.country === 'TN' && r.source === 'timezone' ? true : JSON.stringify(r);
+});
+await checkAsync('detectCountry uses the server hint only when the timezone is generic', async () => {
   const r = await CT.detectCountry({
     fetchImpl: async () => ({ ok: true, json: async () => ({ country: 'eg' }) }),
-    timeZone: 'Africa/Tunis', languages: ['fr-TN']
+    timeZone: 'UTC', languages: ['en']
   });
   return r.country === 'EG' && r.source === 'server' ? true : JSON.stringify(r);
+});
+await checkAsync('detectCountry: a language region that disagrees with the IP wins over the IP', async () => {
+  const r = await CT.detectCountry({
+    fetchImpl: async () => ({ ok: true, json: async () => ({ country: 'ng' }) }),
+    timeZone: 'UTC', languages: ['fr-TN']
+  });
+  return r.country === 'TN' && r.source === 'language' ? true : JSON.stringify(r);
 });
 await checkAsync('detectCountry falls through to timezone when server 404s', async () => {
   const r = await CT.detectCountry({

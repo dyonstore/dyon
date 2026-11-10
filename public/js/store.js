@@ -97,7 +97,14 @@ export const state = {
 
 const listeners = new Set();
 export function subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); }
-export function emit() { listeners.forEach(fn => fn()); }
+let hold = 0, dirty = false;
+export function emit() { if (hold) { dirty = true; return; } listeners.forEach(fn => fn()); }
+/* Run many writes with ONE re-render at the end (bulk import, demo data). Without this every write rebuilds the whole screen. */
+export async function batch(fn) {
+  hold++;
+  try { return await fn(); }
+  finally { hold--; if (!hold && dirty) { dirty = false; emit(); } }
+}
 
 export async function load() {
   await db.open();
@@ -144,6 +151,8 @@ export async function saveProgress(patch) {
 
 export async function saveSettings(patch) {
   const before = { ...state.settings };
+  /* Choosing a new base currency makes it the pre-selected unit of the next new commitment. */
+  if (patch.base_currency && patch.base_currency !== before.base_currency && !('last_unit' in patch)) patch = { ...patch, last_unit: patch.base_currency };
   state.settings = Object.assign(state.settings, patch, { id: 'app' });
   await db.put('settings', state.settings);
   const d = db.diffOf(before, state.settings);

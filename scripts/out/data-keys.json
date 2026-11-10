@@ -1,0 +1,7 @@
+{
+ "data.lost_notice": {"en":"This device started with an empty ledger, but it had entries before. The browser may have cleared its storage. Restore from sync or a backup file.","ar":"بدأ هذا الجهاز بدفتر فارغ، مع أنه كان فيه قيود من قبل. ربما مسح المتصفح بياناته. استعد من المزامنة أو من ملف نسخة احتياطية.","fr":"Cet appareil démarre avec un registre vide, alors qu'il contenait des entrées. Le navigateur a peut-être vidé son stockage. Restaurez depuis la synchronisation ou un fichier de sauvegarde."},
+ "data.lost_action": {"en":"Restore options","ar":"خيارات الاستعادة","fr":"Options de restauration"},
+ "data.open_failed": {"en":"The browser could not open this device's storage (private mode or blocked storage?). Nothing will be saved until that is fixed.","ar":"تعذّر على المتصفح فتح مخزن هذا الجهاز (وضع خاص أو تخزين محظور؟). لن يُحفظ شيء حتى يُصلَح ذلك.","fr":"Le navigateur n'a pas pu ouvrir le stockage de cet appareil (navigation privée ou stockage bloqué ?). Rien ne sera enregistré tant que ce n'est pas résolu."},
+ "demo.working": {"en":"Adding demo data… one moment","ar":"جارٍ إضافة بيانات تجريبية… لحظة","fr":"Ajout des données de démonstration… un instant"},
+ "demo.done": {"en":"Demo ready: {name}, Tunisia, 100 entries, 7 completed","ar":"التجربة جاهزة: {name}، تونس، ١٠٠ قيد، ٧ مكتملة","fr":"Démo prête : {name}, Tunisie, 100 entrées, 7 terminées"}
+}

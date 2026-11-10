@@ -27,3 +27,6 @@ composer.lock
 .DS_Store
 *.swp
 *.log
+
+# Secrets / local overrides
+/.env

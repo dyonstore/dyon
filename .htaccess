@@ -1,0 +1,29 @@
+# DYON — root .htaccess for hosts whose document root is the project folder.
+# Best practice is to point the document root at public/ (then public/.htaccess is all you need); this file makes the
+# project folder safe and working when you cannot. Everything real lives in public/; index.php serves the PWA shell.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.php index.html
+
+# Never web-callable: source, data, secrets, tooling.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(app|config|data|migrations|templates|cron|tests|vendor-php|node_modules|scripts|docs|deploy|content|\.git)(/|$) - [R=404,L]
+  RewriteRule ^(\.env.*|composer\.(json|lock)|package(-lock)?\.json|README\.md|CHANGELOG\.md)$ - [R=404,L]
+  RewriteRule (^|/)\.(?!well-known) - [R=404,L]
+
+  # Real files and directories under public/ (assets, /api/*.php, scripts) are served from there.
+  RewriteCond %{DOCUMENT_ROOT}/public/$1 -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}/public/$1 -d
+  RewriteRule ^(.+)$ public/$1 [L]
+
+  # Server-rendered front controllers.
+  RewriteRule ^(ar/|fr/)?(blog|news|events)(/.*)?$        public/blog.php        [L,QSA]
+  RewriteRule ^(ar/|fr/)?storage/?$                        public/storage.php     [L,QSA]
+  RewriteRule ^(ar/|fr/)?(unsubscribe|subscribe)(/.*)?$    public/unsubscribe.php [L,QSA]
+  RewriteRule ^(ar/|fr/)?verify(/.*)?$                      public/verify.php      [L,QSA]
+  RewriteRule ^(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$ public/seo.php [L,QSA]
+
+  # Everything else (including "/" and the configurable admin path): the gate.
+  RewriteRule ^ index.php [L]
+</IfModule>

@@ -8,6 +8,7 @@ import * as C from './content.js';
 import * as F from './flows.js';
 import * as db from './db.js';
 import * as VAL from './validate.js';
+import { exampleFor } from './examples.js';
 import * as AUTH from './auth.js';
 import * as CT from './country.js';
 import { renderSyncCard, renderDevicesCard } from './sync-ui.js';
@@ -1193,6 +1194,7 @@ function renderRegionCard(ctx) {
 /* The step survives re-renders (language switch, saves), so adding an entry
    never throws the person back to the first screen. */
 let onbStep = 0;
+function phEx() { const s = S.state.settings; return exampleFor(s.country || (s.country_detected && s.country_detected.country), getLocale()); }
 export function resetOnboardingStep() { onbStep = 0; }
 export function renderOnboarding(ctx) {
   const s = S.state.settings;
@@ -1203,9 +1205,9 @@ export function renderOnboarding(ctx) {
   wrap.appendChild(stage);
 
   const quickRow = (cat) => {
-    const name = input({ placeholder: t('add.who_ph'), maxlength: '80' });
+    const name = input({ placeholder: t('add.who_ph_x', { name: phEx().name }), maxlength: '80' });
     const what = input({ maxlength: '120',
-      placeholder: t('views2.what_e_g_300') });
+      placeholder: t('add.what_ph_x', { amount: phEx().amount }) });
     const dirSel = select([
       { value: 'I_OWE', label: t('dir.i_owe'), selected: cat.dir === 'I_OWE' },
       { value: 'OWED_TO_ME', label: t('dir.owed_to_me'), selected: cat.dir === 'OWED_TO_ME' }

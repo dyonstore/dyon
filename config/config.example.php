@@ -24,6 +24,9 @@ return [
     'smtp' => ['host' => '', 'port' => 587, 'user' => '', 'pass' => '', 'secure' => 'tls',
                'from' => 'dyon@dyon.store', 'from_name' => 'DYON', 'bounce' => 'bounce@dyon.store'],
 
+    'admin_path'     => 'admin',                // URL segment of the admin area; set DYON_ADMIN_PATH in .env to hide it (e.g. DYON_ADMIN_PATH=desk-7f3a)
+    'login_code'     => true,                   // 8-digit e-mailed code on a new device / after a long absence / on a new sign-in method
+    'login_code_days' => 30,                    // ask again after this many days without a sign-in on the same device
     'admin_sub_hashes' => [],                   // sha256(provider+sub) of allowed admins
     'admin_totp_secret' => '',                  // base32
 ];

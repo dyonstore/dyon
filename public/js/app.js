@@ -18,6 +18,7 @@ import * as VAL from './validate.js';
 import { openLanguageAside } from './lang-aside.js';
 import { detectLocale } from './i18n.js';
 import * as CT from './country.js';
+import * as STO from './storage.js';
 
 const app = {
   root: null,
@@ -292,7 +293,8 @@ function render() {
     case 'demo':
       view = V.renderOverview();
       if (!S.visibleCommitments().length) {
-        seedDemo().then(() => { location.hash = '#/'; });
+        toast(t('demo.working'));
+        seedDemo().then(() => { toast(t('demo.done', { name: 'Maher' }), 'good'); location.hash = '#/'; });
       } else location.hash = '#/';
       break;
     case 'more': view = V.renderOverview(); oneShot(openMore, 50); break;
@@ -337,7 +339,7 @@ const ctx = {
       title: t('set.seed'),
       message: t('app.adds_demo_ledger_alongside'),
       confirmLabel: t('set.seed'),
-      onConfirm: async () => { await seedDemo(); toast(t('misc.saved'), 'good'); applyLocale(); }
+      onConfirm: async () => { toast(t('demo.working')); await seedDemo(); toast(t('demo.done', { name: 'Maher' }), 'good'); applyLocale(); }
     });
   }
 };
@@ -448,12 +450,13 @@ export async function firstRunLocale(countryLocales = []) {
    currency/digits/calendar and never turns on Islamic mode — onboarding asks. */
 async function firstRunCountry() {
   const s = S.state.settings;
-  if (s.country_detected) {
+  if (s.country_detected && s.country_detected.v === CT.DETECT_V) {
     // already detected on a previous run; still feed its locales to the chain
     return CT.countryLocales(s.country_detected.country);
   }
   let det = { country: null, source: 'none' };
   try { det = await CT.detectCountry(); } catch {}
+  // an older, IP-based result is replaced; a country the person picked themselves is never touched
   await S.saveProgress({ country_detected: det });
   return det.country ? CT.countryLocales(det.country) : [];
 }
@@ -468,8 +471,33 @@ function surfaceAuthError() {
   setTimeout(() => toast(t('acct.error.generic'), 'warn'), 400);
 }
 
+/* Keep-my-data safeguards (fix: "reopened the app, it started from zero").
+   1. Ask the browser once, quietly, to treat this origin's storage as persistent so it is never evicted under pressure.
+   2. Leave a tiny marker (no ledger content) when the ledger holds data. If a later start finds an empty ledger but the
+      marker exists, the data was wiped by the browser — say so calmly and point to restore (sync / backup file). */
+const MARK = 'dyon.had_data';
+async function protectData() {
+  try {
+    const n = S.state.commitments.length;
+    let had = false; try { had = !!localStorage.getItem(MARK); } catch { /* storage blocked */ }
+    if (n > 0) { try { localStorage.setItem(MARK, String(n)); } catch { /* ignore */ } }
+    else if (had && S.state.settings.onboarded !== false) {
+      try { localStorage.removeItem(MARK); } catch { /* ignore */ }
+      setTimeout(() => toast(t('data.lost_notice'), 'warn', { label: t('data.lost_action'), onClick: () => { location.hash = '#/settings'; }, persist: true }), 1200);
+    }
+    const i = await STO.info();
+    if (i.canPersist && i.persisted === false) await STO.keep();   // silent: browsers grant on engagement/install, never prompt-spam
+  } catch { /* never block boot */ }
+}
+
 async function boot() {
-  await S.load();
+  try { await S.load(); }
+  catch (err) {
+    console.error(err);
+    setTimeout(() => toast(t('data.open_failed'), 'warn', { persist: true }), 800);
+    throw err;
+  }
+  protectData();
   const countryLocales = await firstRunCountry();   // §3: detect once, suggestion only
   await firstRunLocale(countryLocales);
   await AUTH.handleRedirect();   // must run before the hash router sees #id_token=…

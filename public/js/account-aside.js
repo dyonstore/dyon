@@ -9,7 +9,7 @@ import * as S from './store.js';
 import * as AUTH from './auth.js';
 import { AUTH_CONFIG } from './auth-config.js';
 import * as A from './account.js';
-import { el, icon, toast, download } from './ui.js';
+import { el, icon, toast, download, sheet } from './ui.js';
 import { openAside, closeAside } from './aside.js';
 
 /* 32 / 56 px picture with the initial-on-gradient fallback. Never hot-links a provider. */
@@ -58,7 +58,8 @@ function exportMine() {
   toast(t('acct.exported'), 'good');
 }
 
-function providerButtons() {
+/* `inSheet`: opened from a Settings card, not from the header avatar — keep the person where they are. */
+function providerButtons(inSheet = false) {
   const out = [];
   const back = encodeURIComponent('/' + (location.hash || '#/settings'));
   for (const id of A.serverProviders()) {
@@ -69,7 +70,7 @@ function providerButtons() {
   // Legacy / preview sign-in (client-side providers, or localhost preview) stays available through the existing sheet.
   if (AUTH.anyProviderConfigured() || AUTH_CONFIG.allowPreview) {
     out.push(el('button', { class: 'btn btn-block' + (out.length ? '' : ' btn-primary'), type: 'button', id: 'acct-more-signin',
-      onclick: () => { closeAside(true); setTimeout(() => AUTH.openSignIn(), 40); } },
+      onclick: () => { if (!inSheet) closeAside(true); setTimeout(() => AUTH.openSignIn(), 40); } },
       [icon('fa-right-to-bracket'), el('span', { text: out.length ? t('acct.sign_in_more') : t('app.link_account') })]));
   }
   return out;
@@ -137,4 +138,19 @@ export function openAccountAside(opener) {
   opener = opener || document.getElementById('acct-btn');
   const id = A.identity(AUTH.session());
   return openAside({ id: 'acct', title: t('acct.title'), body: id ? signedInBody(id) : signedOutBody(), opener });
+}
+
+/* Sign-in from a Settings card (e.g. Sync). A small sheet with the providers — never the account aside, which is
+   for people who are already signed in or who asked for it from the header. After sign-in the server sends the
+   browser back to the same Settings screen. */
+export function openSignInSheet({ title, intro } = {}) {
+  const buttons = providerButtons(true);
+  sheet({
+    title: title || t('app.link_account'),
+    body: el('div', { class: 'stack' }, [
+      intro ? el('p', { text: intro }) : null,
+      el('p', { class: 'hint', text: t('auth.private_ledger_keeps_working') }),
+      el('div', { class: 'stack', style: { gap: '8px' } }, buttons)
+    ])
+  });
 }

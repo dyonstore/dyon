@@ -4,7 +4,7 @@
    page asks it to take over (the user taps "Reload"), so nothing updates
    silently under someone's half-typed form. */
 
-const VERSION = 'dyon-ffd83fa52ddb';
+const VERSION = 'dyon-5672c6308338';
 const CORE = [
   './',
   './index.html',
@@ -34,6 +34,7 @@ const CORE = [
   './js/sync-wordlist.js',
   './js/country.js',
   './js/tz-country.js',
+  './js/examples.js',
   './js/i18n.js',
   './js/units.js',
   './js/db.js',

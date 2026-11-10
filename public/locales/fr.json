@@ -1062,5 +1062,13 @@
  "blog.cta_title": "Recevoir les nouveaux articles par e-mail",
  "blog.cta_body": "Un e-mail quand un nouveau texte paraît. Vous confirmez une fois, vous partez en un clic. Aucun compte nécessaire.",
  "blog.cta_btn": "S’abonner",
- "blog.disclaimer": "Cet article est informatif. Il ne constitue ni un conseil juridique, financier ou religieux, ni une fatwa. Pour un avis religieux, demandez à un savant qualifié."
+ "blog.disclaimer": "Cet article est informatif. Il ne constitue ni un conseil juridique, financier ou religieux, ni une fatwa. Pour un avis religieux, demandez à un savant qualifié.",
+ "add.who_ph_x": "p. ex. {name}",
+ "add.nl_ph_x": "p. ex. J'ai prêté {amount} à {name}, remboursement le 1er mars",
+ "add.what_ph_x": "Quoi ? p. ex. {amount} ou « la perceuse »",
+ "data.lost_notice": "Cet appareil démarre avec un registre vide, alors qu'il contenait des entrées. Le navigateur a peut-être vidé son stockage. Restaurez depuis la synchronisation ou un fichier de sauvegarde.",
+ "data.lost_action": "Options de restauration",
+ "data.open_failed": "Le navigateur n'a pas pu ouvrir le stockage de cet appareil (navigation privée ou stockage bloqué ?). Rien ne sera enregistré tant que ce n'est pas résolu.",
+ "demo.working": "Ajout des données de démonstration… un instant",
+ "demo.done": "Démo prête : {name}, Tunisie, 100 entrées, 7 terminées"
 }

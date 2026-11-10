@@ -33,15 +33,15 @@ if (strpos($uri, '/dev/') === 0 && (getenv('APP_ENV') ?: 'dev') !== 'dev') $deny
 /* Missing files: anything under /dev/ or /api/, or with a file extension, is a real 404
    (never the SPA shell, which would serve HTML as a JS module or JSON). */
 if ($uri !== '/' && (!($path && strpos($path, $root) === 0 && is_file($path)))
-    && (preg_match('#^/(dev|api|admin)/#', $uri) || preg_match('#\.[a-z0-9]{1,6}$#i', $uri))
+    && (preg_match('#^/(dev|api)/#', $uri) || preg_match('#\.[a-z0-9]{1,6}$#i', $uri))
     && !preg_match('#^/(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$#', $uri)) $deny(404);
 
 /* ---- server-rendered routes (front controllers, added in later tasks) ---- */
 $front = [
     '#^/api/#'                                   => 'api',       // handled as real files below
-    '#^/admin(/|$)#'                             => 'admin',
     '#^/(blog|news|events)(/|$)#'                => 'blog.php',
     '#^/(ar|fr)/(blog|news|events)(/|$)#'        => 'blog.php',
+    '#^/(ar/|fr/)?verify(/|$)#'                  => 'verify.php',
     '#^/storage(/|$)#'                           => 'storage.php',
     '#^/(ar|fr)/storage(/|$)#'                   => 'storage.php',
     '#^/(ar/|fr/)?(unsubscribe|subscribe)(/|$)#' => 'unsubscribe.php',
@@ -67,6 +67,5 @@ foreach ($front as $re => $target) {
     }
 }
 
-/* SPA / navigation fallback: everything else serves the app shell so the hash
-   router can take over (the PWA is a single page). */
-require $root . '/index.html';
+/* Everything else goes through the gate: the admin area at its configurable path, else the app shell. */
+require $root . '/gate.php';
