@@ -1070,5 +1070,22 @@
  "data.lost_action": "Restore options",
  "data.open_failed": "The browser could not open this device's storage (private mode or blocked storage?). Nothing will be saved until that is fixed.",
  "demo.working": "Adding demo data… one moment",
- "demo.done": "Demo ready: {name}, Tunisia, 100 entries, 7 completed"
+ "demo.done": "Demo ready: {name}, Tunisia, 100 entries, 7 completed",
+ "verify.title": "Enter your sign-in code",
+ "verify.lead": "We sent an 8-digit code to {email}. It works for 10 minutes.",
+ "verify.code_label": "8-digit code",
+ "verify.trust": "Remember this device for {days, plural, one {# day} other {# days}}",
+ "verify.trust_d": "No code needed here until then. Leave it off on a shared computer.",
+ "verify.submit": "Confirm and sign in",
+ "verify.resend": "Send a new code",
+ "verify.resent": "A new code is on its way. The previous one no longer works.",
+ "verify.wrong": "That code is not right. {left, plural, one {# try left} other {# tries left}}.",
+ "verify.locked": "Too many wrong tries. Ask for a new code.",
+ "verify.code_expired": "That code has expired. Ask for a new one.",
+ "verify.too_many": "Please wait a few minutes before asking for another code.",
+ "verify.note": "Nobody at DYON will ever ask you for this code. Your ledger stays on your device either way.",
+ "verify.expired_title": "This sign-in has ended",
+ "verify.expired_body": "The code window closed. Open DYON and sign in again; your data on this device is untouched.",
+ "mail.login_code.subject": "Your DYON sign-in code",
+ "mail.login_code.body": "Your DYON sign-in code is:\n\n{code}\n\nIt works for {minutes} minutes and only once. Type it on the page you just came from.\n\nIf you did not try to sign in, ignore this message and nobody gets in. Nobody at DYON will ever ask you for this code."
 }

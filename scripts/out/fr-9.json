@@ -309,5 +309,22 @@
  "data.lost_action": "Options de restauration",
  "data.open_failed": "Le navigateur n'a pas pu ouvrir le stockage de cet appareil (navigation privée ou stockage bloqué ?). Rien ne sera enregistré tant que ce n'est pas résolu.",
  "demo.working": "Ajout des données de démonstration… un instant",
- "demo.done": "Démo prête : {name}, Tunisie, 100 entrées, 7 terminées"
+ "demo.done": "Démo prête : {name}, Tunisie, 100 entrées, 7 terminées",
+ "verify.title": "Saisissez votre code de connexion",
+ "verify.lead": "Nous avons envoyé un code à 8 chiffres à {email}. Il est valable 10 minutes.",
+ "verify.code_label": "Code à 8 chiffres",
+ "verify.trust": "Mémoriser cet appareil pendant {days, plural, one {# jour} other {# jours}}",
+ "verify.trust_d": "Pas de code ici d'ici là. Décochez sur un ordinateur partagé.",
+ "verify.submit": "Confirmer et se connecter",
+ "verify.resend": "Envoyer un nouveau code",
+ "verify.resent": "Un nouveau code est en route. Le précédent ne fonctionne plus.",
+ "verify.wrong": "Ce code n'est pas correct. {left, plural, one {# essai restant} other {# essais restants}}.",
+ "verify.locked": "Trop d'essais erronés. Demandez un nouveau code.",
+ "verify.code_expired": "Ce code a expiré. Demandez-en un nouveau.",
+ "verify.too_many": "Patientez quelques minutes avant de demander un autre code.",
+ "verify.note": "Personne chez DYON ne vous demandera jamais ce code. Votre registre reste sur votre appareil dans tous les cas.",
+ "verify.expired_title": "Cette connexion est terminée",
+ "verify.expired_body": "La fenêtre du code est fermée. Ouvrez DYON et reconnectez-vous ; vos données sur cet appareil sont intactes.",
+ "mail.login_code.subject": "Votre code de connexion DYON",
+ "mail.login_code.body": "Votre code de connexion DYON est :\n\n{code}\n\nIl est valable {minutes} minutes et une seule fois. Saisissez-le sur la page d'où vous venez.\n\nSi vous n'avez pas tenté de vous connecter, ignorez ce message : personne n'entre. Personne chez DYON ne vous demandera jamais ce code."
 }

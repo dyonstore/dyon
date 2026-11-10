@@ -16,6 +16,7 @@ final class Mailer
         'subscribe_confirm' => ['stream' => 'account',    'bulk' => false, 'sub_stream' => null,     'cta' => 'confirm_url', 'cta_label' => 'mail.cta_confirm'],
         'subscribe_welcome' => ['stream' => 'account',    'bulk' => false, 'sub_stream' => null,     'cta' => 'manage_url',  'cta_label' => 'mail.cta_manage'],
         'unsubscribe_done'  => ['stream' => 'account',    'bulk' => false, 'sub_stream' => null,     'cta' => 'subscribe_url', 'cta_label' => 'mail.cta_resubscribe'],
+        'login_code'        => ['stream' => 'account',    'bulk' => false, 'sub_stream' => null,     'cta' => null,          'cta_label' => null],
         'signin_new_device' => ['stream' => 'account',    'bulk' => false, 'sub_stream' => null,     'cta' => 'devices_url', 'cta_label' => 'mail.cta_devices'],
         'sync_enabled'      => ['stream' => 'account',    'bulk' => false, 'sub_stream' => null,     'cta' => 'devices_url', 'cta_label' => 'mail.cta_devices'],
         'sync_device_added' => ['stream' => 'account',    'bulk' => false, 'sub_stream' => null,     'cta' => 'devices_url', 'cta_label' => 'mail.cta_devices'],
@@ -86,7 +87,7 @@ final class Mailer
         $links = self::links($l, $sub, $vars);
         $v = array_map(static fn($x) => is_scalar($x) ? (string)$x : '', $vars);
         if (($v['place'] ?? '') === '') $v['place'] = $t('mail.online');
-        $v += ['name' => '', 'device' => '', 'provider' => '', 'when' => '', 'title' => '', 'summary' => '', 'where' => '', 'reply' => ''];
+        $v += ['code' => '', 'minutes' => '10', 'name' => '', 'device' => '', 'provider' => '', 'when' => '', 'title' => '', 'summary' => '', 'where' => '', 'reply' => ''];
         if (isset($vars['days'])) $v['days'] = (int)$vars['days'];
 
         $subject = $t("mail.$template.subject");                 // static text: no variables, so never an amount

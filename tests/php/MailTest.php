@@ -23,8 +23,8 @@ $VARS = ['name' => 'Zainab', 'device' => 'Pixel 8', 'provider' => 'Google', 'whe
     'reply' => 'Thanks', 'place' => 'Online', 'days' => 3, 'url' => 'https://dyon.store/blog/x'];
 
 foreach (['en', 'ar', 'fr'] as $l) {
-    test("mail $l: all 13 templates render with subject, text, html, no missing keys / leftover placeholders", function () use ($l, $SUB, $VARS) {
-        eq(count(Mailer::TEMPLATES), 13);
+    test("mail $l: all 14 templates render with subject, text, html, no missing keys / leftover placeholders", function () use ($l, $SUB, $VARS) {
+        eq(count(Mailer::TEMPLATES), 14);
         foreach (array_keys(Mailer::TEMPLATES) as $tpl) {
             $r = Mailer::render($tpl, $l, $VARS, $SUB);
             ok(trim($r['subject']) !== '' && !str_contains($r['subject'], 'mail.'), "$tpl subject");
@@ -55,7 +55,7 @@ test('mail: bulk templates carry a manage link; account templates never carry ma
     foreach (Mailer::TEMPLATES as $name => $t) {
         $r = Mailer::render($name, 'en', $VARS, $SUB);
         if ($t['bulk']) ok(str_contains($r['text'], '/unsubscribe?t='), "$name manage link");
-        if ($t['stream'] === 'contact' || in_array($name, ['signin_new_device', 'sync_enabled', 'sync_device_added', 'sync_wiped'], true)) ok(!str_contains($r['text'], '/unsubscribe?t='), "$name has no marketing link");
+        if ($t['stream'] === 'contact' || in_array($name, ['signin_new_device', 'login_code', 'sync_enabled', 'sync_device_added', 'sync_wiped'], true)) ok(!str_contains($r['text'], '/unsubscribe?t='), "$name has no marketing link");
     }
 });
 
