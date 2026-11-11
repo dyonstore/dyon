@@ -22,7 +22,7 @@ function tmpdir(): string {
 }
 /** Spawn `php -S` on a free port with the router; returns [base, stop]. */
 function dev_server(array $env = []): array {
-    $port = random_int(18000, 18900);
+    do { $port = random_int(18000, 18900); $probe = @fsockopen('127.0.0.1', $port, $pe, $ps, 0.05); if ($probe) fclose($probe); } while ($probe);
     $envs = ''; foreach ($env as $k => $v) $envs .= $k . '=' . escapeshellarg($v) . ' ';
     $cmd = $envs . 'php -S 127.0.0.1:' . $port . ' -t ' . escapeshellarg(DYON_ROOT . '/public') . ' ' . escapeshellarg(DYON_ROOT . '/public/router.php') . ' >/dev/null 2>&1 & echo $!';
     $pid = (int)trim((string)shell_exec($cmd));

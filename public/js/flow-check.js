@@ -5,6 +5,7 @@
 import * as S from './store.js';
 import * as F from './flows.js';
 import { seedDemo } from './seed.js';
+import { toMinor } from './units.js';
 import { setLocale, setDigits, setCalendars } from './i18n.js';
 import { closeSheet } from './ui.js';
 import * as AUTH from './auth.js';
@@ -310,8 +311,10 @@ async function main() {
   }, 'commitments');
 
   const made = S.state.commitments.find(c => c.description === '__flowtest_ok_desc__');
-  results.push(made && made.amount_minor === 12550
-    ? { name: 'Quick Add stored exact integer minor units', ok: true, detail: 'amount_minor=12550' }
+  /* The default unit follows the ledger's base currency (TND has 3 decimals, SAR 2), so derive the expectation from the entry's own unit. */
+  const exp1 = made ? toMinor('125.50', made.unit_code) : -1;
+  results.push(made && made.amount_minor === exp1
+    ? { name: 'Quick Add stored exact integer minor units', ok: true, detail: 'amount_minor=' + exp1 }
     : { name: 'Quick Add stored exact integer minor units', ok: false,
         detail: 'got ' + (made && made.amount_minor) });
 
@@ -322,8 +325,9 @@ async function main() {
       'fulfilments');
 
     const rem = S.remainingMinor(S.commitmentOf(made.id));
-    results.push(rem === 10000
-      ? { name: 'Remaining balance is exact after a partial payment', ok: true, detail: 'remaining=10000' }
+    const expRem = toMinor('125.50', made.unit_code) - toMinor('25.50', made.unit_code);
+    results.push(rem === expRem
+      ? { name: 'Remaining balance is exact after a partial payment', ok: true, detail: 'remaining=' + expRem }
       : { name: 'Remaining balance is exact after a partial payment', ok: false, detail: 'got ' + rem });
 
     await expectBlocked('Edit: letters in the amount are refused', () => F.openEdit(made.id), {

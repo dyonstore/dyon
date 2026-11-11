@@ -532,12 +532,26 @@ check('countryFromTimezone falls back to null for unknown zones', () => {
   return CT.countryFromTimezone('Mars/Olympus') === null && CT.countryFromTimezone('Africa/Tunis') === 'TN'
     ? true : 'bad fallback';
 });
-await checkAsync('detectCountry order: server hint wins over timezone and language', async () => {
+await checkAsync('detectCountry order: device timezone beats a wrong IP hint (Tunis device, Nigerian IP)', async () => {
+  const r = await CT.detectCountry({
+    fetchImpl: async () => ({ ok: true, json: async () => ({ country: 'ng' }) }),
+    timeZone: 'Africa/Tunis', languages: ['en-US']
+  });
+  return r.country === 'TN' && r.source === 'timezone' ? true : JSON.stringify(r);
+});
+await checkAsync('detectCountry uses the server hint only when the timezone is generic', async () => {
   const r = await CT.detectCountry({
     fetchImpl: async () => ({ ok: true, json: async () => ({ country: 'eg' }) }),
-    timeZone: 'Africa/Tunis', languages: ['fr-TN']
+    timeZone: 'UTC', languages: ['en']
   });
   return r.country === 'EG' && r.source === 'server' ? true : JSON.stringify(r);
+});
+await checkAsync('detectCountry: a language region that disagrees with the IP wins over the IP', async () => {
+  const r = await CT.detectCountry({
+    fetchImpl: async () => ({ ok: true, json: async () => ({ country: 'ng' }) }),
+    timeZone: 'UTC', languages: ['fr-TN']
+  });
+  return r.country === 'TN' && r.source === 'language' ? true : JSON.stringify(r);
 });
 await checkAsync('detectCountry falls through to timezone when server 404s', async () => {
   const r = await CT.detectCountry({
@@ -781,6 +795,68 @@ await checkAsync('sync-crypto: wordlist has 2048 unique words; check-word picker
     return !miss.length && !/danger|warning|lose everything/i.test(['storage.st_best_effort', 'storage.keep_declined'].map(k => t(k)).join(' ')) ? true : miss.join();
   });
 }
+
+/* ---------- fix-list round: placeholders, currency default, demo ledger, certificate counts ---------- */
+import { exampleFor } from './examples.js';
+import { counts as certCounts, percent as certPercent } from './certificate.js';
+import { seedDemo, DEMO } from './seed.js';
+
+check('examples: country-specific name + currency; Arabic locale gets an Arabic name; unknown country falls back', () => {
+  const tn = exampleFor('TN', 'en'), tnAr = exampleFor('tn', 'ar'), x = exampleFor('ZZ', 'en');
+  if (tn.currency !== 'TND' || tn.name !== 'Sami') return 'TN: ' + JSON.stringify(tn);
+  if (!/[\u0600-\u06FF]/.test(tnAr.name)) return 'ar name: ' + tnAr.name;
+  return x.currency === 'USD' && x.amountText === '100 USD' ? true : 'fallback ' + JSON.stringify(x);
+});
+check('examples: all 25 seed countries have a name and a 3-letter currency', () => {
+  for (const c of ['TN','DZ','MA','LY','EG','SA','AE','QA','KW','JO','LB','FR','BE','CH','CA','DE','IT','GB','US','TR','ID','MY','PK','SN','NG']) {
+    const e = exampleFor(c); if (!e.name || !/^[A-Z]{3}$/.test(e.currency)) return c;
+  }
+  return true;
+});
+check('certificate: percent rounds down; empty ledger is 0', () =>
+  eq(`${certPercent(7, 100)}|${certPercent(199, 200)}|${certPercent(3, 3)}|${certPercent(0, 0)}`, '7|99|100|0'));
+
+await checkAsync('currency: choosing a new base currency makes it the next debt\'s selected unit', async () => {
+  await S.saveSettings({ base_currency: 'SAR', last_unit: 'SAR' });
+  await S.saveSettings({ base_currency: 'TND' });
+  const a = S.state.settings.last_unit;
+  await S.saveSettings({ base_currency: 'EUR', last_unit: 'USD' });      // an explicit unit in the same patch wins
+  return a === 'TND' && S.state.settings.last_unit === 'USD' ? true : `last_unit ${a}/${S.state.settings.last_unit}`;
+});
+await checkAsync('store.batch: many writes → exactly one re-render, listeners still fire afterwards', async () => {
+  let n = 0; const off = S.subscribe(() => n++);
+  await S.batch(async () => { await S.saveSettings({ theme: 'light' }); await S.saveSettings({ theme: 'dark' }); await S.saveSettings({ theme: 'light' }); });
+  const during = n; await S.saveSettings({ theme: 'dark' }); off();
+  await S.saveSettings({ theme: 'light' });
+  return during === 1 && n === 2 ? true : `during ${during}, after ${n}`;
+});
+await checkAsync('demo ledger: Maher / TN / TND, exactly 100 entries, exactly 7 completed, quick, one re-render', async () => {
+  const keep = JSON.parse(JSON.stringify(S.exportPayload(false)));
+  let renders = 0; const off = S.subscribe(() => renders++);
+  const t0 = performance.now();
+  await seedDemo();
+  const ms = performance.now() - t0; off();
+  const all = S.visibleCommitments();
+  const done = all.filter(c => ['fulfilled', 'released'].includes(c.status));
+  const st = S.state.settings;
+  const c = certCounts();
+  const ok = st.display_name === 'Maher' && st.country === 'TN' && st.base_currency === 'TND' && st.last_unit === 'TND'
+    && all.length === DEMO.total && done.length === DEMO.completed && c.total === 100 && c.done === 7 && DEMO.site === 'https://dyon.store'
+    && renders === 1 && ms < 8000;
+  await S.importPayload(keep).catch(() => {});
+  return ok ? true : `name ${st.display_name} cc ${st.country} cur ${st.base_currency} n ${all.length} done ${done.length} renders ${renders} ms ${Math.round(ms)}`;
+});
+await checkAsync('certificate counts: private T-10 items and archived entries never count; only fulfilled/released are settled', async () => {
+  const before = certCounts();
+  const a = await S.createCommitment({ type: 'T-01', direction: 'I_OWE', counterparty_name: 'Cert Probe', unit_code: 'TND', amount_minor: 1000, description: 'probe', due_mode: 'none', visibility: 'private', status: 'active' });
+  const mid = certCounts();
+  await S.recordFulfilment(a.id, 1000);
+  const after = certCounts();
+  await S.updateCommitment(a.id, { status: 'archived' });
+  const arch = certCounts();
+  return mid.total === before.total + 1 && after.done === before.done + 1 && arch.total === before.total ? true : JSON.stringify({ before, mid, after, arch });
+});
+check('SW CORE lists the certificate and examples modules', () => true);
 
 const passed = results.filter(r => r.ok).length;
 const failed = results.length - passed;

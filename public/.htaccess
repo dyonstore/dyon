@@ -15,7 +15,7 @@ DirectoryIndex index.html
 <FilesMatch "\.php$">
   Require all denied
 </FilesMatch>
-<FilesMatch "^(blog|storage|unsubscribe|seo)\.php$">
+<FilesMatch "^(blog|storage|unsubscribe|seo|verify|certificate|gate)\.php$">
   Require all granted
 </FilesMatch>
 # Private includes (_boot.php etc.) are never web-callable anywhere.
@@ -48,8 +48,11 @@ DirectoryIndex index.html
   RewriteRule ^(ar/|fr/)?(blog|news|events)(/.*)?$        blog.php        [L,QSA]
   RewriteRule ^(ar/|fr/)?storage/?$                        storage.php     [L,QSA]
   RewriteRule ^(ar/|fr/)?(unsubscribe|subscribe)(/.*)?$    unsubscribe.php [L,QSA]
+  RewriteRule ^(ar/|fr/)?verify(/.*)?$                      verify.php      [L,QSA]
+  RewriteRule ^(ar/|fr/)?c/[^/]+/?$                         certificate.php [L,QSA]
   RewriteRule ^(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$ seo.php [L,QSA]
 
-  # Everything else: the PWA shell (hash router takes over client-side).
-  RewriteRule ^ index.html [L]
+  # Everything else: the gate (admin path from .env, else the PWA shell; the hash router takes over client-side).
+  RewriteRule ^$ index.html [L]
+  RewriteRule ^ gate.php [L]
 </IfModule>

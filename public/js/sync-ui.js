@@ -6,6 +6,7 @@ import * as S from './store.js';
 import * as SY from './sync.js';
 import * as ACCT from './account.js';
 import * as SC from './sync-crypto.js';
+import { openSignInSheet } from './account-aside.js';
 
 const MIN_PASS = 12;
 const when = (ms) => ms ? formatDateTime(ms) : t('sync.never');
@@ -55,7 +56,7 @@ export function renderSyncCard() {
       ]));
     } else if (!signedIn) {
       kids.push(el('p', { class: 'muted', text: t('sync.needs_account') }),
-        el('button', { class: 'btn btn-sm', type: 'button', text: t('sync.sign_in'), onclick: () => document.getElementById('acct-btn')?.click() }));
+        el('button', { class: 'btn btn-sm', type: 'button', text: t('sync.sign_in'), onclick: () => openSignInSheet({ title: t('sync.title'), intro: t('sync.needs_account') }) }));
     } else {
       kids.push(el('p', { class: 'muted', text: t('sync.off_hint') }), el('div', { class: 'row', style: { gap: '8px', flexWrap: 'wrap' } }, [
         el('button', { class: 'btn btn-primary btn-sm', type: 'button', id: 'sync-on', text: t('sync.turn_on'), onclick: () => openWizard(card) }),

@@ -65,3 +65,15 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 "Int
 .crumbs a { color: var(--text-2); text-decoration: none; }
 .facts { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1rem; margin: 0; } .facts dt { font-weight: 600; color: var(--text); } .facts dd { margin: 0; color: var(--text-2); }
 @media (max-width: 480px) { .facts { grid-template-columns: 1fr; } .site-head .wrap { gap: .5rem; } }
+
+/* §11 public certificate page */
+.cert { text-align: center; display: grid; gap: .75rem; justify-items: center; }
+.cert-badge { display: inline-block; padding: .25rem .8rem; border-radius: 999px; background: var(--soft); border: 1px solid var(--border); font-weight: 700; font-size: .85rem; color: var(--text); }
+.cert-name { font-size: 1.4rem; font-weight: 700; color: var(--text); overflow-wrap: anywhere; margin: 0; }
+.cert-pct { font-size: clamp(3.5rem, 18vw, 6rem); font-weight: 800; line-height: 1; margin: 0; color: var(--brand); }
+.cert-pct span { font-size: .5em; }
+.cert-line { margin: 0; color: var(--text); }
+.cert-meta { display: grid; gap: .4rem; margin: .5rem 0; padding: 0; inline-size: min(28rem, 100%); text-align: start; }
+.cert-meta div { display: flex; justify-content: space-between; gap: 1rem; border-block-end: 1px solid var(--border); padding-block: .35rem; }
+.cert-meta dt { color: var(--text-2); } .cert-meta dd { margin: 0; color: var(--text); text-align: end; }
+.code-input { letter-spacing: .35em; font-size: 1.4rem; text-align: center; }

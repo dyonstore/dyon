@@ -12,6 +12,7 @@
 
 import { TZ_COUNTRY } from './tz-country.js';
 
+export const DETECT_V = 2;   // bump when the detection order changes: stored results from older versions are re-detected
 let _cache = null;             // assets/countries.json, loaded once
 
 function assetBase() {
@@ -58,32 +59,33 @@ export function countryFromTimezone(tz) {
    `fetchImpl`, `timeZone`, `languages` are injectable for tests. */
 export async function detectCountry(opts = {}) {
   const fetchImpl = opts.fetchImpl || (typeof fetch === 'function' ? fetch : null);
-  // (a) same-origin server hint
-  if (fetchImpl) {
-    try {
-      const res = await fetchImpl('/api/geo.php', { headers: { Accept: 'application/json' } });
-      if (res && res.ok) {
-        const j = await res.json();
-        if (j && typeof j.country === 'string' && /^[A-Za-z]{2}$/.test(j.country)) {
-          return { country: j.country.toUpperCase(), source: 'server' };
-        }
-      }
-    } catch { /* offline / 404 in dev — fall through silently */ }
-  }
-  // (b) timezone
+  // (a) device timezone: the most reliable signal of where the person actually is
+  //     (IP lookups are wrong behind VPNs, mobile carriers, proxies and CDN edges)
   let tz = opts.timeZone;
   if (tz === undefined) {
     try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { tz = null; }
   }
   const byTz = countryFromTimezone(tz);
-  if (byTz) return { country: byTz, source: 'timezone' };
-  // (c) language region subtag
-  const langs = opts.languages || (typeof navigator !== 'undefined' ? navigator.languages : []) || [];
-  for (const tag of langs) {
-    const r = regionOfTag(tag);
-    if (r) return { country: r, source: 'language' };
+  if (byTz) return { country: byTz, source: 'timezone', v: DETECT_V };
+  // (b) same-origin server hint (CF-IPCountry or local GeoLite2) when the timezone is unknown/generic (UTC, Etc/*)
+  let server = null;
+  if (fetchImpl) {
+    try {
+      const res = await fetchImpl('/api/geo.php', { headers: { Accept: 'application/json' } });
+      if (res && res.ok) {
+        const j = await res.json();
+        if (j && typeof j.country === 'string' && /^[A-Za-z]{2}$/.test(j.country)) server = j.country.toUpperCase();
+      }
+    } catch { /* offline / 404 in dev — fall through silently */ }
   }
-  return { country: null, source: 'none' };
+  // (c) language region subtag (fr-TN → TN) beats an IP guess only when it agrees with nothing else
+  const langs = opts.languages || (typeof navigator !== 'undefined' ? navigator.languages : []) || [];
+  let byLang = null;
+  for (const tag of langs) { const r = regionOfTag(tag); if (r) { byLang = r; break; } }
+  if (server && byLang && server !== byLang) return { country: byLang, source: 'language', v: DETECT_V };
+  if (server) return { country: server, source: 'server', v: DETECT_V };
+  if (byLang) return { country: byLang, source: 'language', v: DETECT_V };
+  return { country: null, source: 'none', v: DETECT_V };
 }
 
 /* Apply a country's defaults to settings.

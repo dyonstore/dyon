@@ -17,6 +17,7 @@ import { el, frag, icon, sheet, closeSheet, confirmSheet, toast, field, input, t
          emptyState, progressBar, disclaimer, ayahBlock, copyText, download, switchRow } from './ui.js';
 import * as AUTH from './auth.js';
 import * as QR from './qr.js';
+import { exampleFor } from './examples.js';
 
 
 /* amount string for prefilling an input (digits only, no unit label) */
@@ -61,6 +62,11 @@ AUTH.registerResume('transfer', p => p && _openTransfer(p.id));
 AUTH.registerResume('thanks', p => p && _openThanks(p.id));
 AUTH.registerResume('witness', p => p && _addWitnessPrompt(p.id));
 
+/* Country-aware examples for placeholders (the person's region, else detected, else neutral). */
+function phEx() { const s = S.state.settings; return exampleFor(s.country || (s.country_detected && s.country_detected.country), getLocale()); }
+function phWho() { return t('add.who_ph_x', { name: phEx().name }); }
+function phNl() { const e = phEx(); return t('add.nl_ph_x', { name: e.name, amount: e.amountText }); }
+
 /* ============================================================
    QUICK ADD (§7.5) — target ≤ 20 seconds
    ============================================================ */
@@ -89,7 +95,7 @@ export function openQuickAdd(prefill = {}) {
        - the counterparty kind is pre-filled & locked for a known person. */
 
   /* --- natural language box (optional shortcut) --- */
-  const nlInput = input({ placeholder: t('add.nl_ph'), 'aria-label': t('add.nl_title'), maxlength: '300', enterkeyhint: 'go' });
+  const nlInput = input({ placeholder: phNl(), 'aria-label': t('add.nl_title'), maxlength: '300', enterkeyhint: 'go' });
   nlInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); runParse(); } });
   const nlBox = el('details', { class: 'card qa-nl', style: { background: 'var(--surface-2)' } }, [
     el('summary', {}, [icon('fa-wand-magic-sparkles'), el('span', { text: ' ' + t('add.nl_title') })]),
@@ -117,7 +123,7 @@ export function openQuickAdd(prefill = {}) {
   renderDir();
 
   /* --- 1. counterparty (kind depends on whether the person is known) --- */
-  const whoInput = input({ placeholder: t('add.who_ph'), list: 'cp-list', autocomplete: 'off',
+  const whoInput = input({ placeholder: phWho(), list: 'cp-list', autocomplete: 'off',
     value: prefill.counterparty_name || '', maxlength: '80', enterkeyhint: 'next' });
   const kindSel = select(S.CP_KINDS
       .filter(k => k !== 'divine_private' || s.islamic_mode)
@@ -347,7 +353,7 @@ export function openQuickAdd(prefill = {}) {
     witnessField,
     advanced,
     el('p', { class: 'notice', text: t('limit.no_riba') }),
-    s.islamic_mode ? ayahBlock(C.ayahFor('writing')) : null,
+    s.islamic_mode ? ayahBlock(C.ayahFor('writing')) : '',   // NB: Element.append(null) writes the text "null"
     disclaimer('legal')
   );
   /* Prefill from a scanned request (#/r) or any caller. */
@@ -740,7 +746,7 @@ export function openDetail(id) {
 
 function _addWitnessPrompt(id) {
   const v = new VAL.Validator();
-  const nameInput = input({ placeholder: t('add.who_ph'), maxlength: '80' });
+  const nameInput = input({ placeholder: phWho(), maxlength: '80' });
   const scopeSel = select([
     { value: 'terms', label: t('flows.terms_only') },
     { value: 'full', label: t('flows.full_witness') }
@@ -1176,7 +1182,7 @@ export function openWriteOff(id) {
 /* ---------- Transfer (ḥawālah) ---------- */
 function _openTransfer(id) {
   const v = new VAL.Validator();
-  const toInput = input({ placeholder: t('add.who_ph'), list: 'cp-list-transfer', maxlength: '80' });
+  const toInput = input({ placeholder: phWho(), list: 'cp-list-transfer', maxlength: '80' });
   const toField = field(t('flow.transfer_to'), toInput, null, { required: true });
   v.rule(toInput, VAL.requiredWho(toInput), { label: t('flow.transfer_to'), appendTo: toField });
 

@@ -350,9 +350,9 @@ redirects. **No template ever addresses a debtor/creditor third party** (R-D10).
 template in each locale (no missing keys, no `{placeholders}` left), headers present, unsubscribe
 POST works, GET does not unsubscribe.
 
-### §8 · Blog / news / events + SEO — ⬜ to do
+### §8 · Blog / news / events + SEO — ✅ done (tests: `tests/php/BlogTest.php`, e2e `public site` ×18)
 
-**T-8.1 · ⬜ SSR.** *Prompt:* `public/blog.php` (front controller for `/blog`, `/news`, `/events`,
+**T-8.1 · ✅ SSR.** *Prompt:* `public/blog.php` (front controller for `/blog`, `/news`, `/events`,
 with `/ar/…` and `/fr/…` prefixes; English unprefixed): list pages (paginated 12), tag pages, post
 pages, event pages (upcoming/past). Templates in `/templates/site/` share header/footer with the app
 look (same CSS tokens), `<html lang dir>`, no JS required to read. `app/Seo.php`: `<title>`, meta
@@ -364,7 +364,7 @@ with `xhtml:link` alternates; `/robots.txt` (disallow `/api`, `/admin`); `/feed.
 `/atom.xml` per locale. HTTP caching with `ETag`/`Last-Modified`. Tests: validate XML well-formed,
 JSON-LD parses, hreflang reciprocity, 404 for drafts.
 
-**T-8.2 · ⬜ Launch content (11 posts).** Write in en, ar and fr (hand-written, plain, calm):
+**T-8.2 · ✅ Launch content (11 posts).** Write in en, ar and fr (hand-written, plain, calm):
 1. Introducing DYON (what it is, local-first, no account needed) 2. Why DYON never charges interest
 or late fees 3. Writing debts down — the Qur'anic guidance in 2:282 (quote the verse with a
 reputable translation link, e.g. quran.com/2/282; **informational, not a fatwa**, recommend
@@ -419,6 +419,7 @@ non-allowlisted → 404 (not 403), missing TOTP → TOTP page, wrong code rate-l
 
 | Date | Commit | What |
 |---|---|---|
+| 2026-11-11 | _T-8.1–8.2 + fix round_ | §8 tests: `BlogTest.php` (seed idempotent, drafts/future/untranslated 404, 12/page, events upcoming/past [fixed SQL integer cast], slug 301, sanitizer, JSON-LD, hreflang reciprocity, sitemaps/feeds XML, ETag 304); e2e blog/news/events × 3 locales × 3 widths × light/dark (18). Fix round: login code, certificate, demo ledger, country detection, `.env` admin path. php 187, harness 147/126/31. |
 | 2026-11-09 | _T-7.1–7.3_ | §7 email: `Mailer` (13 templates ×3 locales, static subjects, queue, worker w/ backoff 1,2,4…min ≤1 day, 5 attempts, `email_log`, file transport, TLS-only SMTP, `MailMessage` raw ASCII List-Unsubscribe + One-Click), `Subscribers` (double opt-in, derived HMAC tokens never stored, honeypot, 3/day per address), `/subscribe` `/subscribe/confirm` `/unsubscribe` (+ar/fr; GET never changes state; POST + RFC 8058 one-click), `api/subscribe.php`, `api/contact.php`, `cron/send-mail.php` (flock), account hooks (sign-in new device, sync enabled/device added/wiped); migration 003; 71 keys; php 162, harness 137/123/31, e2e 82/82 (21 new), i18n 1028×3. **Next: §8 blog/news/events + SEO** |
 | 2026-11-08 | _T-6.5_ | §6.5 `/storage` (+`/ar`,`/fr`): `app/Site.php` shared SSR shell (canonical, hreflang×3+x-default, og, lang switch, no inline script/style → CSP-safe), `public/storage.php`, `css/site.css`, `storage.js` (info/keep/formatBytes) + `storage-page.js`; all 4 sources re-fetched 2026-11-08 and each claim paragraph carries a citation; Settings `#storage-card` (usage, calm keep-my-data answers) + link in data card; 44 keys; php 136, harness 137/123/31, e2e 61/61 (19 new: 3 langs × 3 widths × light/dark), i18n 957×3. **Next: §7 email** |
 | 2026-11-08 | _T-6.1–6.3_ | §6 E2E encrypted sync: `sync-crypto.js` (PBKDF2≥600k→AES-KW, 24-word BIP-39 recovery, AES-GCM records w/ AAD), `Sync.php` + 6 `/api/sync/*` endpoints (per-user HMAC-named 0600 SQLite, opaque blobs, rev conflicts, quota, device revoke, wipe), `sync.js` engine (own IndexedDB `dyon-sync`, merge3, critical-field conflicts → `#/sync/conflicts`, heartbeat/backoff, wipe hook RL-09), `sync-ui.js` (wizard, join, devices, net chip); 97 `sync.*` keys; php 124, harness 133/123/31, e2e 42/42 (9 sync), i18n 913×3. **Next: §6.5 /storage** |

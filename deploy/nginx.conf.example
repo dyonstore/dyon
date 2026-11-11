@@ -39,11 +39,13 @@ server {
     location ~ ^/(ar/|fr/)?(unsubscribe|subscribe)(/|$) { rewrite ^ /unsubscribe.php last; }
     location ~ ^/(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$ { rewrite ^ /seo.php last; }
     location ~ ^/(ar|fr)/(feed|atom)\.xml$         { rewrite ^ /seo.php last; }
+    location ~ ^/(ar/|fr/)?verify(/|$)             { rewrite ^ /verify.php last; }
+    location ~ ^/(ar/|fr/)?c/[^/]+/?$              { rewrite ^ /certificate.php last; }
 
     # ---- PHP: only /api, /admin and the front controllers above may execute ----
     location ~ ^/(api|admin)/[^/]+\.php$ { include fastcgi_params; fastcgi_pass unix:/run/php/php8.3-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; }
     location ~ ^/(api|admin)/auth/[^/]+\.php$ { include fastcgi_params; fastcgi_pass unix:/run/php/php8.3-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; }
-    location ~ ^/(blog|storage|unsubscribe|seo)\.php$ { include fastcgi_params; fastcgi_pass unix:/run/php/php8.3-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; }
+    location ~ ^/(blog|storage|unsubscribe|seo|verify|certificate|gate)\.php$ { include fastcgi_params; fastcgi_pass unix:/run/php/php8.3-fpm.sock; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; }
     location ~ \.php$ { return 404; }
 
     # ---- static assets: long cache for fonts/images; never cache the service worker or manifest ----
@@ -52,5 +54,6 @@ server {
     location = /manifest.webmanifest { add_header Cache-Control "no-cache"; }
 
     # ---- the PWA shell: everything else (hash router takes over) ----
-    location / { try_files $uri $uri/ /index.html; }
+    location = / { try_files /index.html =404; }
+    location / { try_files $uri $uri/ /gate.php?$args; }   # gate.php: admin path from .env, else index.html
 }

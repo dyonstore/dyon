@@ -4,7 +4,7 @@
    page asks it to take over (the user taps "Reload"), so nothing updates
    silently under someone's half-typed form. */
 
-const VERSION = 'dyon-ffd83fa52ddb';
+const VERSION = 'dyon-e698e79b78d6';
 const CORE = [
   './',
   './index.html',
@@ -34,6 +34,8 @@ const CORE = [
   './js/sync-wordlist.js',
   './js/country.js',
   './js/tz-country.js',
+  './js/examples.js',
+  './js/certificate.js',
   './js/i18n.js',
   './js/units.js',
   './js/db.js',
@@ -78,7 +80,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;            // DYON makes no third-party calls
   // Server endpoints and server-rendered pages are never served from cache.
-  if (/^\/(api|admin|blog|news|events|storage|unsubscribe|subscribe|feed|atom|sitemap|robots|ar|fr)(\/|$)/.test(url.pathname)) return;
+  if (/^\/(api|admin|blog|news|events|storage|unsubscribe|subscribe|verify|c|feed|atom|sitemap|robots|ar|fr)(\/|$)/.test(url.pathname)) return;
 
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req).catch(() => caches.match('./index.html')));

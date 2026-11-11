@@ -5,6 +5,7 @@ import * as S from './store.js';
 import * as V from './views.js';
 import * as V2 from './views2.js';
 import { seedDemo } from './seed.js';
+import { renderCertificate } from './certificate.js';
 import { renderGuide } from './guide.js';
 import * as QR from './qr.js';
 import { GUIDE } from './guide-content.js';
@@ -39,6 +40,7 @@ const ROUTES = [
   ['inbox', () => V2.renderInbox()],
   ['vault', () => V2.renderVault()],
   ['reports', () => V2.renderReports()],
+  ['certificate', () => renderCertificate()],
   ['islamic', () => V2.renderIslamic()],
   ['calm', () => V2.renderCalm()],
   ['settings', () => V2.renderSettings(ctx)],

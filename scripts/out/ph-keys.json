@@ -1,0 +1,5 @@
+{
+ "add.who_ph_x": {"en": "e.g. {name}", "ar": "مثال: {name}", "fr": "p. ex. {name}"},
+ "add.nl_ph_x": {"en": "e.g. Lent {name} {amount}, paying me back on 1 March", "ar": "مثال: أقرضت {name} مبلغ {amount} وسيردّه لي في 1 مارس", "fr": "p. ex. J'ai prêté {amount} à {name}, remboursement le 1er mars"},
+ "add.what_ph_x": {"en": "What? e.g. {amount} or \"the drill\"", "ar": "ماذا؟ مثال: {amount} أو «المثقاب»", "fr": "Quoi ? p. ex. {amount} ou « la perceuse »"}
+}
