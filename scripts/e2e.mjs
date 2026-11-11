@@ -13,7 +13,7 @@ const results = [];
 const browser = await chromium.launch();
 
 async function scenario(name, opts, fn) {
-  if (process.env.E2E_ONLY && !name.includes(process.env.E2E_ONLY)) return;
+  if (process.env.E2E_ONLY && !process.env.E2E_ONLY.split('|').some(f => name.includes(f))) return;
   const ctx = await browser.newContext(opts);
   const page = await ctx.newPage();
   const errors = [];
@@ -729,6 +729,112 @@ for (const [lang, urlp, dir] of [['en', '/storage', 'ltr'], ['ar', '/ar/storage'
   srv.kill('SIGTERM'); fs.rmSync(dataDir, { recursive: true, force: true });
 }
 
+
+/* ---------- fix-list round: certificate (server-checked), e-mailed login code, sign-in sheet, add form, demo import ---------- */
+{
+  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dyon-e2e-cert-'));
+  const port = 19100 + Math.floor(Math.random() * 40);
+  const env = { ...process.env, DYON_ENV: 'dev', DYON_COOKIE_SECURE: '0', DYON_DATA_DIR: dataDir, DYON_SECRET_KEY: Buffer.alloc(32, 'g').toString('base64'), DYON_MAIL_TRANSPORT: 'file', DYON_BASE_URL: `http://127.0.0.1:${port}` };
+  const srv = spawn('php', ['-S', '127.0.0.1:' + port, '-t', 'public', 'public/router.php'], { env, stdio: 'ignore', detached: false });
+  const CB = `http://127.0.0.1:${port}/`;
+  for (let i = 0; i < 60; i++) { try { if ((await fetch(CB + 'api/ping.php')).ok) break; } catch {} await new Promise(r => setTimeout(r, 100)); }
+  const mkUser = (sub) => JSON.parse(execFileSync('php', ['scripts/e2e-session.php', sub], { env, encoding: 'utf8' }));
+  const freshLimits = () => execFileSync('php', ['-r', 'require "app/bootstrap.php"; Dyon\\Db::system()->exec("DELETE FROM rate_limits");'], { env });
+  const signedIn = async (opts, sub) => { const U = mkUser(sub); const ctx = await browser.newContext(opts); await ctx.addCookies([{ name: 'dyon_sess', value: U.sess, url: CB }, { name: 'dyon_csrf', value: U.csrf, url: CB }]); return ctx; };
+  const bootAt = async (page, locale = 'en') => {
+    await page.goto(CB + 'index.html#/'); await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+    await page.evaluate(async (locale) => { const S = window.DYON.store; await S.saveSettings({ onboarded: true, locale, digits: 'latn' }); if (!S.visibleCommitments().length) { const m = await import('./js/seed.js'); await m.seedDemo(); } window.DYON.ctx.applyLocale(); await window.DYON.account.refresh(); }, locale);
+  };
+
+  /* certificate: the signed-in owner publishes, the public page shows exactly 7% / 7 of 100, withdrawing kills it */
+  for (const [locale, pre, dir] of [['en', '', 'ltr'], ['ar', 'ar/', 'rtl'], ['fr', 'fr/', 'ltr']]) {
+    for (const [w, h] of [[360, 740], [1280, 800]]) {
+      await scenario(`certificate ${locale} ${w}px: publish from the app → QR + public page ${dir}, 7% of 100, withdraw → 410`, null, async () => {
+        const ctx = await signedIn({ viewport: { width: w, height: h }, colorScheme: w === 360 ? 'dark' : 'light' }, `cert-${locale}-${w}`);
+        const page = await ctx.newPage(); const errs = []; page.on('pageerror', e => errs.push(e.message));
+        try {
+          await bootAt(page, locale); freshLimits();
+          await page.evaluate(() => { location.hash = '#/certificate'; }); await page.waitForSelector('#cert-publish');
+          assert(await page.isEnabled('#cert-publish') && (await page.inputValue('#cert-name')) === 'Maher', 'owner form / default name');
+          assert(!(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)), 'overflow before publish');
+          await page.click('#cert-publish'); await page.waitForSelector('#cert-live canvas');
+          const url = (await page.textContent('#cert-url')).trim(); assert(url.startsWith(CB + 'c/'), 'url ' + url);
+          assert(!(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)), 'overflow after publish');
+          assert(/\S/.test(await page.textContent('#cert-live-line')) && await page.isVisible('#cert-limits'), 'live line / limits');
+          const pub = await ctx.newPage(); await pub.goto(CB + pre + new URL(url).pathname.slice(1));
+          const r = await pub.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang, pct: document.querySelector('.cert')?.dataset.pct, txt: document.body.innerText,
+            over: document.documentElement.scrollWidth > innerWidth + 1, key: /\bcert\.[a-z_]+\b/.test(document.body.innerText) }));
+          assert(r.dir === dir && r.lang === locale && r.pct === '7' && !r.over && !r.key && r.txt.includes('Maher'), 'public page: ' + JSON.stringify({ ...r, txt: r.txt.slice(0, 80) }));
+          assert(!/maher@|sam@example/.test(r.txt), 'e-mail leaked'); await pub.close();
+          await page.click('#cert-withdraw'); await page.click('.sheet .btn-warn'); await page.waitForSelector('#cert-live', { state: 'detached' });
+          const gone = await ctx.newPage(); const resp = await gone.goto(CB + pre + new URL(url).pathname.slice(1)); assert(resp.status() === 410, 'withdrawn status ' + resp.status());
+          assert(errs.length === 0, errs.join('|'));
+        } finally { await ctx.close(); }
+      });
+    }
+  }
+  await scenario('certificate: signed out shows the sign-in sheet (no account needed for the ledger); public page unknown id is 404', { viewport: { width: 375, height: 812 } }, async (page) => {
+    await bootAt(page); await page.evaluate(() => { location.hash = '#/certificate'; }); await page.waitForSelector('#cert-signin');
+    assert(!(await page.$('#cert-publish')), 'publish offered while signed out');
+    await page.click('#cert-signin'); await page.waitForSelector('.sheet'); assert(!(await page.$('#acct-aside, .acct-aside.open')), 'user aside opened instead of the sheet');
+    assert((await page.goto(CB + 'c/' + 'A'.repeat(16))).status() === 404, 'unknown id');
+  });
+
+  /* e-mailed 8-digit code */
+  for (const [locale, pre, dir] of [['en', '', 'ltr'], ['ar', 'ar/', 'rtl'], ['fr', 'fr/', 'ltr']]) {
+    await scenario(`/verify ${locale}: wrong code refused with tries left, right code signs in, /api/auth/me then says signed_in`, { viewport: { width: 360, height: 740 } }, async (page) => {
+      freshLimits();
+      const V = JSON.parse(execFileSync('php', ['scripts/e2e-verify.php', 'verify-' + locale], { env, encoding: 'utf8' }));
+      await page.context().addCookies([{ name: 'dyon_pending', value: V.pending, url: CB }]);
+      await page.goto(CB + pre + 'verify');
+      const r = await page.evaluate(() => ({ dir: document.documentElement.dir, over: document.documentElement.scrollWidth > innerWidth + 1, ac: document.querySelector('#code').autocomplete, im: document.querySelector('#code').inputMode }));
+      assert(r.dir === dir && !r.over && r.ac === 'one-time-code' && r.im === 'numeric', JSON.stringify(r));
+      assert(!/maher@example/.test(await page.textContent('main')), 'full e-mail shown');
+      const bad = V.code === '00000000' ? '11111111' : '00000000';
+      await page.fill('#code', bad); await page.click('form:first-of-type button[type=submit]'); await page.waitForSelector('.msg.err');
+      assert(/\d|[٠-٩]/.test(await page.textContent('.msg.err')), 'tries-left not shown');
+      assert((await (await page.request.get(CB + 'api/auth/me.php')).json()).signed_in === false, 'signed in before the code');
+      await page.fill('#code', V.code.slice(0, 4) + ' ' + V.code.slice(4)); await page.click('form:first-of-type button[type=submit]');
+      await page.waitForURL(/#\/settings/, { timeout: 8000 });
+      assert((await (await page.request.get(CB + 'api/auth/me.php')).json()).signed_in === true, 'not signed in after the right code');
+      const mails = fs.readdirSync(path.join(dataDir, 'mail-out')).map(f => fs.readFileSync(path.join(dataDir, 'mail-out', f), 'utf8')).filter(m => m.includes(V.code) || Buffer.from(m, 'latin1').toString().includes(V.code));
+      assert(mails.length >= 1, 'code e-mail not written');
+    });
+  }
+  await scenario('/verify without a pending sign-in is a calm 410, never a session', { viewport: { width: 360, height: 740 } }, async (page) => {
+    const resp = await page.goto(CB + 'verify'); assert(resp.status() === 410 && !(await page.$('#code')), 'status ' + resp.status());
+  });
+
+  /* add-debt form: Tunisian placeholders, no literal "null", new base currency preselected */
+  await scenario('add form (country TN): Tunisian example placeholders, no "null" text, new base currency is preselected', { viewport: { width: 375, height: 812 } }, async (page) => {
+    await bootAt(page);
+    await page.evaluate(async () => { await window.DYON.store.saveSettings({ country: 'TN', base_currency: 'EUR' }); window.DYON.ctx.applyLocale(); });
+    await page.evaluate(() => { location.hash = '#/add'; }); await page.waitForSelector('.sheet');
+    const r = await page.evaluate(() => ({ txt: document.querySelector('.sheet').innerText, ph: [...document.querySelectorAll('.sheet input, .sheet textarea')].map(i => i.placeholder).join('|'),
+      unit: (document.querySelector('.sheet select') || {}).value || '' }));
+    assert(!/\bnull\b/i.test(r.txt) && !/\bnull\b/.test(r.ph), 'literal null: ' + r.txt.slice(0, 120));
+    assert(/Sami/.test(r.ph) || /TND/.test(r.ph), 'placeholders not Tunisian: ' + r.ph);
+    assert(/EUR/.test(await page.evaluate(() => document.querySelector('.sheet').innerHTML)), 'EUR not offered');
+    assert(r.unit === 'EUR' || /EUR/.test(r.txt), 'new currency not preselected: ' + r.unit);
+  });
+
+  /* demo import: finishes quickly, shows the Maher profile, 100 entries */
+  await scenario('Settings → load demo ledger finishes, Maher / TN / 100 entries / 7 completed, no spinner left', { viewport: { width: 375, height: 812 } }, async (page) => {
+    await page.goto(CB + 'index.html#/'); await page.waitForFunction(() => window.DYON && document.getElementById('boot-screen') === null);
+    await page.evaluate(async () => { await window.DYON.store.saveSettings({ onboarded: true, locale: 'en' }); window.DYON.ctx.applyLocale(); });
+    await page.evaluate(() => { location.hash = '#/settings?s=data'; }); await page.waitForSelector('#data-card');
+    const t0 = Date.now();
+    await page.evaluate(() => window.DYON.ctx.seed());
+    await page.waitForSelector('.sheet .btn-primary'); await page.click('.sheet .btn-primary');
+    await page.waitForFunction(() => window.DYON.store.visibleCommitments().length === 100, null, { timeout: 15000 });
+    const r = await page.evaluate(() => { const S = window.DYON.store; return { n: S.visibleCommitments().length, done: S.visibleCommitments().filter(c => ['fulfilled', 'released'].includes(c.status)).length, ...S.state.settings }; });
+    assert(r.n === 100 && r.done === 7 && r.display_name === 'Maher' && r.country === 'TN' && r.base_currency === 'TND', JSON.stringify({ n: r.n, done: r.done, name: r.display_name, cc: r.country }));
+    assert(Date.now() - t0 < 12000, 'demo import too slow'); await page.waitForTimeout(400);
+    assert(!(await page.$('.sheet')), 'sheet still open');
+  });
+  srv.kill();
+  fs.rmSync(dataDir, { recursive: true, force: true });
+}
 
 await browser.close();
 const failed = results.filter(r => !r.ok);
