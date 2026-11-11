@@ -41,7 +41,7 @@ final class Posts
         $w = "p.type = ? AND p.status = 'published' AND p.published_at <= ?"; $a = [$l, $type, $now];
         if ($tag !== null) { $w .= ' AND EXISTS (SELECT 1 FROM post_tags pt JOIN tags t ON t.id = pt.tag_id WHERE pt.post_id = p.id AND t.slug = ?)'; $a[] = $tag; }
         $end = 'COALESCE(e.ends_at, e.starts_at + 7200)';
-        if ($when === 'upcoming') { $w .= " AND $end >= ?"; $a[] = $now; } elseif ($when === 'past') { $w .= " AND $end < ?"; $a[] = $now; }
+        if ($when === 'upcoming') { $w .= " AND $end >= CAST(? AS INTEGER)"; $a[] = $now; } elseif ($when === 'past') { $w .= " AND $end < CAST(? AS INTEGER)"; $a[] = $now; }
         $order = $type === 'event' ? ($when === 'upcoming' ? 'e.starts_at ASC' : 'e.starts_at DESC') : 'p.published_at DESC, p.id DESC';
         $total = (int)$db->val('SELECT COUNT(*) ' . self::FROM . " WHERE $w", $a);
         $pages = max(1, (int)ceil($total / self::PER_PAGE)); $page = min($page, $pages);
