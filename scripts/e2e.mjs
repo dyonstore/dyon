@@ -836,6 +836,40 @@ for (const [lang, urlp, dir] of [['en', '/storage', 'ltr'], ['ar', '/ar/storage'
   fs.rmSync(dataDir, { recursive: true, force: true });
 }
 
+/* ---------- §8 public site: /blog /news /events × en/ar/fr × 360/768/1280 × light/dark ---------- */
+{
+  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dyon-e2e-blog-'));
+  const port = 19200 + Math.floor(Math.random() * 40);
+  const env = { ...process.env, DYON_ENV: 'dev', DYON_COOKIE_SECURE: '0', DYON_DATA_DIR: dataDir, DYON_SECRET_KEY: Buffer.alloc(32, 'h').toString('base64'), DYON_MAIL_TRANSPORT: 'file', DYON_BASE_URL: `http://127.0.0.1:${port}` };
+  if (!process.env.E2E_ONLY || process.env.E2E_ONLY.split('|').some(f => 'public site'.includes(f) || f.includes('public site'))) {
+    execFileSync('php', ['cron/seed-posts.php'], { env });
+    execFileSync('php', ['-r', 'require "app/bootstrap.php"; $n=time(); $m=fn($t)=>["title"=>$t,"summary"=>"s","body_html"=>"<p>b</p>"]; Dyon\\Posts::save(["type"=>"event","slug"=>"e2e-event","status"=>"published","published_at"=>$n-60,"i18n"=>["en"=>$m("E2E event"),"ar"=>$m("E2E event"),"fr"=>$m("E2E event")],"event"=>["starts_at"=>$n+864000,"ends_at"=>$n+867600,"tz"=>"Africa/Tunis","place"=>"Tunis","online_url"=>null]]);'], { env });
+  }
+  const srv = spawn('php', ['-S', '127.0.0.1:' + port, '-t', 'public', 'public/router.php'], { env, stdio: 'ignore', detached: false });
+  const SB = `http://127.0.0.1:${port}`;
+  for (let i = 0; i < 60; i++) { try { if ((await fetch(SB + '/api/ping.php')).ok) break; } catch {} await new Promise(r => setTimeout(r, 100)); }
+  for (const [locale, pre, dir] of [['en', '', 'ltr'], ['ar', '/ar', 'rtl'], ['fr', '/fr', 'ltr']]) {
+    for (const [w, h] of [[360, 740], [768, 900], [1280, 800]]) {
+      for (const scheme of ['light', 'dark']) {
+        await scenario(`public site ${locale} ${w}px ${scheme}: /blog /news /events + a post, ${dir}, no overflow, no missing keys, theme applied`, { viewport: { width: w, height: h }, colorScheme: scheme }, async (page) => {
+          for (const p of ['/blog', '/news', '/events', '/blog/introducing-dyon', '/events/e2e-event', '/blog/tag/privacy']) {
+            const resp = await page.goto(SB + pre + p); assert(resp.status() === 200, `${p} → ${resp.status()}`);
+            const r = await page.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang, h1: document.querySelectorAll('h1').length,
+              over: document.documentElement.scrollWidth > innerWidth + 1, txt: document.body.innerText, bg: getComputedStyle(document.body).backgroundColor, title: document.title }));
+            assert(r.dir === dir && r.lang === locale, `${p} dir/lang ${r.dir}/${r.lang}`);
+            assert(r.h1 === 1, `${p} h1 count ${r.h1}`); assert(!r.over, `${p} horizontal overflow at ${w}px`);
+            assert(!/\b(site|blog|news|events|mail)\.[a-z_]+\b/.test(r.txt), `${p} missing i18n key`); assert(r.title.trim().length > 3, `${p} title`);
+            const lum = r.bg.match(/\d+/g).slice(0, 3).map(Number).reduce((a, b) => a + b, 0) / 3;
+            assert(scheme === 'dark' ? lum < 90 : lum > 180, `${p} theme not applied (${scheme}): ${r.bg}`);
+          }
+        });
+      }
+    }
+  }
+  srv.kill();
+  fs.rmSync(dataDir, { recursive: true, force: true });
+}
+
 await browser.close();
 const failed = results.filter(r => !r.ok);
 for (const r of results) console.log(`${r.ok ? '✓' : '✗'} ${r.name}${r.detail ? ' — ' + r.detail : ''}`);
