@@ -369,5 +369,6 @@
  "cert.pub_unknown_title": "Certificat introuvable",
  "cert.pub_unknown_body": "Ce code ne correspond à aucun certificat. Il a peut-être été mal copié.",
  "cert.pub_revoked_title": "Certificat retiré",
- "cert.pub_revoked_body": "Le titulaire a retiré ce certificat. Il n'est plus valide."
+ "cert.pub_revoked_body": "Le titulaire a retiré ce certificat. Il n'est plus valide.",
+ "cert.qr_caption": "DYON · Certificat"
 }
