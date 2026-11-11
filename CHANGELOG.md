@@ -5,6 +5,16 @@ All notable changes to DYON. Dates are UTC. The canonical spec is
 
 ## [2.0.0] — unreleased
 
+### 8 · Blog / news / events + SEO
+- **Server-rendered `/blog`, `/news`, `/events`** (+`/ar`, `/fr`): 12 per page, tag pages, upcoming/archive events, 301 for renamed slugs, 404 for drafts, future-dated and untranslated posts. 11 launch posts in en/ar/fr (`cron/seed-posts.php`, idempotent).
+- **SEO**: canonical, hreflang (+x-default), Open Graph, JSON-LD (Organization, WebSite, BlogPosting/NewsArticle, Event, BreadcrumbList), sitemap index + posts/pages with alternates, RSS and Atom per locale, ETag/Last-Modified.
+- **Fixed**: upcoming/past event filters compared a bound string with an integer.
+
+### 11 · Certificate and sign-in code
+- **Certificate of kept commitments**: server-checked, only (total, settled, name) leave the device; public `/c/<id>` page in en/ar/fr (noindex, no-store), QR in the app, withdraw → 410.
+- **8-digit e-mailed sign-in code** for a new device, a long absence or a first sign-in; `/verify` page, trusted-device cookie, rate limits.
+- **Demo ledger** (Maher · Tunisia · TND · 100 entries, 7 settled) loads in under a second; country detection is timezone-first; `.env` sets the admin path.
+
 ### 7 · Email
 - **Mailer + queue** (PHPMailer, SMTP with TLS required, `file` transport for dev/tests): 13 templates in en/ar/fr (RTL, inline CSS, no images/trackers/redirects),
   static subjects (never an amount), exponential backoff, 5 attempts, `email_log`, `cron/send-mail.php` (lock file, batch 50).
