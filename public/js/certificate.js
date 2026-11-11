@@ -96,7 +96,7 @@ export function renderCertificate() {
   }
 
   function liveCard(c, total, done) {
-    const canvas = qrCanvas(c.url, { label: 'DYON · ' + t('nav.certificate') });
+    const canvas = qrCanvas(c.url, { label: t('cert.qr_caption') });
     canvas.setAttribute('aria-label', t('cert.qr_label'));
     const stale = c.total !== total || c.done !== done;
     return el('section', { class: 'card stack', id: 'cert-live' }, [

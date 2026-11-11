@@ -1130,5 +1130,6 @@
  "cert.pub_unknown_title": "الشهادة غير موجودة",
  "cert.pub_unknown_body": "هذا الرمز لا يطابق أي شهادة. ربما نُسخ خطأً.",
  "cert.pub_revoked_title": "سُحبت الشهادة",
- "cert.pub_revoked_body": "سحب صاحبها هذه الشهادة. لم تعد صالحة."
+ "cert.pub_revoked_body": "سحب صاحبها هذه الشهادة. لم تعد صالحة.",
+ "cert.qr_caption": "دَيْن · شهادة"
 }

@@ -464,7 +464,7 @@ await scenario('count badges: inbox badge announces its meaning; nothing is red'
 /* ---------- §6.5 storage: Settings card + SSR /storage page ---------- */
 await scenario('storage card in Settings: status, usage, "keep my data" (calm answers for granted and declined), link to /storage', { viewport: { width: 375, height: 812 } }, async (page) => {
   await page.addInitScript(() => {
-    let persisted = false; window.__persistAnswer = true;
+    let persisted = false; window.__persistAnswer = false;
     const sm = { estimate: async () => ({ usage: 3 * 1024 * 1024, quota: 8 * 1024 ** 3 }), persisted: async () => persisted, persist: async () => { if (window.__persistAnswer) persisted = true; return window.__persistAnswer; } };
     Object.defineProperty(navigator, 'storage', { value: sm, configurable: true });
   });
@@ -474,7 +474,7 @@ await scenario('storage card in Settings: status, usage, "keep my data" (calm an
   assert(/MB/.test(await page.textContent('#storage-used')) && /GB/.test(await page.textContent('#storage-used')), 'usage not shown');
   assert(/best-effort/i.test(await page.textContent('#storage-status')), 'status not best-effort');
   assert(await page.isVisible('#storage-keep'), 'keep button hidden');
-  await page.evaluate(() => { window.__persistAnswer = false; }); await page.click('#storage-keep');
+  await page.click('#storage-keep');
   await page.waitForFunction(() => !document.getElementById('storage-msg').hidden);
   const declined = await page.textContent('#storage-msg'); assert(/fine|still here/i.test(declined) && !/danger|warning|lose/i.test(declined), 'declined copy not calm: ' + declined);
   await page.evaluate(() => { window.__persistAnswer = true; }); await page.click('#storage-keep');
