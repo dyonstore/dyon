@@ -22,6 +22,7 @@ DirectoryIndex index.php index.html
   RewriteRule ^(ar/|fr/)?storage/?$                        public/storage.php     [L,QSA]
   RewriteRule ^(ar/|fr/)?(unsubscribe|subscribe)(/.*)?$    public/unsubscribe.php [L,QSA]
   RewriteRule ^(ar/|fr/)?verify(/.*)?$                      public/verify.php      [L,QSA]
+  RewriteRule ^(ar/|fr/)?c/[^/]+/?$                         public/certificate.php [L,QSA]
   RewriteRule ^(sitemap(-pages|-posts)?\.xml|robots\.txt|(ar/|fr/)?(feed|atom)\.xml)$ public/seo.php [L,QSA]
 
   # Everything else (including "/" and the configurable admin path): the gate.

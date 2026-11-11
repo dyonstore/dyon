@@ -19,6 +19,7 @@ import { openLanguageAside } from './lang-aside.js';
 import { detectLocale } from './i18n.js';
 import * as CT from './country.js';
 import * as STO from './storage.js';
+import { renderCertificate } from './certificate.js';
 
 const app = {
   root: null,
@@ -88,6 +89,7 @@ const NAV = [
     { route: 'calm', i18n: 'mode.calm', icon: 'fa-dove' },
     { route: 'vault', i18n: 'nav.vault', icon: 'fa-shield-halved' },
     { route: 'reports', i18n: 'nav.reports', icon: 'fa-chart-simple' },
+    { route: 'certificate', i18n: 'nav.certificate', icon: 'fa-shield-halved' },
     { route: 'islamic', i18n: 'nav.islamic', icon: 'fa-mosque', islamic: true },
     { route: 'settings', i18n: 'nav.settings', icon: 'fa-gear' },
     { route: 'about', i18n: 'nav.about', icon: 'fa-circle-info' }
@@ -274,6 +276,7 @@ function render() {
     case 'inbox': view = V2.renderInbox(); break;
     case 'vault': view = V2.renderVault(); break;
     case 'reports': view = V2.renderReports(); break;
+    case 'certificate': view = renderCertificate(); break;
     case 'islamic': view = V2.renderIslamic(); break;
     case 'calm': view = V2.renderCalm(); break;
     case 'settings': view = V2.renderSettings(ctx); break;

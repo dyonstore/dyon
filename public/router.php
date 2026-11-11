@@ -42,6 +42,7 @@ $front = [
     '#^/(blog|news|events)(/|$)#'                => 'blog.php',
     '#^/(ar|fr)/(blog|news|events)(/|$)#'        => 'blog.php',
     '#^/(ar/|fr/)?verify(/|$)#'                  => 'verify.php',
+    '#^/(ar/|fr/)?c/[^/]+/?$#'                   => 'certificate.php',
     '#^/storage(/|$)#'                           => 'storage.php',
     '#^/(ar|fr)/storage(/|$)#'                   => 'storage.php',
     '#^/(ar/|fr/)?(unsubscribe|subscribe)(/|$)#' => 'unsubscribe.php',
